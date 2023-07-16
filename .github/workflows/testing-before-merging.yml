@@ -1,0 +1,24 @@
+name: testing-before-merging
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'oracle'
+          architecture: x64
+
+      - name: Grant permissions to gradlew
+        run: chmod +x gradlew
+
+      - name: Run all tests
+        run: ./gradlew test
