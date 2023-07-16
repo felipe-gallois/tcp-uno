@@ -32,5 +32,5 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'tcp_uno.App'
+    mainClass = 'tcp_uno.Application'
 }
