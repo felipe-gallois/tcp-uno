@@ -6,7 +6,7 @@ Este repositório abriga o trabalho final da disciplina de Técnicas de Constru�
 
 Este projeto foi criado utilizando as seguintes ferramentas:
 
-* Java 17
+* Java 11
 * JUnit 4
 * Gradle 8
 
