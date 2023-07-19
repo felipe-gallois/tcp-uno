@@ -8,6 +8,9 @@ public class Deck {
 
     public Deck() {
         for (CardColor color: CardColor.values()) {
+            // Black cards do not have a value
+            if (color == CardColor.BLACK) continue;
+
             cards.push(new Card(color, CardValue.NUM_0));
             cards.push(new Card(color, CardValue.NUM_1));
             cards.push(new Card(color, CardValue.NUM_1));
