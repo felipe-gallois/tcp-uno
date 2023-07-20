@@ -18,19 +18,13 @@ public class Player {
     }
 
     public Card getCard(int position) {
-        if (position >= handSize()) {
-            throw new IndexOutOfBoundsException();
-        } else {
-            return hand.get(position);
-        }
+        // This may propagate an exception
+        return hand.get(position);
     }
 
     public Card popCard(int position) {
-        if (position >= handSize()) {
-            throw new IndexOutOfBoundsException();
-        } else {
-            return hand.remove(position);
-        }
+        // This may propagate an exception
+        return hand.remove(position);
     }
 
     public int handSize() {
