@@ -29,6 +29,24 @@ public class Card {
         return value;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Card card = (Card) o;
+
+        if (getColor() != card.getColor()) return false;
+        return getValue() == card.getValue();
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getColor().hashCode();
+        result = 31 * result + getValue().hashCode();
+        return result;
+    }
+
     public int getScore() {
         return score;
     }
