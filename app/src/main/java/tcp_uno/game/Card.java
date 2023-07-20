@@ -3,6 +3,7 @@ package tcp_uno.game;
 public class Card {
     private CardColor color;
     private CardValue value;
+    private int score;
 
     public Card(CardColor color, CardValue value) {
         if (color == CardColor.BLACK) {
@@ -17,6 +18,7 @@ public class Card {
 
         this.color = color;
         this.value = value;
+        this.score = value.getScore();
     }
 
     public CardColor getColor() {
@@ -25,5 +27,17 @@ public class Card {
 
     public CardValue getValue() {
         return value;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public boolean playerSelectColor() {
+        if (color == CardColor.BLACK) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
