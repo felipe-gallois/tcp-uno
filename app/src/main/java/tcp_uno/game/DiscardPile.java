@@ -1,53 +1,90 @@
 package tcp_uno.game;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
 
-public class DiscardPile {
-    private final Stack<Card> pile = new Stack<>();
-    private CardColor currentColor;
-
-    public DiscardPile(Card card) {
-        this.pile.push(card);
-        this.currentColor = card.getColor();
+/**
+ * The <code>DiscardPile</code> class represents a pile of cards where cards
+ * are discarded
+ */
+public class DiscardPile extends PileOfCards {
+    /**
+    * Creates an empty <code>DiscardPile</code>
+    *
+    * @param firstCard the first card to be pushed into the pile
+    */
+    public DiscardPile(Card firstCard) {
+        super();
+        pushCard(firstCard);
     }
 
-    public void putCard(Card card) {
-        this.pile.push(card);
-        this.currentColor = card.getColor();
-    }
-
-    public List<Card> flush() {
-        ArrayList<Card> cards = new ArrayList<>();
-        while (!this.pile.empty()) {
-            cards.add(this.pile.pop());
+    /**
+     * Pushes a card to the top of the pile
+     * 
+     * @param card the card to be pushed
+     * 
+     * @exception InvalidDiscardException if the card to be pushed is not a
+     * valid play
+     */
+    public void pushCard(Card card) {
+        if (canPlayCard(card)) {
+            cards.push(card);
+        } else {
+            throw new InvalidDiscardException();
         }
-        this.currentColor = null;
+    }
+
+    /**
+     * Retrieves all the cards from the pile, except the topmost one
+     * 
+     * @return a list of cards from the pile
+     * 
+     * @exception EmptyDiscardPileException if pile is empty
+     */
+    public ArrayList<Card> retrieveExcessCards() {
+        if (cards.empty()) {
+            throw new EmptyDiscardPileException();
+        }
+
+        Card topCard = cards.pop();
+        ArrayList<Card> cards = this.flush();
+        this.pushCard(topCard);
         return cards;
     }
 
-    public List<Card> retrieve() {
-        Card topCard = this.pile.pop();
-        List<Card> cards = this.flush();
-        this.putCard(topCard);
-        return cards;
+    /**
+     * Gets the card at the top of the <code>DiscardPile</code>
+     * 
+     * @return the card at the top of the <code>DiscardPile</code>
+     * 
+     * @exception EmptyDiscardPileException if pile is empty
+     */
+    public Card getTopCard() {
+        if (cards.empty()) {
+            throw new EmptyDiscardPileException();
+        }
+
+        return cards.peek();
     }
 
-    public void setCurrentColor(CardColor color) {
-        this.currentColor = color;
+    /**
+     * Flushes all the cards from the pile
+     * 
+     * @return a list of flushed cards
+     */
+    public ArrayList<Card> flush() {
+        ArrayList<Card> pileCards = new ArrayList<>();
+        while (!isEmpty()) {
+            pileCards.add(cards.pop());
+        }
+        return pileCards;
     }
 
-    public Card top() {
-        return this.pile.peek();
-    }
+    private boolean canPlayCard(Card card) {
+        Card topCard = cards.peek();
 
-    public boolean canPlayCard(Card card) {
-        Card topCard = this.top();
+        boolean colorOk = card.getColor() == topCard.getColor() || card.getColor() == CardColor.BLACK;
+        boolean effectOk = card.getEffect() == topCard.getEffect();
 
-        boolean colorOk = card.getColor() == currentColor || card.getColor() == CardColor.BLACK;
-        boolean valueOk = card.getValue() == topCard.getValue();
-
-        return colorOk || valueOk;
+        return colorOk || effectOk;
     }
 }

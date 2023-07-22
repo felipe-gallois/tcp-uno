@@ -1,66 +1,47 @@
 package tcp_uno.game;
 
 import java.util.Collections;
-import java.util.Stack;
+import java.util.ArrayList;
 
-public class Deck {
-    private final Stack<Card> cards = new Stack<>();
-
+/**
+ * The class <code>Deck</code> represents a deck where cards can be drawn from
+ */
+public class Deck extends PileOfCards{
+    /**
+     * Creates a new empty <code>Deck</code> object
+     */
     public Deck() {
-        for (CardColor color: CardColor.values()) {
-            // Black cards do not have a value
-            if (color == CardColor.BLACK) continue;
-
-            cards.push(new Card(color, CardValue.NUM_0));
-            cards.push(new Card(color, CardValue.NUM_1));
-            cards.push(new Card(color, CardValue.NUM_1));
-            cards.push(new Card(color, CardValue.NUM_2));
-            cards.push(new Card(color, CardValue.NUM_2));
-            cards.push(new Card(color, CardValue.NUM_3));
-            cards.push(new Card(color, CardValue.NUM_3));
-            cards.push(new Card(color, CardValue.NUM_4));
-            cards.push(new Card(color, CardValue.NUM_4));
-            cards.push(new Card(color, CardValue.NUM_5));
-            cards.push(new Card(color, CardValue.NUM_5));
-            cards.push(new Card(color, CardValue.NUM_6));
-            cards.push(new Card(color, CardValue.NUM_6));
-            cards.push(new Card(color, CardValue.NUM_7));
-            cards.push(new Card(color, CardValue.NUM_7));
-            cards.push(new Card(color, CardValue.NUM_8));
-            cards.push(new Card(color, CardValue.NUM_8));
-            cards.push(new Card(color, CardValue.NUM_9));
-            cards.push(new Card(color, CardValue.NUM_9));
-            cards.push(new Card(color, CardValue.SKIP));
-            cards.push(new Card(color, CardValue.SKIP));
-            cards.push(new Card(color, CardValue.REVERSE));
-            cards.push(new Card(color, CardValue.REVERSE));
-            cards.push(new Card(color, CardValue.DRAW_2));
-            cards.push(new Card(color, CardValue.DRAW_2));
-        }
-
-        for (int i = 0; i < 4; i++) {
-            cards.push(new Card(CardColor.BLACK, CardValue.WILD));
-            cards.push(new Card(CardColor.BLACK, CardValue.WILD_DRAW_4));
-        }
+        super();
     }
 
-    public Card draw() {
-        if (empty())
+    /**
+     * Pops a card from the top of the <code>Deck</code>
+     * 
+     * @return the card from the top of the <code>Deck</code>
+     * 
+     * @exception EmptyDeckException if the deck is empty
+     */
+    public Card drawCard() {
+        if (cards.isEmpty())
             throw new EmptyDeckException();
         return cards.pop();
     }
 
-    public boolean empty() {
-        return cards.isEmpty();
-    }
-
+    /**
+     * Shuffles the <code>Deck</code>
+     */
     public void shuffle() {
         Collections.shuffle(cards);
     }
 
-    public void restock(DiscardPile discardPile) {
-        for (Card card: discardPile.retrieve()) {
-            cards.push(card);
+    /**
+     * Pushes back a list of cards into the deck
+     * 
+     * @param cards the list of cards
+     */
+    public void restock(ArrayList<Card> cards) {
+        for (Card card : cards) {
+            this.cards.push(card);
         }
     }
 }
