@@ -51,4 +51,18 @@ public class GameBoard {
     public void addToDiscardPile(Card card) {
         this.discardPile.putCard(card);
     }
+
+    public void makeDraw(Player player, int amount) {
+        for (int i = 0; i < amount; i++) {
+            this.makeDrawOne(player);
+        }
+    }
+
+    private void makeDrawOne(Player player) {
+        if (this.deck.empty()) {
+            this.deck.restock(this.discardPile);
+        }
+
+        player.addToHand(deck.draw());
+    }
 }
