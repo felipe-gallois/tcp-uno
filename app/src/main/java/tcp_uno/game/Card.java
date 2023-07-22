@@ -1,32 +1,53 @@
 package tcp_uno.game;
 
+/**
+ * The class <code>Card</code> represents any type of card present in an UNO
+ * game.
+ */
 public class Card {
     private CardColor color;
-    private CardValue value;
-    private int score;
+    private CardEffect effect;
 
-    public Card(CardColor color, CardValue value) {
+    /**
+     * Creates a new <code>Card</code> object.
+     * 
+     * @param color the color of the card
+     * @param effect the effect of the card
+     * 
+     * @exception InvalidCardTypeException if the color and effect combination
+     * does not exist in the game
+     */
+    public Card(CardColor color, CardEffect effect) {
         if (color == CardColor.BLACK) {
-            if (value != CardValue.WILD && value != CardValue.WILD_DRAW_4) {
+            if (effect != CardEffect.WILD && effect != CardEffect.WILD_DRAW_4) {
                 throw new InvalidCardTypeException();
             }
         } else {
-            if (value == CardValue.WILD || value == CardValue.WILD_DRAW_4) {
+            if (effect == CardEffect.WILD || effect == CardEffect.WILD_DRAW_4) {
                 throw new InvalidCardTypeException();
             }
         }
 
         this.color = color;
-        this.value = value;
-        this.score = value.getScore();
+        this.effect = effect;
     }
 
+    /**
+     * Gets the color of the card object
+     * 
+     * @return the color of the card
+     */
     public CardColor getColor() {
         return color;
     }
 
-    public CardValue getValue() {
-        return value;
+    /**
+     * Gets the effect of the card object
+     * 
+     * @return the effect of the card
+     */
+    public CardEffect getEffect() {
+        return effect;
     }
 
     @Override
@@ -37,21 +58,32 @@ public class Card {
         Card card = (Card) o;
 
         if (getColor() != card.getColor()) return false;
-        return getValue() == card.getValue();
+        return getEffect() == card.getEffect();
     }
 
     @Override
     public int hashCode() {
         int result = getColor().hashCode();
-        result = 31 * result + getValue().hashCode();
+        result = 31 * result + getEffect().hashCode();
         return result;
     }
 
+    /**
+     * Gets the score associated with the card
+     * 
+     * @return the card score
+     */
     public int getScore() {
-        return score;
+        return effect.getScore();
     }
 
-    public boolean playerSelectColor() {
+    /**
+     * Returns a boolean that answers if a card that is played
+     * after this <code>Card</code> object can be of any color 
+     * 
+     * @return if the following card can be of any color
+     */
+    public boolean precedeAnyColor() {
         if (color == CardColor.BLACK) {
             return true;
         } else {

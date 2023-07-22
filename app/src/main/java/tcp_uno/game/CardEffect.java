@@ -1,6 +1,10 @@
 package tcp_uno.game;
 
-public enum CardValue {
+/**
+ * <code>CardEffect</code> is an enumeration that stores all the possible values
+ * for <code>Card</code> effects
+ */
+public enum CardEffect {
     NUM_0(0),
     NUM_1(1),
     NUM_2(2),
@@ -19,10 +23,15 @@ public enum CardValue {
 
     private final int score;
 
-    private CardValue(int score) {
+    private CardEffect(int score) {
         this.score = score;
     }
 
+    /**
+     * Gets the score associated with the given effect
+     * 
+     * @return the score
+     */
     public int getScore() {
         return score;
     }
