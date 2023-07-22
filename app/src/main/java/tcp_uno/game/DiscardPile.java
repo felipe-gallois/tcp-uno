@@ -37,14 +37,8 @@ public class DiscardPile extends PileOfCards {
      * Retrieves all the cards from the pile, except the topmost one
      * 
      * @return a list of cards from the pile
-     * 
-     * @exception EmptyDiscardPileException if pile is empty
      */
     public ArrayList<Card> retrieveExcessCards() {
-        if (cards.empty()) {
-            throw new EmptyDiscardPileException();
-        }
-
         Card topCard = cards.pop();
         ArrayList<Card> cards = this.flush();
         this.pushCard(topCard);
