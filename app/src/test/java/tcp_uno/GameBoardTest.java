@@ -66,4 +66,15 @@ public class GameBoardTest {
         DiscardPile discardPile = board.getDiscardPile();
         assertEquals(RED_SKIP, discardPile.top());
     }
+
+    @Test
+    public void testPlayerMakeDraw() {
+        Player player = new Player();
+
+        board.makeDraw(player, 1);
+        assertEquals(1, player.handSize());
+
+        board.makeDraw(player, 2);
+        assertEquals(3, player.handSize());
+    }
 }
