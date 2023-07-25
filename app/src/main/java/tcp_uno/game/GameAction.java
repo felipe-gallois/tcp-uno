@@ -17,5 +17,5 @@ public abstract class GameAction {
         return player;
     }
 
-    abstract void execute();
+    public abstract void execute();
 }
