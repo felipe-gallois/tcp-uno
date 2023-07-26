@@ -65,4 +65,8 @@ public class GameBoard {
 
         player.addToHand(deck.draw());
     }
+
+    public Card getTopCard() {
+        return this.discardPile.top();
+    }
 }
