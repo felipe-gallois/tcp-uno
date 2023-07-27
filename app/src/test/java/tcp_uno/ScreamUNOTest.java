@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import tcp_uno.game.*;
 
-import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
@@ -19,7 +18,8 @@ public class ScreamUNOTest {
     public void setUp() {
         this.gameBoard = new GameBoard(4);
         this.gameBoard.addToDiscardPile(yellow4);
-        this.player = new Player(List.of(yellow5));
+        this.player = new Player();
+        this.player.addToHand(yellow5);
     }
 
     @Test
