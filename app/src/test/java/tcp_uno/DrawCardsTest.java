@@ -21,9 +21,9 @@ public class DrawCardsTest {
     }
 
     @Test
-    public void testDrawingTwoCardsWorksCorrectly() {
+    public void testDrawingTwoCards() {
         GameAction action = new DrawCards(player, board, 2);
         action.execute();
-        assertEquals(2, player.getHand().size());
+        assertEquals(2, player.handSize());
     }
 }

@@ -12,10 +12,6 @@ public class GameBoard {
         this.reset();
     }
 
-    public DiscardPile getDiscardPile() {
-        return discardPile;
-    }
-
     public int getCurrentPlayerIdx() {
         return this.currentPlayerIdx;
     }
@@ -34,9 +30,15 @@ public class GameBoard {
 
     public void advancePlayer() {
         if (this.direction == GameDirection.CLOCKWISE) {
-            this.currentPlayerIdx = (this.currentPlayerIdx + 1) % this.numPlayers;
+            this.currentPlayerIdx++;
+            if (this.currentPlayerIdx >= numPlayers) {
+                this.currentPlayerIdx = 0;
+            }
         } else {
-            this.currentPlayerIdx = (this.currentPlayerIdx - 1) % this.numPlayers;
+            this.currentPlayerIdx--;
+            if (this.currentPlayerIdx < 0) {
+                this.currentPlayerIdx = numPlayers - 1;
+            }
         }
     }
 
@@ -64,7 +66,7 @@ public class GameBoard {
     }
 
     private void makeDrawOne(Player player) {
-        if (this.deck.empty()) {
+        if (this.deck.isEmpty()) {
             this.deck.restock(this.discardPile);
         }
 

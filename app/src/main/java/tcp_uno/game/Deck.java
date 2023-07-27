@@ -8,7 +8,7 @@ public class Deck {
 
     public Deck() {
         for (CardColor color: CardColor.values()) {
-            // Black cards do not have a value
+            // Black cards do not have numeric and action values
             if (color == CardColor.BLACK) continue;
 
             cards.push(new Card(color, CardValue.NUM_0));
@@ -45,12 +45,12 @@ public class Deck {
     }
 
     public Card draw() {
-        if (empty())
+        if (isEmpty())
             throw new EmptyDeckException();
         return cards.pop();
     }
 
-    public boolean empty() {
+    public boolean isEmpty() {
         return cards.isEmpty();
     }
 
@@ -59,7 +59,7 @@ public class Deck {
     }
 
     public void restock(DiscardPile discardPile) {
-        for (Card card: discardPile.retrieve()) {
+        for (Card card: discardPile.removeExcessCards()) {
             cards.push(card);
         }
     }

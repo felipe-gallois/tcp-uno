@@ -18,8 +18,7 @@ public class GameBoardTest {
 
     @Test
     public void testGameBoardInitialState() {
-        DiscardPile discardPile = board.getDiscardPile();
-        assertNotNull(discardPile.top());
+        assertNotNull(board.getTopCard());
         assertEquals(0, board.getCurrentPlayerIdx());
         assertEquals(GameDirection.CLOCKWISE, board.getDirection());
     }
@@ -33,22 +32,33 @@ public class GameBoardTest {
 
         board.reset();
 
-        // Checking if the initial state was restores
-        DiscardPile discardPile = board.getDiscardPile();
-        assertNotNull(discardPile.top());
+        // Checking if the initial state was restored
+        assertNotNull(board.getTopCard());
         assertEquals(0, board.getCurrentPlayerIdx());
         assertEquals(GameDirection.CLOCKWISE, board.getDirection());
     }
 
     @Test
     public void testAdvancePlayerClockwise() {
-        assertEquals(0, board.getCurrentPlayerIdx());
         board.advancePlayer();
         assertEquals(1, board.getCurrentPlayerIdx());
         board.advancePlayer();
         assertEquals(2, board.getCurrentPlayerIdx());
         board.advancePlayer();
         assertEquals(3, board.getCurrentPlayerIdx());
+        board.advancePlayer();
+        assertEquals(0, board.getCurrentPlayerIdx());
+    }
+
+    @Test 
+    public void testAdvancePlayerCounterClockwise() {
+        board.reverse();
+        board.advancePlayer();
+        assertEquals(3, board.getCurrentPlayerIdx());
+        board.advancePlayer();
+        assertEquals(2, board.getCurrentPlayerIdx());
+        board.advancePlayer();
+        assertEquals(1, board.getCurrentPlayerIdx());
         board.advancePlayer();
         assertEquals(0, board.getCurrentPlayerIdx());
     }
@@ -63,8 +73,12 @@ public class GameBoardTest {
     @Test
     public void testAddCardToDiscardPile() {
         board.addToDiscardPile(RED_SKIP);
-        DiscardPile discardPile = board.getDiscardPile();
-        assertEquals(RED_SKIP, discardPile.top());
+        assertEquals(RED_SKIP, board.getTopCard());
+    }
+
+    @Test
+    public void testAddBlackCardToDiscardPileRequiresColor() {
+        
     }
 
     @Test

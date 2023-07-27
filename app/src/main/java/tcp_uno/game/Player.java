@@ -1,7 +1,7 @@
 package tcp_uno.game;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Player {
     private final ArrayList<Card> hand;
@@ -14,15 +14,15 @@ public class Player {
         score = 0;
     }
 
-    public Player(List<Card> hand) {
-        this.hand = new ArrayList<>();
-        this.hand.addAll(hand);
-        saidUno = false;
-        score = 0;
-    }
-
     public void addToHand(Card card) {
         hand.add(card);
+        // When the player draws a card, we need to reset the flag
+        // so they can say UNO again later
+        saidUno = false;
+    }
+
+    public boolean haveCardWithColor(CardColor color) {
+        return this.hand.stream().anyMatch(card -> card.getColor() == color);
     }
 
     public Card getCard(int position) {
@@ -45,6 +45,7 @@ public class Player {
 
     public int handScore() {
         int totalScore = 0;
+
         for (Card c : hand) {
             totalScore += c.getScore();
         }
@@ -52,16 +53,8 @@ public class Player {
         return totalScore;
     }
 
-    public ArrayList<Card> getHand() {
-        return hand;
-    }
-
     public void sayUno() {
         saidUno = true;
-    }
-
-    public void unsayUno() {
-        saidUno = false;
     }
 
     public boolean saidUno() {
