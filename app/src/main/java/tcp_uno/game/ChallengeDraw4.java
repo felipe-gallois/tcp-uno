@@ -1,7 +1,5 @@
 package tcp_uno.game;
 
-import java.util.List;
-
 public class ChallengeDraw4 extends GameAction {
 
     private final Player challengedPlayer;
@@ -14,9 +12,8 @@ public class ChallengeDraw4 extends GameAction {
     @Override
     public void execute() {
         CardColor topColor = getGameBoard().getCurrentColor();
-        List<Card> playerHand = this.challengedPlayer.getHand();
 
-        boolean challengeResult = playerHand.stream().anyMatch(card -> card.getColor() == topColor);
+        boolean challengeResult = this.challengedPlayer.haveCardWithColor(topColor);
 
         if (challengeResult) {
             challengeSuccessful();

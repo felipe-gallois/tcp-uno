@@ -9,8 +9,7 @@ public class DiscardPile {
     private CardColor currentColor;
 
     public DiscardPile(Card card) {
-        this.pile.push(card);
-        this.currentColor = card.getColor();
+        putCard(card);
     }
 
     public void putCard(Card card) {
@@ -27,7 +26,7 @@ public class DiscardPile {
         return cards;
     }
 
-    public List<Card> retrieve() {
+    public List<Card> removeExcessCards() {
         Card topCard = this.pile.pop();
         List<Card> cards = this.flush();
         this.putCard(topCard);
@@ -46,7 +45,7 @@ public class DiscardPile {
         return this.pile.peek();
     }
 
-    public boolean canPlayCard(Card card) {
+    public boolean acceptsCard(Card card) {
         Card topCard = this.top();
 
         boolean colorOk = card.getColor() == currentColor || card.getColor() == CardColor.BLACK;

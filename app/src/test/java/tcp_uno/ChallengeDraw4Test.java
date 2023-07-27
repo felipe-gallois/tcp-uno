@@ -4,9 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import tcp_uno.game.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 
 public class ChallengeDraw4Test {
@@ -27,7 +24,8 @@ public class ChallengeDraw4Test {
 
     @Test
     public void testChallengeSuccessful() {
-        Player challengedPlayer = new Player(List.of(yellow5));
+        Player challengedPlayer = new Player();
+        challengedPlayer.addToHand(yellow5);
 
         int challengerHandSizeBefore = player.handSize();
         int challengedHandSizeBefore = challengedPlayer.handSize();
@@ -41,7 +39,8 @@ public class ChallengeDraw4Test {
 
     @Test
     public void testChallengeUnsuccessful() {
-        Player challengedPlayer = new Player(List.of(green4));
+        Player challengedPlayer = new Player();
+        challengedPlayer.addToHand(green4);
 
         int challengerHandSizeBefore = player.handSize();
         int challengedHandSizeBefore = challengedPlayer.handSize();
@@ -55,7 +54,8 @@ public class ChallengeDraw4Test {
 
     @Test
     public void testChallengeSucceedsWithWildOnTop() {
-        Player challengedPlayer = new Player(List.of(yellow4));
+        Player challengedPlayer = new Player();
+        challengedPlayer.addToHand(yellow4);
         gameBoard.addToDiscardPile(wild, CardColor.YELLOW);
 
         int challengerHandSizeBefore = player.handSize();

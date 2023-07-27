@@ -7,7 +7,6 @@ import tcp_uno.game.CardColor;
 import tcp_uno.game.CardValue;
 import tcp_uno.game.DiscardPile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.*;
@@ -38,19 +37,19 @@ public class DiscardPileTest {
     @Test
     public void testCanPlayCardWithSameNumber() {
         DiscardPile discardPile = new DiscardPile(yellow4);
-        assertTrue(discardPile.canPlayCard(blue4));
+        assertTrue(discardPile.acceptsCard(blue4));
     }
 
     @Test
     public void testCanPlayCardWithSameColor() {
         DiscardPile discardPile = new DiscardPile(yellow4);
-        assertTrue(discardPile.canPlayCard(yellow5));
+        assertTrue(discardPile.acceptsCard(yellow5));
     }
 
     @Test
     public void testCannotPlayIncompatibleCard() {
         DiscardPile discardPile = new DiscardPile(yellow5);
-        assertFalse(discardPile.canPlayCard(blue4));
+        assertFalse(discardPile.acceptsCard(blue4));
     }
 
     @Test
@@ -58,19 +57,19 @@ public class DiscardPileTest {
         DiscardPile discardPile;
 
         discardPile = new DiscardPile(yellow5);
-        assertTrue(discardPile.canPlayCard(wild));
+        assertTrue(discardPile.acceptsCard(wild));
 
         discardPile = new DiscardPile(blue4);
-        assertTrue(discardPile.canPlayCard(wild));
+        assertTrue(discardPile.acceptsCard(wild));
 
         discardPile = new DiscardPile(green3);
-        assertTrue(discardPile.canPlayCard(wild));
+        assertTrue(discardPile.acceptsCard(wild));
 
         discardPile = new DiscardPile(redDraw2);
-        assertTrue(discardPile.canPlayCard(wild));
+        assertTrue(discardPile.acceptsCard(wild));
 
         discardPile = new DiscardPile(wild);
-        assertTrue(discardPile.canPlayCard(wild));
+        assertTrue(discardPile.acceptsCard(wild));
     }
 
     @Test
@@ -78,8 +77,8 @@ public class DiscardPileTest {
         DiscardPile discardPile = new DiscardPile(wild);
         discardPile.setCurrentColor(CardColor.RED);
 
-        assertTrue(discardPile.canPlayCard(redDraw2));
-        assertFalse(discardPile.canPlayCard(blue4));
+        assertTrue(discardPile.acceptsCard(redDraw2));
+        assertFalse(discardPile.acceptsCard(blue4));
     }
 
     @Test
@@ -90,7 +89,7 @@ public class DiscardPileTest {
         discardPile.setCurrentColor(CardColor.RED);
         discardPile.putCard(redDraw2);
 
-        List<Card> retrievedCards = discardPile.retrieve();
+        List<Card> retrievedCards = discardPile.removeExcessCards();
         assertThat(retrievedCards, CoreMatchers.hasItems(yellow4, yellow5, wild));
         assertEquals(discardPile.top(), redDraw2);
     }
