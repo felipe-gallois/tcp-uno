@@ -53,6 +53,10 @@ public class Player {
         return totalScore;
     }
 
+    public void clearHand() {
+        this.hand.clear();
+    }
+
     public void sayUno() {
         saidUno = true;
     }

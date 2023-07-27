@@ -10,6 +10,7 @@ public class GameBoardTest {
     private GameBoard board;
     private final static int NUM_PLAYERS = 4;
     private final static Card RED_SKIP = new Card(CardColor.RED, CardValue.SKIP);
+    private final static Card WILD_DRAW_4 = new Card(CardColor.BLACK, CardValue.WILD_DRAW_4);
 
     @Before
     public void setUp() {
@@ -76,9 +77,9 @@ public class GameBoardTest {
         assertEquals(RED_SKIP, board.getTopCard());
     }
 
-    @Test
+    @Test(expected = RequiresColorChoiceException.class)
     public void testAddBlackCardToDiscardPileRequiresColor() {
-        
+        board.addToDiscardPile(WILD_DRAW_4);
     }
 
     @Test

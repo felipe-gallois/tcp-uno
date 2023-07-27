@@ -1,14 +1,30 @@
 package tcp_uno.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameBoard {
     private final int numPlayers;
     private Deck deck;
     private DiscardPile discardPile;
     private GameDirection direction;
     private int currentPlayerIdx;
+    private List<Player> players;
 
     public GameBoard(int numPlayers) {
+        this.players = new ArrayList<>(numPlayers);
         this.numPlayers = numPlayers;
+
+        for (int i = 0; i < numPlayers; i++) {
+            this.players.add(new Player());
+        }
+
+        this.reset();
+    }
+
+    public GameBoard(List<Player> players) {
+        this.players = players;
+        this.numPlayers = players.size();
         this.reset();
     }
 
@@ -16,11 +32,18 @@ public class GameBoard {
         return this.currentPlayerIdx;
     }
 
+    public Player getCurrentPlayer() {
+        return this.players.get(this.currentPlayerIdx);
+    }
+
     public GameDirection getDirection() {
         return this.direction;
     }
 
     public void reset() {
+        for (Player player : players) {
+            player.clearHand();
+        }
         this.deck = new Deck();
         this.deck.shuffle();
         this.discardPile = new DiscardPile(this.deck.draw());
@@ -51,10 +74,12 @@ public class GameBoard {
     }
 
     public void addToDiscardPile(Card card) {
-        this.discardPile.putCard(card);
+        addToDiscardPile(card, card.getColor());
     }
 
     public void addToDiscardPile(Card card, CardColor nextColor) {
+        if (card.playerSelectColor() && (nextColor == null || nextColor == CardColor.BLACK))
+            throw new RequiresColorChoiceException();
         this.discardPile.putCard(card);
         this.discardPile.setCurrentColor(nextColor);
     }
