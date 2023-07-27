@@ -1,14 +1,22 @@
 package tcp_uno.game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
-    private ArrayList<Card> hand;
+    private final ArrayList<Card> hand;
     private boolean saidUno;
     private int score;
 
     public Player() {
-        hand = new ArrayList<Card>();
+        hand = new ArrayList<>();
+        saidUno = false;
+        score = 0;
+    }
+
+    public Player(List<Card> hand) {
+        this.hand = new ArrayList<>();
+        this.hand.addAll(hand);
         saidUno = false;
         score = 0;
     }
