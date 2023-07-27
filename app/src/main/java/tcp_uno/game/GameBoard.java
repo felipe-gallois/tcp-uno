@@ -52,6 +52,11 @@ public class GameBoard {
         this.discardPile.putCard(card);
     }
 
+    public void addToDiscardPile(Card card, CardColor nextColor) {
+        this.discardPile.putCard(card);
+        this.discardPile.setCurrentColor(nextColor);
+    }
+
     public void makeDraw(Player player, int amount) {
         for (int i = 0; i < amount; i++) {
             this.makeDrawOne(player);
@@ -68,5 +73,9 @@ public class GameBoard {
 
     public Card getTopCard() {
         return this.discardPile.top();
+    }
+
+    public CardColor getCurrentColor() {
+        return this.discardPile.getCurrentColor();
     }
 }

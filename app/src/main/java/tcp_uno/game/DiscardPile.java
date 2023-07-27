@@ -34,6 +34,10 @@ public class DiscardPile {
         return cards;
     }
 
+    public CardColor getCurrentColor() {
+        return this.currentColor;
+    }
+
     public void setCurrentColor(CardColor color) {
         this.currentColor = color;
     }
