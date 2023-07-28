@@ -80,6 +80,12 @@ public class GameBoard {
     public void addToDiscardPile(Card card, CardColor nextColor) {
         if (card.playerSelectColor() && (nextColor == null || nextColor == CardColor.BLACK))
             throw new RequiresColorChoiceException();
+        
+        // If the player cannot choose the next color, we should ignore the given color and use
+        // the card color instead
+        if (!card.playerSelectColor())
+            nextColor = card.getColor();
+
         this.discardPile.putCard(card);
         this.discardPile.setCurrentColor(nextColor);
     }
