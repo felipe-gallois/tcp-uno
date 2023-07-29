@@ -5,13 +5,7 @@ public class PutCard extends GameAction {
     private final CardColor nextColor;
 
     public PutCard(Player player, GameBoard gameboard, Card card) {
-        super(player, gameboard);
-        this.card = card;
-        this.nextColor = null;
-
-        if (card.playerSelectColor()) {
-            throw new RequiresColorChoiceException();
-        }
+        this(player, gameboard, card, card.getColor());
     }
 
     public PutCard(Player player, GameBoard gameboard, Card card, CardColor nextColor) {
@@ -25,11 +19,7 @@ public class PutCard extends GameAction {
         Player player = this.getPlayer();
 
         if (player.popCard(card)) {
-            if (card.playerSelectColor()) {
-                gameboard.addToDiscardPile(card, nextColor);
-            } else {
-                gameboard.addToDiscardPile(card);
-            }
+            gameboard.addToDiscardPile(card, nextColor);
         }
     }
 }

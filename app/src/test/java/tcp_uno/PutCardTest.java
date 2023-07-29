@@ -19,6 +19,7 @@ public class PutCardTest {
     private final Card yellow5 = new Card(CardColor.YELLOW, CardValue.NUM_5);
     private final Card blue4 = new Card(CardColor.BLUE, CardValue.NUM_4);
     private final Card wild = new Card(CardColor.BLACK, CardValue.WILD);
+
     
     private GameBoard board;
     private Player player;
@@ -48,9 +49,11 @@ public class PutCardTest {
         assertNotEquals(yellow4, board.getTopCard());
     }
 
+
     @Test(expected=RequiresColorChoiceException.class)
     public void testPutWildRequiresColorChoice() {
         putCard = new PutCard(player, board, wild);
+        putCard.execute();
     }
 
     @Test
@@ -60,7 +63,7 @@ public class PutCardTest {
         assertEquals(wild, board.getTopCard());
         assertEquals(CardColor.BLUE, board.getCurrentColor());
     }
-    
+
     @Test
     public void testPutColoredCardIgnoresNextColor() {
         putCard = new PutCard(player, board, yellow5, CardColor.RED);
