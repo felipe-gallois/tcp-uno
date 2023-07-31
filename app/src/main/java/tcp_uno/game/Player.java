@@ -1,6 +1,7 @@
 package tcp_uno.game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Player {
@@ -16,7 +17,7 @@ public class Player {
 
     public void addToHand(Card card) {
         hand.add(card);
-        // When the player draws a card, we need to reset the flag
+        // When the player draws a card, we must reset the flag
         // so they can say UNO again later
         saidUno = false;
     }
@@ -67,6 +68,10 @@ public class Player {
 
     public int getScore() {
         return score;
+    }
+
+    public List<Card> getHand() {
+        return hand;
     }
 
     public void addScore(int score) {
