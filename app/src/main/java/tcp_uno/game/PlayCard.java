@@ -1,5 +1,7 @@
 package tcp_uno.game;
 
+import java.util.List;
+
 public class PlayCard extends GameAction {
     private final Card card;
     private final CardColor nextColor;
@@ -14,6 +16,24 @@ public class PlayCard extends GameAction {
         super(player, gameBoard);
         this.card = card;
         this.nextColor = nextColor;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public static List<PlayCard> getOptionsForCard(Player player, GameBoard gameBoard, Card card) {
+        if (card.playerSelectColor())
+            return List.of(
+                    new PlayCard(player, gameBoard, card, CardColor.BLUE),
+                    new PlayCard(player, gameBoard, card, CardColor.YELLOW),
+                    new PlayCard(player, gameBoard, card, CardColor.RED),
+                    new PlayCard(player, gameBoard, card, CardColor.GREEN)
+            );
+        else
+            return List.of(
+                    new PlayCard(player, gameBoard, card)
+            );
     }
 
     @Override
