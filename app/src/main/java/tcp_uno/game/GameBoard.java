@@ -10,12 +10,12 @@ public class GameBoard {
     private GameDirection direction;
     private int currentPlayerIdx;
     private List<Player> players;
-    private boolean currentPlayerDidDraw;
+    private boolean currentPlayerDidDraw = false;
+    private boolean challengeSuccessfull = false;
 
     public GameBoard(int numPlayers) {
         this.players = new ArrayList<>(numPlayers);
         this.numPlayers = numPlayers;
-        this.currentPlayerDidDraw = false;
 
         for (int i = 0; i < numPlayers; i++) {
             this.players.add(new Player());
@@ -27,7 +27,6 @@ public class GameBoard {
     public GameBoard(List<Player> players) {
         this.players = players;
         this.numPlayers = players.size();
-        this.currentPlayerDidDraw = false;
         this.reset();
     }
 
@@ -136,5 +135,13 @@ public class GameBoard {
 
     public boolean currentPlayerDidDraw() {
         return currentPlayerDidDraw;
+    }
+
+    public boolean wasChallengeSuccessfull() {
+        return challengeSuccessfull;
+    }
+
+    public void setChallengeSuccessful(boolean result) {
+        challengeSuccessfull = result;
     }
 }

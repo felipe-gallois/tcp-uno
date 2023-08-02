@@ -11,9 +11,10 @@ public class ChallengeDraw4 extends GameAction {
 
     @Override
     public void execute() {
-        CardColor topColor = getGameBoard().getCurrentColor();
-
+        GameBoard gameboard = getGameBoard();
+        CardColor topColor = gameboard.getCurrentColor();
         boolean challengeResult = this.challengedPlayer.haveCardWithColor(topColor);
+        gameboard.setChallengeSuccessful(challengeResult);
 
         if (challengeResult) {
             challengeSuccessful();
@@ -24,11 +25,13 @@ public class ChallengeDraw4 extends GameAction {
 
     private void challengeSuccessful() {
         GameBoard gameBoard = getGameBoard();
+        gameBoard.setChallengeSuccessful(true);
         gameBoard.makeDraw(challengedPlayer, 4);
     }
 
     private void challengeFailed() {
         GameBoard gameBoard = getGameBoard();
+        gameBoard.setChallengeSuccessful(false);
         gameBoard.makeDraw(getPlayer(), 2);
     }
 }
