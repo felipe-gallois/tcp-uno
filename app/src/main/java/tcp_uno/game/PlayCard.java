@@ -65,11 +65,15 @@ public class PlayCard extends GameAction {
                 gameBoard.makeDraw(gameBoard.getCurrentPlayer(), 2);
                 break;
             case WILD_DRAW_4:
-                gameBoard.advancePlayer();
-                gameBoard.makeDraw(gameBoard.getCurrentPlayer(), 4);
+                if (!gameBoard.wasChallengeSuccessfull()) {
+                    gameBoard.advancePlayer();
+                    gameBoard.makeDraw(gameBoard.getCurrentPlayer(), 4);
+                } else {
+                    gameBoard.setChallengeSuccessful(false);
+                }
                 break;
             default:
                 break;
         }
-    }    
+    }
 }

@@ -1,6 +1,6 @@
 package tcp_uno;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -114,5 +114,23 @@ public class PlayCardTest {
         assertEquals(player3, gameboard.getCurrentPlayer());
         assertEquals(wildDraw4, gameboard.getTopCard());
         assertEquals(CardColor.YELLOW, gameboard.getCurrentColor());
+    }
+
+    @Test
+    public void testPlayWildDraw4AfterSuccessfulChallenge() {
+        int numCardsPlayer1 = player1.handSize();
+        gameboard.setChallengeSuccessful(true);
+
+        PlayCard playCard = new PlayCard(player1, gameboard, wildDraw4, CardColor.YELLOW);
+        playCard.execute();
+
+        assertEquals(numCardsPlayer1 - 1, player1.handSize());
+        assertEquals(0, player2.handSize());
+        assertEquals(0, player3.handSize());
+        assertEquals(0, player4.handSize());
+        assertEquals(player2, gameboard.getCurrentPlayer());
+        assertEquals(wildDraw4, gameboard.getTopCard());
+        assertEquals(CardColor.YELLOW, gameboard.getCurrentColor());
+        assertFalse(gameboard.wasChallengeSuccessfull());
     }
 }
