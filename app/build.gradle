@@ -18,6 +18,7 @@ repositories {
 dependencies {
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.2'
+    implementation 'uk.co.electronstudio.jaylib:jaylib:4.2.+'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
