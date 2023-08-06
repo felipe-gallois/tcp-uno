@@ -1,5 +1,6 @@
 package tcp_uno;
 
+import tcp_uno.view.MenuView;
 import tcp_uno.view.View;
 
 import static com.raylib.Raylib.*;
@@ -13,16 +14,16 @@ public class Application {
 
     Application() {
         appState = AppState.MENU;
-//        activeView = new MenuView();
     }
 
     private static void closeWindow() {
         CloseWindow();
     }
 
-    private static void initWindow() {
+    private void initWindow() {
         InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
         SetTargetFPS(60);
+        activeView = new MenuView();
     }
 
     public static void main(String[] args) {
