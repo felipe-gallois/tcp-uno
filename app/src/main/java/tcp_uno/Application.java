@@ -7,8 +7,8 @@ import static com.raylib.Raylib.*;
 
 public class Application {
     public static final String WINDOW_TITLE = "Uno Game";
-    public static final int WINDOW_WIDTH = 800;
-    public static final int WINDOW_HEIGHT = 450;
+    public static final int WINDOW_WIDTH = 1100;
+    public static final int WINDOW_HEIGHT = 700;
     private AppState appState;
     private View activeView;
 

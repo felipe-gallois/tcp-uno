@@ -7,15 +7,38 @@ import static com.raylib.Raylib.*;
 
 public class MenuView implements View {
     Button playButton;
+    Button creditsButton;
+    Button exitButton;
+    Background background;
 
     public MenuView() {
         playButton = new Button();
-        playButton.setTexture(LoadTexture("resources/ButtonTemplate.png"));
-        playButton.setTextureHeight(64);
-        playButton.setTextureWidth(128);
+        playButton.setTexture(LoadTexture("resources/PLAY.png"));
+        playButton.setTextureHeight(82);
+        playButton.setTextureWidth(214);
         playButton.setEnabled(true);
-        playButton.setX(GetScreenWidth() / 2 - playButton.getTextureWidth() / 2);
-        playButton.setY(GetScreenHeight() / 2 - playButton.getTextureHeight() / 2);
+        playButton.setX(442);
+        playButton.setY(293);
+
+        creditsButton = new Button();
+        creditsButton.setTexture(LoadTexture("resources/CREDITOS.png"));
+        creditsButton.setTextureHeight(85);
+        creditsButton.setTextureWidth(361);
+        creditsButton.setEnabled(true);
+        creditsButton.setX(381);
+        creditsButton.setY(369);
+
+        exitButton = new Button();
+        exitButton.setTexture(LoadTexture("resources/EXIT.png"));
+        exitButton.setTextureHeight(80);
+        exitButton.setTextureWidth(169);
+        exitButton.setEnabled(true);
+        exitButton.setX(453);
+        exitButton.setY(456);
+
+
+        background = new Background();
+        background.setTexture(LoadTexture("resources/Menu.png"));
     }
 
     @Override
@@ -24,7 +47,10 @@ public class MenuView implements View {
 
         ClearBackground(RAYWHITE);
 
-        playButton.draw();
+        background.display();
+        playButton.display();
+        creditsButton.display();
+        exitButton.display();
 
         EndDrawing();
 
@@ -34,10 +60,18 @@ public class MenuView implements View {
     public AppState update() {
 
         if (playButton.popClicked()) {
-            // Do something...
+            return AppState.PLAYING;
+        }
+        if (creditsButton.popClicked()) {
+            return AppState.CREDITS;
+        }
+        if (exitButton.popClicked()) {
+            return AppState.EXIT;
         }
 
         playButton.update();
+        creditsButton.update();
+        exitButton.update();
 
         return AppState.MENU;
     }

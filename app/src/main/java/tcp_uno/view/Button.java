@@ -122,7 +122,7 @@ public class Button {
         return rectangle;
     }
 
-    public void draw() {
+    public void display() {
         DrawTextureRec(texture, getTextureSrc(), getPosition(), RAYWHITE);
     }
 
