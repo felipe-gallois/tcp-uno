@@ -19,7 +19,7 @@ public class DeckTest {
     @Test
     public void testNewDeckContainsAllCards() {
         int numCards = 0;
-        while (!deck.empty()) {
+        while (!deck.isEmpty()) {
             deck.draw();
             numCards++;
         }
@@ -29,14 +29,14 @@ public class DeckTest {
     @Test
     public void testDeckRestockKeepsNumberOfCards() {
         DiscardPile discardPile = new DiscardPile(deck.draw());
-        while (!deck.empty()) {
+        while (!deck.isEmpty()) {
             Card card = deck.draw();
             discardPile.putCard(card);
         }
         deck.restock(discardPile);
 
         int numCards = 0;
-        while (!deck.empty()) {
+        while (!deck.isEmpty()) {
             deck.draw();
             numCards++;
         }

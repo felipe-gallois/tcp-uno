@@ -1,0 +1,24 @@
+name: check-project-builds
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          architecture: x64
+
+      - name: Grant permissions to gradlew
+        run: chmod +x gradlew
+
+      - name: Build the project
+        run: ./gradlew build
