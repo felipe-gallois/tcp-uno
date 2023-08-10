@@ -1,7 +1,8 @@
 package tcp_uno;
 
-import tcp_uno.view.MenuView;
 import tcp_uno.view.View;
+import tcp_uno.view.MenuView;
+import tcp_uno.view.CreditsView;
 
 public enum AppState {
     MENU,
@@ -16,7 +17,7 @@ public enum AppState {
             case PLAYING:
 //                return new GameView();
             case CREDITS:
-//                return new CreditsView();
+                return new CreditsView();
             default:
                 return null;
         }
