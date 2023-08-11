@@ -7,7 +7,7 @@ import tcp_uno.game.CardColor;
 import tcp_uno.game.CardValue;
 
 
-public class CardView {
+public class Card {
     
     private int cardHeight;
     private int cardWidth; 
@@ -16,11 +16,9 @@ public class CardView {
     private CardValue value;
     private boolean isHidden;
 
-    //CardView(cor, valor, tamanho)
-    //tamanho é a altura da carta
-    public CardView(CardColor color, CardValue value, int cardSize, boolean isHidden) {
-        this.color = color;
-        this.value = value;
+    public Card(tcp_uno.game.Card card, int cardSize, boolean isHidden) {
+        this.color = card.getColor();
+        this.value = card.getValue();
         this.cardHeight = cardSize;
         this.cardWidth = cardSize/2;
         this.isHidden = isHidden;
