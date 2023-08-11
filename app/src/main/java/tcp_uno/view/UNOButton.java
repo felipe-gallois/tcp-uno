@@ -3,23 +3,24 @@ package tcp_uno.view;
 import static com.raylib.Jaylib.RAYWHITE;
 import static com.raylib.Raylib.*;
 
-public class Button {
+import com.raylib.Raylib.Rectangle;
+import com.raylib.Raylib.Texture;
+import com.raylib.Raylib.Vector2;
+
+public class UNOButton {
     private boolean isClicked;
     private boolean isHovered;
-    private int textureHeight, textureWidth;
+    private final int textureHeight = 80, textureWidth = 169;
     private int x, y;
     private boolean isEnabled;
-    private Texture texture;
+    private final Texture texture = LoadTexture("resources/UNO.png");
 
-    public Button() {
+    public UNOButton() {
         isClicked = false;
         isHovered = false;
-        textureHeight = 0;
-        textureWidth = 0;
         x = 0;
         y = 0;
         isEnabled = false;
-        texture = null;
     }
 
     public int getX() {
@@ -42,16 +43,8 @@ public class Button {
         return textureHeight;
     }
 
-    public void setTextureHeight(int textureHeight) {
-        this.textureHeight = textureHeight;
-    }
-
     public int getTextureWidth() {
         return textureWidth;
-    }
-
-    public void setTextureWidth(int textureWidth) {
-        this.textureWidth = textureWidth;
     }
 
     public boolean isEnabled() {
@@ -64,10 +57,6 @@ public class Button {
 
     public Texture getTexture() {
         return texture;
-    }
-
-    public void setTexture(Texture texture) {
-        this.texture = texture;
     }
 
     public boolean popClicked() {
