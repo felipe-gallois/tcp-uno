@@ -1,5 +1,7 @@
 package tcp_uno.game;
 
+import java.util.List;
+
 public class PlayCard extends GameAction {
     private final Card card;
     private final CardColor nextColor;
@@ -16,12 +18,36 @@ public class PlayCard extends GameAction {
         this.nextColor = nextColor;
     }
 
+    public Card getCard() {
+        return card;
+    }
+
+    public static List<PlayCard> getOptionsForCard(Player player, GameBoard gameBoard, Card card) {
+        if (card.playerSelectColor())
+            return List.of(
+                    new PlayCard(player, gameBoard, card, CardColor.BLUE),
+                    new PlayCard(player, gameBoard, card, CardColor.YELLOW),
+                    new PlayCard(player, gameBoard, card, CardColor.RED),
+                    new PlayCard(player, gameBoard, card, CardColor.GREEN)
+            );
+        else
+            return List.of(
+                    new PlayCard(player, gameBoard, card)
+            );
+    }
+
     @Override
     public void execute() {
         GameBoard gameBoard = getGameBoard();
 
-        PutCard putCardAction = new PutCard(getPlayer(), gameBoard, card, nextColor);
-        putCardAction.execute();
+        Player player = this.getPlayer();
+
+        // A player can only play a card that is in their hand
+        if (player.popCard(card)) {
+            gameBoard.addToDiscardPile(card, nextColor);
+        } else {
+            return;
+        }
 
         performCardEffect();
 
@@ -45,11 +71,15 @@ public class PlayCard extends GameAction {
                 gameBoard.makeDraw(gameBoard.getCurrentPlayer(), 2);
                 break;
             case WILD_DRAW_4:
-                gameBoard.advancePlayer();
-                gameBoard.makeDraw(gameBoard.getCurrentPlayer(), 4);
+                if (!gameBoard.wasChallengeSuccessfull()) {
+                    gameBoard.advancePlayer();
+                    gameBoard.makeDraw(gameBoard.getCurrentPlayer(), 4);
+                } else {
+                    gameBoard.setChallengeSuccessful(false);
+                }
                 break;
             default:
                 break;
         }
-    }    
+    }
 }

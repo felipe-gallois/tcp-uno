@@ -10,6 +10,8 @@ public class GameBoard {
     private GameDirection direction;
     private int currentPlayerIdx;
     private List<Player> players;
+    private boolean currentPlayerDidDraw = false;
+    private boolean challengeSuccessfull = false;
 
     public GameBoard(int numPlayers) {
         this.players = new ArrayList<>(numPlayers);
@@ -32,8 +34,28 @@ public class GameBoard {
         return this.currentPlayerIdx;
     }
 
+    private int getNextPlayerIdx() {
+        int currentIdx = this.currentPlayerIdx;
+        if (this.direction == GameDirection.CLOCKWISE) {
+            currentIdx++;
+            if (currentIdx >= numPlayers) {
+                currentIdx = 0;
+            }
+        } else {
+            currentIdx--;
+            if (currentIdx < 0) {
+                currentIdx = numPlayers - 1;
+            }
+        }
+        return currentIdx;
+    }
+
     public Player getCurrentPlayer() {
         return this.players.get(this.currentPlayerIdx);
+    }
+
+    public Player getNextPlayer() {
+        return this.players.get(this.getNextPlayerIdx());
     }
 
     public GameDirection getDirection() {
@@ -52,17 +74,8 @@ public class GameBoard {
     }
 
     public void advancePlayer() {
-        if (this.direction == GameDirection.CLOCKWISE) {
-            this.currentPlayerIdx++;
-            if (this.currentPlayerIdx >= numPlayers) {
-                this.currentPlayerIdx = 0;
-            }
-        } else {
-            this.currentPlayerIdx--;
-            if (this.currentPlayerIdx < 0) {
-                this.currentPlayerIdx = numPlayers - 1;
-            }
-        }
+        this.currentPlayerIdx = this.getNextPlayerIdx();
+        currentPlayerDidDraw = false;
     }
 
     public void reverse() {
@@ -91,6 +104,10 @@ public class GameBoard {
     }
 
     public void makeDraw(Player player, int amount) {
+        if (player == this.getCurrentPlayer()) {
+            currentPlayerDidDraw = true;
+        }
+
         for (int i = 0; i < amount; i++) {
             this.makeDrawOne(player);
         }
@@ -110,5 +127,21 @@ public class GameBoard {
 
     public CardColor getCurrentColor() {
         return this.discardPile.getCurrentColor();
+    }
+
+    public boolean canBePlayed(Card card) {
+        return this.discardPile.acceptsCard(card);
+    }
+
+    public boolean currentPlayerDidDraw() {
+        return currentPlayerDidDraw;
+    }
+
+    public boolean wasChallengeSuccessfull() {
+        return challengeSuccessfull;
+    }
+
+    public void setChallengeSuccessful(boolean result) {
+        challengeSuccessfull = result;
     }
 }

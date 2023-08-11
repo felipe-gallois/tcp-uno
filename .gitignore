@@ -9,3 +9,4 @@ bin
 
 # Ignore VSCode configuration
 .vscode
+/.idea/

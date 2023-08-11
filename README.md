@@ -4,12 +4,13 @@ Este repositório abriga o trabalho final da disciplina de Técnicas de Constru�
 
 ### Dependências
 
-Este projeto foi criado utilizando as seguintes ferramentas:
+Este projeto foi desenvolvido para utilizar as seguintes ferramentas:
 
 * Java 11
 * JUnit 4
+* Jaylib 4
 * Gradle 8
 
 ### Automação
 
-O repositório foi configurado para executar automaticamente todos os testes unitários para verificação antes de se integrar mudanças no *branch* principal.
+O repositório foi configurado para testar o *build* e executar automaticamente todos os testes unitários para verificação antes de se integrar mudanças no *branch* principal.
