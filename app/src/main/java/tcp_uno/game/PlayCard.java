@@ -40,8 +40,14 @@ public class PlayCard extends GameAction {
     public void execute() {
         GameBoard gameBoard = getGameBoard();
 
-        PutCard putCardAction = new PutCard(getPlayer(), gameBoard, card, nextColor);
-        putCardAction.execute();
+        Player player = this.getPlayer();
+
+        // A player can only play a card that is in their hand
+        if (player.popCard(card)) {
+            gameBoard.addToDiscardPile(card, nextColor);
+        } else {
+            return;
+        }
 
         performCardEffect();
 

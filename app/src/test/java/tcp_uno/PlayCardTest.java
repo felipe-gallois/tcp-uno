@@ -22,6 +22,7 @@ public class PlayCardTest {
     private final Card yellowReverse = new Card(CardColor.YELLOW, CardValue.REVERSE);
     private final Card greenDraw2 = new Card(CardColor.GREEN, CardValue.DRAW_2);
     private final Card wildDraw4 = new Card(CardColor.BLACK, CardValue.WILD_DRAW_4);
+    private final Card green0 = new Card(CardColor.GREEN, CardValue.NUM_0);
 
     
     @Before
@@ -132,5 +133,14 @@ public class PlayCardTest {
         assertEquals(wildDraw4, gameboard.getTopCard());
         assertEquals(CardColor.YELLOW, gameboard.getCurrentColor());
         assertFalse(gameboard.wasChallengeSuccessfull());
+    }
+
+    @Test
+    public void testPlayerCanOnlyPlayCardInTheirHand() {
+        PlayCard playCard = new PlayCard(player1, gameboard, green0);
+        playCard.execute();
+
+        assertEquals(6, player1.handSize());
+        assertNotEquals(green0, gameboard.getTopCard());
     }
 }
