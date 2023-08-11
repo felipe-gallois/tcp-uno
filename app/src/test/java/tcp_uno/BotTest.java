@@ -2,7 +2,6 @@ package tcp_uno;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 
@@ -12,8 +11,10 @@ import org.junit.Test;
 import tcp_uno.game.ChallengeDraw4;
 import tcp_uno.game.DrawCards;
 import tcp_uno.game.GameAction;
+import tcp_uno.game.NoValidActionsException;
 import tcp_uno.game.PlayCard;
 import tcp_uno.game.ScreamUNO;
+import tcp_uno.game.SkipTurn;
 import tcp_uno.game.Bot;
 
 public class BotTest {
@@ -28,6 +29,7 @@ public class BotTest {
 
     @Test
     public void testBotChoosesRightActions() {
+        actionsList.add(new SkipTurn(null, null));
         actionsList.add(new DrawCards(null, null, 0));
         actionsList.add(new PlayCard(null, null, null, null));
         actionsList.add(new PlayCard(null, null, null, null));
@@ -52,6 +54,12 @@ public class BotTest {
                      bot.selectAction(actionsList));
 
         actionsList.remove(actionsList.size() - 1);
-        assertNull(bot.selectAction(actionsList));
+        assertTrue(bot.selectAction(actionsList) instanceof SkipTurn);
+    }
+
+    @Test(expected = NoValidActionsException.class)
+    public void testEmptyActionsListReturnsException() {
+        actionsList.clear();
+        bot.selectAction(actionsList);
     }
 }

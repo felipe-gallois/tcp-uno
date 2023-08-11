@@ -27,7 +27,10 @@ public class Bot {
         GameAction drawCardsAction = findDrawCards(possibleActions);
         if (drawCardsAction != null) return drawCardsAction;
 
-        return null;
+        GameAction skipTurnAction = findSkipTurn(possibleActions);
+        if (skipTurnAction != null) return skipTurnAction;
+
+        throw new NoValidActionsException();
     }
 
     private GameAction findScreamUNO(ArrayList<GameAction> possibleActions) {
@@ -60,6 +63,14 @@ public class Bot {
     private GameAction findDrawCards(ArrayList<GameAction> possibleActions) {
         for (GameAction action : possibleActions) {
             if (action instanceof DrawCards) return action;
+        }
+
+        return null;
+    }
+
+    private GameAction findSkipTurn(ArrayList<GameAction> possibleActions) {
+        for (GameAction action : possibleActions) {
+            if (action instanceof SkipTurn) return action;
         }
 
         return null;
