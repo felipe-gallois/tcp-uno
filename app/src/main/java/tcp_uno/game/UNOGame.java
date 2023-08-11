@@ -41,13 +41,14 @@ public class UNOGame {
     public List<GameAction> getAvailableActions() {
         List<GameAction> actions = new ArrayList<>();
 
-        if (lastActionIsFinal())
+        if (lastActionCannotBeResponded())
             return actions;
 
         Player currentPlayer = gameBoard.getCurrentPlayer();
 
         boolean canChallengeDraw4 = checkForChallengeDraw4(actions, currentPlayer);
 
+        // If a player can challenge a draw
         if (canChallengeDraw4)
             return actions;
 
@@ -57,14 +58,16 @@ public class UNOGame {
             actions.add(new ScreamUNO(currentPlayer, gameBoard));
         }
 
-        if (!gameBoard.currentPlayerDidDraw()) {
+        if (gameBoard.currentPlayerDidDraw()) {
+            actions.add(new SkipTurn(currentPlayer, gameBoard));
+        } else {
             actions.add(new DrawCards(currentPlayer, gameBoard, 1));
         }
 
         return actions;
     }
 
-    private boolean lastActionIsFinal() {
+    private boolean lastActionCannotBeResponded() {
         if (pendingActions.isEmpty())
             return false;
     
@@ -72,9 +75,10 @@ public class UNOGame {
 
         // No action can be performed in response to the following action types
         List<Class<? extends GameAction>> finalActions = List.of(
-            ScreamUNO.class,
-            ChallengeDraw4.class,
-            DrawCards.class
+                ScreamUNO.class,
+                ChallengeDraw4.class,
+                DrawCards.class,
+                SkipTurn.class
         );
 
         return finalActions.stream().anyMatch(actionClass -> actionClass.isInstance(lastAction));
@@ -124,5 +128,6 @@ public class UNOGame {
         for (GameAction action : pendingActions) {
             action.execute();
         }
+        pendingActions.clear();
     }
 }
