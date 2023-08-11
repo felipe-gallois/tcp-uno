@@ -8,12 +8,12 @@ import static org.junit.Assert.*;
 
 public class GameBoardTest {
     private GameBoard board;
-    private final int NUM_PLAYERS = 4;
-    private final Card RED_SKIP = new Card(CardColor.RED, CardValue.SKIP);
-    private final Card WILD_DRAW_4 = new Card(CardColor.BLACK, CardValue.WILD_DRAW_4);
-    private final Card RED_0 = new Card(CardColor.RED, CardValue.NUM_0);
-    private final Card YELLOW_SKIP = new Card(CardColor.YELLOW, CardValue.SKIP);
-    private final Card GREEN_4 = new Card(CardColor.GREEN, CardValue.NUM_4);
+    private final static int NUM_PLAYERS = 4;
+    private final static Card RED_SKIP = new Card(CardColor.RED, CardValue.SKIP);
+    private final static Card WILD_DRAW_4 = new Card(CardColor.BLACK, CardValue.WILD_DRAW_4);
+    private final static Card RED_0 = new Card(CardColor.RED, CardValue.NUM_0);
+    private final static Card YELLOW_SKIP = new Card(CardColor.YELLOW, CardValue.SKIP);
+    private final static Card GREEN_4 = new Card(CardColor.GREEN, CardValue.NUM_4);
 
     @Before
     public void setUp() {
@@ -129,5 +129,13 @@ public class GameBoardTest {
         assertTrue(board.canBePlayed(RED_0));
         assertFalse(board.canBePlayed(YELLOW_SKIP));
         assertFalse(board.canBePlayed(GREEN_4));
+    }
+
+    @Test
+    public void testDealCards() {
+        board.dealCards();
+
+        assertEquals(7, board.getCurrentPlayer().handSize());
+        assertEquals(7, board.getNextPlayer().handSize());
     }
 }

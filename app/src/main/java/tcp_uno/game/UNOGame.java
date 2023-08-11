@@ -27,6 +27,7 @@ public class UNOGame {
             player.addScore(player.handScore());
         }
         gameBoard.reset();
+        gameBoard.dealCards();
     }
 
     public boolean gameOver() {
