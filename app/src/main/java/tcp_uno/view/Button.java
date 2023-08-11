@@ -4,12 +4,12 @@ import static com.raylib.Jaylib.RAYWHITE;
 import static com.raylib.Raylib.*;
 
 public class Button {
-    boolean isClicked;
-    boolean isHovered;
-    int textureHeight, textureWidth;
-    int x, y;
-    boolean isEnabled;
-    Texture texture;
+    private boolean isClicked;
+    private boolean isHovered;
+    private int textureHeight, textureWidth;
+    private int x, y;
+    private boolean isEnabled;
+    private Texture texture;
 
     public Button() {
         isClicked = false;
