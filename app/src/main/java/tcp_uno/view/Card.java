@@ -3,9 +3,8 @@ package tcp_uno.view;
 import com.raylib.Jaylib;
 import com.raylib.Raylib;
 import com.raylib.Raylib.Color;
-import tcp_uno.game.CardColor;
-import tcp_uno.game.CardValue;
 
+import tcp_uno.game.Card;
 
 public class Card {
     
@@ -16,7 +15,7 @@ public class Card {
     private CardValue value;
     private boolean isHidden;
 
-    public Card(tcp_uno.game.Card card, int cardSize, boolean isHidden) {
+    public Card(Card card, int cardSize, boolean isHidden) {
         this.color = card.getColor();
         this.value = card.getValue();
         this.cardHeight = cardSize;
