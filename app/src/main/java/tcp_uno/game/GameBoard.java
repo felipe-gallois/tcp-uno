@@ -154,4 +154,8 @@ public class GameBoard {
     public void setChallengeSuccessful(boolean result) {
         challengeSuccessful = result;
     }
+
+    public List<Card> getPlayerHand(int playerIdx) {
+        return this.players.get(playerIdx).getHand();
+    }
 }

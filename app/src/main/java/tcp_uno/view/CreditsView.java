@@ -6,11 +6,11 @@ import static com.raylib.Raylib.*;
 import tcp_uno.AppState;
 
 public class CreditsView implements View {
-    Button returnButton;
+    ImageButton returnButton;
     Background background;
 
     public CreditsView() {
-        returnButton = new Button();
+        returnButton = new ImageButton();
         returnButton.setTexture(LoadTexture("resources/VOLTAR.png"));
         returnButton.setTextureHeight(64);
         returnButton.setTextureWidth(211);

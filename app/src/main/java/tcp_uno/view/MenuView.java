@@ -6,13 +6,13 @@ import static com.raylib.Jaylib.RAYWHITE;
 import static com.raylib.Raylib.*;
 
 public class MenuView implements View {
-    Button playButton;
-    Button creditsButton;
-    Button exitButton;
+    ImageButton playButton;
+    ImageButton creditsButton;
+    ImageButton exitButton;
     Background background;
 
     public MenuView() {
-        playButton = new Button();
+        playButton = new ImageButton();
         playButton.setTexture(LoadTexture("resources/PLAY.png"));
         playButton.setTextureHeight(82);
         playButton.setTextureWidth(214);
@@ -20,7 +20,7 @@ public class MenuView implements View {
         playButton.setX(442);
         playButton.setY(293);
 
-        creditsButton = new Button();
+        creditsButton = new ImageButton();
         creditsButton.setTexture(LoadTexture("resources/CREDITOS.png"));
         creditsButton.setTextureHeight(85);
         creditsButton.setTextureWidth(361);
@@ -28,7 +28,7 @@ public class MenuView implements View {
         creditsButton.setX(381);
         creditsButton.setY(369);
 
-        exitButton = new Button();
+        exitButton = new ImageButton();
         exitButton.setTexture(LoadTexture("resources/EXIT.png"));
         exitButton.setTextureHeight(80);
         exitButton.setTextureWidth(169);

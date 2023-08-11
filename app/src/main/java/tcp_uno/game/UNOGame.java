@@ -142,4 +142,10 @@ public class UNOGame {
         }
         pendingActions.clear();
     }
+
+    public void startGame() {
+        for (Player player : players) {
+            gameBoard.makeDraw(player, 7);
+        }
+    }
 }

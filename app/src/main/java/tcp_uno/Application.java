@@ -37,7 +37,7 @@ public class Application {
         while (shouldKeepRunning()) {
             AppState newAppState = activeView.update();
             activeView.display();
-            if (newAppState != appState) {
+            if (newAppState != appState && newAppState != null) {
                 onStateChange(newAppState);
             }
         }
