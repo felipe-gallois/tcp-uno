@@ -7,27 +7,17 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import tcp_uno.game.Card;
-import tcp_uno.game.CardColor;
-import tcp_uno.game.CardValue;
-import tcp_uno.game.ChallengeDraw4;
-import tcp_uno.game.DrawCards;
-import tcp_uno.game.GameAction;
-import tcp_uno.game.GameBoard;
-import tcp_uno.game.PlayCard;
-import tcp_uno.game.Player;
-import tcp_uno.game.ScreamUNO;
-import tcp_uno.game.UNOGame;
+import tcp_uno.game.*;
 
 public class UNOGameTest {
-    private Card WILD = new Card(CardColor.BLACK, CardValue.WILD);
-    private Card WILD_DRAW_4 = new Card(CardColor.BLACK, CardValue.WILD_DRAW_4);
-    private Card RED_0 = new Card(CardColor.RED, CardValue.NUM_0);
-    private Card RED_1 = new Card(CardColor.RED, CardValue.NUM_1);
-    private Card YELLOW_0 = new Card(CardColor.YELLOW, CardValue.NUM_0);
-    private Card GREEN_SKIP = new Card(CardColor.GREEN, CardValue.SKIP);
-    private Card BLUE_6 = new Card(CardColor.BLUE, CardValue.NUM_6);
-    private Card RED_REVERSE = new Card(CardColor.RED, CardValue.REVERSE);
+    private final static Card WILD = new Card(CardColor.BLACK, CardValue.WILD);
+    private final static Card WILD_DRAW_4 = new Card(CardColor.BLACK, CardValue.WILD_DRAW_4);
+    private final static Card RED_0 = new Card(CardColor.RED, CardValue.NUM_0);
+    private final static Card RED_1 = new Card(CardColor.RED, CardValue.NUM_1);
+    private final static Card YELLOW_0 = new Card(CardColor.YELLOW, CardValue.NUM_0);
+    private final static Card GREEN_SKIP = new Card(CardColor.GREEN, CardValue.SKIP);
+    private final static Card BLUE_6 = new Card(CardColor.BLUE, CardValue.NUM_6);
+    private final static Card RED_REVERSE = new Card(CardColor.RED, CardValue.REVERSE);
 
     private UNOGame game;
     private GameBoard gameBoard;
@@ -141,6 +131,9 @@ public class UNOGameTest {
                 .count();
         
         assertTrue(1 >= numPlayableCards);
+
+        // After drawing a card, a player can always skip their turn
+        assertTrue(availableActions.stream().anyMatch(action -> action instanceof SkipTurn));
     }
 
     @Test
