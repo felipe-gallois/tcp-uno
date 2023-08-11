@@ -17,22 +17,11 @@ public class Direction {
     private final int distDownArrow = 200;
     
     public Texture texture;
-    
-    private GameDirection direction;
-    
-    public Direction(GameDirection direction) {
-        this.direction = direction;
+        
+    public Direction() {
         
         texture = Raylib.LoadTexture("resources/DIRECTION.png");
                 
-    }
-    
-    public void changeDirection() {
-        if (direction == GameDirection.CLOCKWISE) {
-            direction = GameDirection.COUNTER_CLOCKWISE;
-        } else {
-            direction = GameDirection.CLOCKWISE;
-        }
     }
     
     private Raylib.Vector2 getVector(int x, int y) {
@@ -51,7 +40,7 @@ public class Direction {
         return rectangle;
     }
     
-    public void display() {
+    public void display(GameDirection direction) {
         if (direction == GameDirection.CLOCKWISE) {
             DrawTextureRec(texture, getRectangle(textureWidth, textureHeight*2), getVector(posUpArrowX, posUpArrowY), RAYWHITE);
             DrawTextureRec(texture, getRectangle(textureWidth, textureHeight), getVector(posUpArrowX, posUpArrowY+distDownArrow), RAYWHITE);
