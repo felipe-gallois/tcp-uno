@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameBoard {
+    private final static int INITIAL_CARDS_PER_PLAYER = 7;
+
     private final int numPlayers;
     private Deck deck;
     private DiscardPile discardPile;
@@ -11,7 +13,7 @@ public class GameBoard {
     private int currentPlayerIdx;
     private List<Player> players;
     private boolean currentPlayerDidDraw = false;
-    private boolean challengeSuccessfull = false;
+    private boolean challengeSuccessful = false;
 
     public GameBoard(int numPlayers) {
         this.players = new ArrayList<>(numPlayers);
@@ -71,6 +73,14 @@ public class GameBoard {
         this.discardPile = new DiscardPile(this.deck.draw());
         this.currentPlayerIdx = 0;
         this.direction = GameDirection.CLOCKWISE;
+    }
+
+    public void dealCards() {
+        for (int i = 0; i < INITIAL_CARDS_PER_PLAYER; i++) {
+            for (Player player: players) {
+                makeDrawOne(player);
+            }
+        }
     }
 
     public void advancePlayer() {
@@ -137,11 +147,11 @@ public class GameBoard {
         return currentPlayerDidDraw;
     }
 
-    public boolean wasChallengeSuccessfull() {
-        return challengeSuccessfull;
+    public boolean wasChallengeSuccessful() {
+        return challengeSuccessful;
     }
 
     public void setChallengeSuccessful(boolean result) {
-        challengeSuccessfull = result;
+        challengeSuccessful = result;
     }
 }

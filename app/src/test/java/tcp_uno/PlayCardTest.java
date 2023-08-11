@@ -132,7 +132,7 @@ public class PlayCardTest {
         assertEquals(player2, gameboard.getCurrentPlayer());
         assertEquals(wildDraw4, gameboard.getTopCard());
         assertEquals(CardColor.YELLOW, gameboard.getCurrentColor());
-        assertFalse(gameboard.wasChallengeSuccessfull());
+        assertFalse(gameboard.wasChallengeSuccessful());
     }
 
     @Test
