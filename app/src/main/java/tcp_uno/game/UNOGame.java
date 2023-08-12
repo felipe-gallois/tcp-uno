@@ -39,32 +39,44 @@ public class UNOGame {
         return false;
     }
 
-    public List<GameAction> getAvailableActions() {
+    public List<GameAction> getAvailableActions(Player player) {
         List<GameAction> actions = new ArrayList<>();
 
+        // Some actions cannot be responded by any player
         if (lastActionCannotBeResponded())
             return actions;
 
-        Player currentPlayer = gameBoard.getCurrentPlayer();
+        if (player == gameBoard.getCurrentPlayer()) {
+            // If the next player can challenge a Draw 4, the current player cannot do anything at this moment
+            if (checkForChallengeDraw4())
+                return actions;
 
-        boolean canChallengeDraw4 = checkForChallengeDraw4(actions, currentPlayer);
+            boolean canPlayACard = checkForPlayCard(actions, player);
 
-        // If a player can challenge a draw
-        if (canChallengeDraw4)
+            if (canPlayACard && player.handSize() <= 2) {
+                actions.add(new ScreamUNO(player, gameBoard));
+            }
+            if (gameBoard.currentPlayerDidDraw()) {
+                actions.add(new SkipTurn(player, gameBoard));
+            } else {
+                actions.add(new DrawCards(player, gameBoard, 1));
+            }
             return actions;
-
-        boolean canPlayACard = checkForPlayCard(actions, currentPlayer);
-
-        if (canPlayACard && currentPlayer.handSize() <= 2) {
-            actions.add(new ScreamUNO(currentPlayer, gameBoard));
+        } else if (player == gameBoard.getNextPlayer()) {
+            if (checkForChallengeDraw4()) {
+                actions.add(new ChallengeDraw4(player, gameBoard, gameBoard.getCurrentPlayer()));
+            }
+            return actions;
         }
 
-        if (gameBoard.currentPlayerDidDraw()) {
-            actions.add(new SkipTurn(currentPlayer, gameBoard));
-        } else {
-            actions.add(new DrawCards(currentPlayer, gameBoard, 1));
-        }
+        return actions;
+    }
+    public List<GameAction> getAvailableActions() {
+        List<GameAction> actions = new ArrayList<>();
 
+        for (Player player : players) {
+            actions.addAll(getAvailableActions(player));
+        }
         return actions;
     }
 
@@ -85,7 +97,7 @@ public class UNOGame {
         return finalActions.stream().anyMatch(actionClass -> actionClass.isInstance(lastAction));
     }
 
-    private boolean checkForChallengeDraw4(List<GameAction> actions, Player currentPlayer) {
+    private boolean checkForChallengeDraw4() {
         if (pendingActions.isEmpty())
             return false;
 
@@ -93,7 +105,6 @@ public class UNOGame {
         if (lastAction instanceof PlayCard) {
             Card card = ((PlayCard) lastAction).getCard();
             if (card.getValue() == CardValue.WILD_DRAW_4) {
-                actions.add(new ChallengeDraw4(gameBoard.getNextPlayer(), gameBoard, currentPlayer));
                 return true;
             }
         }
