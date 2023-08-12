@@ -4,8 +4,7 @@ import tcp_uno.AppState;
 import tcp_uno.game.Card;
 import tcp_uno.presenter.GamePresenter;
 
-import static com.raylib.Jaylib.BLACK;
-import static com.raylib.Jaylib.WHITE;
+import static com.raylib.Jaylib.*;
 import static com.raylib.Raylib.*;
 import static java.awt.Color.white;
 
@@ -15,6 +14,8 @@ public class GameView implements View {
     GamePresenter presenter;
     MyHandView myHandView;
 
+    TextButton drawCardButton;
+    TextButton screamUNOButton;
 
     public GameView() {
         background = new Background();
@@ -22,6 +23,12 @@ public class GameView implements View {
         presenter = new GamePresenter(this);
         presenter.newGame();
         myHandView = new MyHandView();
+
+        drawCardButton = new TextButton("Draw Card", 10, 500, 20, WHITE);
+        drawCardButton.setHoverColor(RED);
+        screamUNOButton = new TextButton("Scream UNO", 10, 550, 20, WHITE);
+        screamUNOButton.setHoverColor(RED);
+
 
     }
 
@@ -31,6 +38,16 @@ public class GameView implements View {
         background.display();
         displayDeck();
         displayHand();
+        drawCardButton.display();
+        screamUNOButton.display();
+
+        DrawText("Current Player: " + presenter.getGame().getGameBoard().getCurrentPlayerIdx(), 510, 600, 20, WHITE);
+        DrawText("Direction: " + presenter.getGame().getGameBoard().getDirection(), 510, 650, 20, WHITE);
+
+        for (int i = 0; i < 4; i++) {
+            DrawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(), 810, 100 + i * 50, 20, WHITE);
+        }
+
         EndDrawing();
     }
 
@@ -42,13 +59,27 @@ public class GameView implements View {
     }
 
     public void displayHand() {
-        myHandView.display(presenter.getGame().getGameBoard().getPlayerHand(0));
+        myHandView.display();
     }
 
     @Override
     public AppState update() {
 
         myHandView.update();
+        presenter.update();
+        myHandView.setCards(presenter.getGame().getGameBoard().getPlayerHand(0));
+        int clicked = myHandView.getCardClicked();
+        if (clicked >= 0) {
+            presenter.playCard(clicked);
+        }
+        if (drawCardButton.popClicked()) {
+            presenter.drawCard();
+        }
+        if (screamUNOButton.popClicked()) {
+            presenter.callUNO();
+        }
+        drawCardButton.update();
+        screamUNOButton.update();
         return null;
     }
 }

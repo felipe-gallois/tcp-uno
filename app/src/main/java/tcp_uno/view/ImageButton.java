@@ -60,7 +60,7 @@ public class ImageButton extends Button {
 
 
     private Rectangle getTextureSrc() {
-        if (!isEnabled) {
+        if (!getEnabled()) {
             return new Rectangle().y(textureHeight * 3).width(textureWidth).height(textureHeight);
         }
         if (peakClicked()) {

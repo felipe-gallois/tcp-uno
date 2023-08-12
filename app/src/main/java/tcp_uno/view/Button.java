@@ -36,7 +36,13 @@ public abstract class Button {
         return isClicked;
     }
     public abstract Rectangle getRectangle();
+
+
     public abstract void display();
+
+    public boolean getEnabled() {
+        return isEnabled;
+    }
     public void update() {
         if (isEnabled) {
             Raylib.Vector2 mousePos = GetMousePosition();

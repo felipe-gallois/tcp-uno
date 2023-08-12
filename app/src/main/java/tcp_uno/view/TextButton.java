@@ -46,17 +46,18 @@ public class TextButton extends Button {
     public void display() {
         Raylib.Vector2 size = MeasureTextEx(Raylib.GetFontDefault(), text, fontSize, 0);
         Raylib.Color color = defaultColor;
-        if (isHovered) {
+        if (getHovered()) {
             color = hoverColor;
         }
-        if (isClicked) {
+        if (peakClicked()) {
             color = clickedColor;
         }
-        if (!isEnabled && !showWhenDisabled) {
+        if (!getEnabled() && !showWhenDisabled) {
             return;
         }
         Raylib.DrawText(text, x, y, fontSize, color);
     }
+
 
     public String getText() {
         return text;

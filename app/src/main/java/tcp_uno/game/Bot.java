@@ -1,6 +1,7 @@
 package tcp_uno.game;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Collections;
 
@@ -8,7 +9,7 @@ public class Bot {
     private static final Random randomizer = new Random();
     private static final float challengeChance = 0.05f;
 
-    public GameAction selectAction(ArrayList<GameAction> possibleActions) {
+    public GameAction selectAction(List<GameAction> possibleActions) {
         GameAction screamUNOAction = findScreamUNO(possibleActions);
         if (screamUNOAction != null) return screamUNOAction;
 
@@ -33,7 +34,7 @@ public class Bot {
         throw new NoValidActionsException();
     }
 
-    private GameAction findScreamUNO(ArrayList<GameAction> possibleActions) {
+    private GameAction findScreamUNO(List<GameAction> possibleActions) {
         for (GameAction action : possibleActions) {
             if (action instanceof ScreamUNO) return action;
         }
@@ -41,7 +42,7 @@ public class Bot {
         return null;
     }
 
-    private GameAction findChallengeDraw4(ArrayList<GameAction> possibleActions) {
+    private GameAction findChallengeDraw4(List<GameAction> possibleActions) {
         for (GameAction action : possibleActions) {
             if (action instanceof ChallengeDraw4) return action;
         }
@@ -49,7 +50,7 @@ public class Bot {
         return null;
     }
 
-    private ArrayList<GameAction> getPlayableCards(ArrayList<GameAction> possibleActions) {
+    private ArrayList<GameAction> getPlayableCards(List<GameAction> possibleActions) {
         ArrayList<GameAction> candidateCards = new ArrayList<GameAction>(); 
         for (GameAction action : possibleActions) {
             if (action instanceof PlayCard) {
@@ -60,7 +61,7 @@ public class Bot {
         return candidateCards;
     }
 
-    private GameAction findDrawCards(ArrayList<GameAction> possibleActions) {
+    private GameAction findDrawCards(List<GameAction> possibleActions) {
         for (GameAction action : possibleActions) {
             if (action instanceof DrawCards) return action;
         }
@@ -68,7 +69,7 @@ public class Bot {
         return null;
     }
 
-    private GameAction findSkipTurn(ArrayList<GameAction> possibleActions) {
+    private GameAction findSkipTurn(List<GameAction> possibleActions) {
         for (GameAction action : possibleActions) {
             if (action instanceof SkipTurn) return action;
         }
