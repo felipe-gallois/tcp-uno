@@ -1,3 +1,3 @@
 package tcp_uno.game;
 
-class EmptyDeckException extends RuntimeException {}
+public class EmptyDeckException extends RuntimeException {}
