@@ -1,18 +1,16 @@
 package tcp_uno.components;
 
+import com.raylib.Raylib;
 import tcp_uno.game.Card;
 
-
-import com.raylib.Raylib;
-
 import static com.raylib.Jaylib.RED;
-import static com.raylib.Jaylib.WHITE;
 
 public class CardButton extends Button {
     private final Card card;
     private final tcp_uno.components.Card cardView;
-    private int size;
-    private int x, y;
+    private final int size;
+    private final int x;
+    private final int y;
 
     public CardButton(Card card, int size, int x, int y) {
         this.card = card;
@@ -29,7 +27,7 @@ public class CardButton extends Button {
 
     @Override
     public Raylib.Rectangle getRectangle() {
-        return new Raylib.Rectangle().x(x).y(y).width(size/cardView.ASPECT_RATIO).height(size);
+        return new Raylib.Rectangle().x(x).y(y).width(size / tcp_uno.components.Card.ASPECT_RATIO).height(size);
     }
 
     @Override

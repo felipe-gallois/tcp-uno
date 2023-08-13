@@ -49,7 +49,6 @@ public class ImageButton extends Button {
     }
 
 
-
     public Texture getTexture() {
         return texture;
     }

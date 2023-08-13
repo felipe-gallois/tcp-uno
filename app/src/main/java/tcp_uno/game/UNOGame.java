@@ -71,6 +71,7 @@ public class UNOGame {
 
         return actions;
     }
+
     public List<GameAction> getAvailableActions() {
         List<GameAction> actions = new ArrayList<>();
 
@@ -83,7 +84,7 @@ public class UNOGame {
     private boolean lastActionCannotBeResponded() {
         if (pendingActions.isEmpty())
             return false;
-    
+
         GameAction lastAction = pendingActions.get(pendingActions.size() - 1);
 
         // No action can be performed in response to the following action types
@@ -104,9 +105,7 @@ public class UNOGame {
         GameAction lastAction = pendingActions.get(pendingActions.size() - 1);
         if (lastAction instanceof PlayCard) {
             Card card = ((PlayCard) lastAction).getCard();
-            if (card.getValue() == CardValue.WILD_DRAW_4) {
-                return true;
-            }
+            return card.getValue() == CardValue.WILD_DRAW_4;
         }
         return false;
     }

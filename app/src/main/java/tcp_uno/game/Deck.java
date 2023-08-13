@@ -7,7 +7,7 @@ public class Deck {
     private final Stack<Card> cards = new Stack<>();
 
     public Deck() {
-        for (CardColor color: CardColor.values()) {
+        for (CardColor color : CardColor.values()) {
             // Black cards do not have numeric and action values
             if (color == CardColor.BLACK) continue;
 
@@ -59,7 +59,7 @@ public class Deck {
     }
 
     public void restock(DiscardPile discardPile) {
-        for (Card card: discardPile.removeExcessCards()) {
+        for (Card card : discardPile.removeExcessCards()) {
             cards.push(card);
         }
     }

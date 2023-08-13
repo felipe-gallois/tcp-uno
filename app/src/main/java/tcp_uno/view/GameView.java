@@ -1,6 +1,5 @@
 package tcp_uno.view;
 
-import com.raylib.Raylib;
 import tcp_uno.AppState;
 import tcp_uno.components.Background;
 import tcp_uno.components.BrokenConsoleFont;
@@ -55,7 +54,7 @@ public class GameView implements View {
             if (i == presenter.getGame().getGameBoard().getCurrentPlayerIdx())
                 brokenConsoleFont.drawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(),
                         810, 100 + i * 50, 24, 1, RED
-                        );
+                );
             else
                 brokenConsoleFont.drawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(), 810, 100 + i * 50, 24, 1, WHITE);
         }

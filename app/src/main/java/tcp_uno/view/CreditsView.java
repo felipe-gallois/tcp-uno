@@ -1,11 +1,11 @@
 package tcp_uno.view;
 
-import static com.raylib.Jaylib.RAYWHITE;
-import static com.raylib.Raylib.*;
-
 import tcp_uno.AppState;
 import tcp_uno.components.Background;
 import tcp_uno.components.ImageButton;
+
+import static com.raylib.Jaylib.RAYWHITE;
+import static com.raylib.Raylib.*;
 
 public class CreditsView implements View {
     ImageButton returnButton;

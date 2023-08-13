@@ -2,7 +2,7 @@ package tcp_uno.components;
 
 import com.raylib.Raylib;
 
-public class BrokenConsoleFont implements Font{
+public class BrokenConsoleFont implements Font {
 
     private static final String REGULAR_FONT_PATH = "resources/fonts/Broken Console Regular.ttf";
     private static final String BOLD_FONT_PATH = "resources/fonts/Broken Console Bold.ttf";
@@ -14,7 +14,7 @@ public class BrokenConsoleFont implements Font{
     public Raylib.Font getFont(boolean bold) {
         if (bold) {
             return getBoldFont();
-        }else {
+        } else {
             return getNormalFont();
         }
     }

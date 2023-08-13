@@ -1,9 +1,9 @@
 package tcp_uno.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.Collections;
 
 public class Bot {
     private static final Random randomizer = new Random();
@@ -20,7 +20,7 @@ public class Bot {
         }
 
         ArrayList<GameAction> playableCards = getPlayableCards(possibleActions);
-        if (playableCards.isEmpty() == false) {
+        if (!playableCards.isEmpty()) {
             Collections.shuffle(playableCards);
             return playableCards.get(0);
         }
@@ -51,7 +51,7 @@ public class Bot {
     }
 
     private ArrayList<GameAction> getPlayableCards(List<GameAction> possibleActions) {
-        ArrayList<GameAction> candidateCards = new ArrayList<GameAction>(); 
+        ArrayList<GameAction> candidateCards = new ArrayList<GameAction>();
         for (GameAction action : possibleActions) {
             if (action instanceof PlayCard) {
                 candidateCards.add(action);

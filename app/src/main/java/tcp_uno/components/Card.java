@@ -8,7 +8,7 @@ import static com.raylib.Jaylib.WHITE;
 
 public class Card {
 
-    public static final float ASPECT_RATIO = 722f/538f;
+    public static final float ASPECT_RATIO = 722f / 538f;
 
     public static final Raylib.Texture cardsTexture = Raylib.LoadTexture("resources/spritesheet_uno_large.png");
     private static final int LEFT_MARGIN = 206;
@@ -18,12 +18,12 @@ public class Card {
     private static final int CARD_HEIGHT = 755;
     private static final int BETWEEN_CARD_V_MARGIN = 62;
     final int CARD_PER_ROW = 14;
-    private int cardHeight;
-    private int cardWidth;
+    private final int cardHeight;
+    private final int cardWidth;
     private int x, y;
-    private CardColor color;
-    private CardValue value;
-    private boolean isHidden;
+    private final CardColor color;
+    private final CardValue value;
+    private final boolean isHidden;
 
     public Card(tcp_uno.game.Card card, int cardSize, boolean isHidden) {
         this.color = card.getColor();

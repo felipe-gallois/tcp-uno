@@ -1,9 +1,9 @@
 package tcp_uno.game;
 
 public class Card {
-    private CardColor color;
-    private CardValue value;
-    private int score;
+    private final CardColor color;
+    private final CardValue value;
+    private final int score;
 
     public Card(CardColor color, CardValue value) {
         if (color == CardColor.BLACK) {
@@ -34,11 +34,7 @@ public class Card {
     }
 
     public boolean playerSelectColor() {
-        if (color == CardColor.BLACK) {
-            return true;
-        } else {
-            return false;
-        }
+        return color == CardColor.BLACK;
     }
 
     public String toString() {

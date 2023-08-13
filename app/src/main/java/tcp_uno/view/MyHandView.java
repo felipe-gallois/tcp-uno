@@ -19,7 +19,7 @@ public class MyHandView {
     final int POS_Y = WINDOW_HEIGHT - CARD_HEIGHT - MARGIN_BOTTOM;
 
     private List<Card> cards;
-    private List<CardButton> buttons;
+    private final List<CardButton> buttons;
 
     MyHandView() {
         int posY = 50;

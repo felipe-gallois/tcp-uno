@@ -1,11 +1,12 @@
 package tcp_uno.components;
 
-import static com.raylib.Jaylib.RAYWHITE;
-import static com.raylib.Raylib.*;
-
 import com.raylib.Raylib.Rectangle;
 import com.raylib.Raylib.Texture;
 import com.raylib.Raylib.Vector2;
+
+import static com.raylib.Jaylib.RAYWHITE;
+import static com.raylib.Raylib.DrawTextureRec;
+import static com.raylib.Raylib.LoadTexture;
 
 public class UNOButton extends Button {
     private final int textureHeight = 80, textureWidth = 169;

@@ -1,7 +1,7 @@
 package tcp_uno.game;
 
 public class DrawCards extends GameAction {
-    private int amount;
+    private final int amount;
 
     public DrawCards(Player player, GameBoard gameBoard, int amount) {
         super(player, gameBoard);

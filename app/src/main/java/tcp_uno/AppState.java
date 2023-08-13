@@ -1,9 +1,9 @@
 package tcp_uno;
 
-import tcp_uno.view.GameView;
-import tcp_uno.view.View;
-import tcp_uno.view.MenuView;
 import tcp_uno.view.CreditsView;
+import tcp_uno.view.GameView;
+import tcp_uno.view.MenuView;
+import tcp_uno.view.View;
 
 public enum AppState {
     MENU,

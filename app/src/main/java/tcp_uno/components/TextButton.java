@@ -21,7 +21,7 @@ public class TextButton extends Button {
         this.showWhenDisabled = showWhenDisabled;
     }
 
-    private boolean showWhenDisabled  = true;
+    private boolean showWhenDisabled = true;
 
 
     public TextButton(String text, int x, int y, int fontSize, Raylib.Color color) {

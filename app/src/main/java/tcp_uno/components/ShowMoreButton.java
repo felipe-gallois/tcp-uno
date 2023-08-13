@@ -1,11 +1,9 @@
 package tcp_uno.components;
 
+import com.raylib.Raylib.*;
+
 import static com.raylib.Jaylib.RAYWHITE;
 import static com.raylib.Raylib.*;
-
-import com.raylib.Raylib.Rectangle;
-import com.raylib.Raylib.Texture;
-import com.raylib.Raylib.Vector2;
 
 public class ShowMoreButton {
     private boolean isClicked;

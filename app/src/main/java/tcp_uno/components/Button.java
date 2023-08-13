@@ -3,7 +3,6 @@ package tcp_uno.components;
 import com.raylib.Raylib;
 
 import static com.raylib.Raylib.*;
-import static com.raylib.Raylib.MOUSE_BUTTON_LEFT;
 
 public abstract class Button {
     private boolean isClicked;
@@ -19,9 +18,11 @@ public abstract class Button {
     public boolean isEnabled() {
         return isEnabled;
     }
+
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
     }
+
     public boolean popClicked() {
         boolean temp = isClicked;
         isClicked = false;
@@ -35,6 +36,7 @@ public abstract class Button {
     public boolean peakClicked() {
         return isClicked;
     }
+
     public abstract Rectangle getRectangle();
 
 
@@ -43,6 +45,7 @@ public abstract class Button {
     public boolean getEnabled() {
         return isEnabled;
     }
+
     public void update() {
         if (isEnabled) {
             Raylib.Vector2 mousePos = GetMousePosition();
