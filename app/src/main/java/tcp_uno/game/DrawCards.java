@@ -12,4 +12,8 @@ public class DrawCards extends GameAction {
     public void execute() {
         getGameBoard().makeDraw(getPlayer(), amount);
     }
+
+    public String toString() {
+        return "DrawCard (" + amount + " cards )";
+    }
 }

@@ -10,7 +10,7 @@ import static com.raylib.Jaylib.RED;
 import static com.raylib.Jaylib.WHITE;
 
 public class MyHandView {
-    final int HAND_SIZE = 10;
+    final int HAND_SIZE = 15;
 
     private List<Card> cards;
     private List<TextButton> buttons;
@@ -20,7 +20,7 @@ public class MyHandView {
     MyHandView() {
         int posY = 50;
         buttons = new ArrayList<TextButton>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < HAND_SIZE; i++) {
             TextButton btn = new TextButton("", 50, posY, 14, WHITE);
             btn.setShowWhenDisabled(false);
             btn.setEnabled(false);

@@ -53,7 +53,7 @@ public class UNOGame {
 
             boolean canPlayACard = checkForPlayCard(actions, player);
 
-            if (canPlayACard && player.handSize() <= 2) {
+            if (canPlayACard && player.handSize() <= 2 && !player.saidUno()) {
                 actions.add(new ScreamUNO(player, gameBoard));
             }
             if (gameBoard.currentPlayerDidDraw()) {

@@ -10,4 +10,8 @@ public class ScreamUNO extends GameAction {
     public void execute() {
         getPlayer().sayUno();
     }
+
+    public String toString() {
+        return "ScreamUNO";
+    }
 }

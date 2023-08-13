@@ -40,7 +40,7 @@ public class GamePresenter {
         if (!isCurrentPlayer) {
             return;
         }
-        Card c =game.getGameBoard().getPlayerHand(0).get(card);
+        Card c = game.getGameBoard().getPlayerHand(0).get(card);
         boolean canBePlayed = game.getGameBoard().canBePlayed(c);
 
         if (!canBePlayed) {
@@ -56,6 +56,9 @@ public class GamePresenter {
     }
 
     public void challangeDraw4() {
+        if (game.getGameBoard().getCurrentPlayerIdx() == 0) {
+            // TODO: Implement this
+        }
     }
 
     public void drawCard() {
@@ -65,6 +68,7 @@ public class GamePresenter {
         }
         if (game.getGameBoard().currentPlayerDidDraw()) {
             game.addAction(new SkipTurn(game.getGameBoard().getCurrentPlayer(), game.getGameBoard()));
+            game.executeActions();
             return;
         }
         game.addAction(new DrawCards(game.getGameBoard().getCurrentPlayer(), game.getGameBoard(), 1));
@@ -80,14 +84,19 @@ public class GamePresenter {
     public void runBot() {
         if (game.getGameBoard().getCurrentPlayerIdx() != 0) {
             //bots.get(game.getGameBoard().getCurrentPlayerIdx() - 1).selectAction(game.getGameBoard());
-            GameAction action =
-            bots.get(game.getGameBoard().getCurrentPlayerIdx() - 1).selectAction(game.getAvailableActions(game.getGameBoard().getCurrentPlayer()));
+            List<GameAction> availableActions = game.getAvailableActions(game.getGameBoard().getCurrentPlayer());
+            System.out.println("Player " + game.getGameBoard().getCurrentPlayerIdx() + " can make these actions: " + availableActions);
+            GameAction action = bots.get(game.getGameBoard().getCurrentPlayerIdx() - 1).selectAction(availableActions);
+            System.out.println("Player " + game.getGameBoard().getCurrentPlayerIdx() + " selected action: " + action);
             game.addAction(action);
             game.executeActions();
         }
     }
 
     public void callUNO() {
+        if (game.getGameBoard().getCurrentPlayerIdx() == 0) {
+            game.addAction(new ScreamUNO(game.getGameBoard().getCurrentPlayer(), game.getGameBoard()));
+        }
     }
 
     public void update() {

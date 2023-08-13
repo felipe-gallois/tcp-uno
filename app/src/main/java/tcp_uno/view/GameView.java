@@ -17,6 +17,8 @@ public class GameView implements View {
     TextButton drawCardButton;
     TextButton screamUNOButton;
 
+    tcp_uno.view.Card deck_card;
+
     public GameView() {
         background = new Background();
         background.setTexture(LoadTexture("resources/Menu.png"));
@@ -54,7 +56,11 @@ public class GameView implements View {
     public void displayDeck() {
 
         Card topCard = presenter.getGame().getGameBoard().getTopCard();
+        deck_card = new tcp_uno.view.Card(topCard, 100, false);
+        deck_card.setX(500);
+        deck_card.setY(300);
         DrawText("Top Card: " + topCard.toString(), 10, 10, 20, WHITE);
+        deck_card.display();
 
     }
 
