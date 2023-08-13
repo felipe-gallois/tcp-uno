@@ -1,18 +1,17 @@
 package tcp_uno.view;
 
+import tcp_uno.components.Button;
+import tcp_uno.components.CardButton;
 import tcp_uno.game.Card;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
-import static com.raylib.Jaylib.RED;
-import static com.raylib.Jaylib.WHITE;
 import static tcp_uno.Application.WINDOW_HEIGHT;
 import static tcp_uno.Application.WINDOW_WIDTH;
 
 public class MyHandView {
-    final int CARD_HEIGHT = 100;
+    final int CARD_HEIGHT = 120;
 
     final int MARGIN_BOTTOM = 50;
     final int MARGIN_LEFT = 10;
@@ -31,13 +30,13 @@ public class MyHandView {
         this.cards = cards;
         buttons.clear();
         int count = cards.size();
-        int width = (int) (count * (CARD_HEIGHT / tcp_uno.view.Card.ASPECT_RATIO)) + (count - 1) * MARGIN_LEFT;
+        int width = (int) (count * (CARD_HEIGHT / tcp_uno.components.Card.ASPECT_RATIO)) + (count - 1) * MARGIN_LEFT;
         int initialX = (WINDOW_WIDTH - width) / 2;
 
         int posX = initialX;
         for (Card c : cards) {
-            buttons.add(new CardButton(c, 100, posX, POS_Y));
-            posX += (int) (CARD_HEIGHT / tcp_uno.view.Card.ASPECT_RATIO + MARGIN_LEFT);
+            buttons.add(new CardButton(c, CARD_HEIGHT, posX, POS_Y));
+            posX += (int) (CARD_HEIGHT / tcp_uno.components.Card.ASPECT_RATIO + MARGIN_LEFT);
         }
     }
 

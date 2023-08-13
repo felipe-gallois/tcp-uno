@@ -1,4 +1,4 @@
-package tcp_uno.view;
+package tcp_uno.components;
 
 import static com.raylib.Jaylib.RAYWHITE;
 import static com.raylib.Raylib.*;
@@ -7,14 +7,20 @@ import com.raylib.Raylib.Rectangle;
 import com.raylib.Raylib.Texture;
 import com.raylib.Raylib.Vector2;
 
-public class UNOButton extends Button {
-    private final int textureHeight = 80, textureWidth = 169;
+public class ShowMoreButton {
+    private boolean isClicked;
+    private boolean isHovered;
+    private final int textureHeight = 36, textureWidth = 36;
     private int x, y;
-    private final Texture texture = LoadTexture("resources/UNO.png");
+    private boolean isEnabled;
+    private final Texture texture = LoadTexture("resources/SHOWMORE.png");
 
-    public UNOButton() {
+    public ShowMoreButton() {
+        isClicked = false;
+        isHovered = false;
         x = 0;
         y = 0;
+        isEnabled = false;
     }
 
     public int getX() {
@@ -41,13 +47,34 @@ public class UNOButton extends Button {
         return textureWidth;
     }
 
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
 
     public Texture getTexture() {
         return texture;
     }
 
+    public boolean popClicked() {
+        boolean temp = isClicked;
+        isClicked = false;
+        return temp;
+    }
+
+    public boolean getHovered() {
+        return isHovered;
+    }
+
+    public boolean peakClicked() {
+        return isClicked;
+    }
+
     private Rectangle getTextureSrc() {
-        if (!getEnabled()) {
+        if (!isEnabled) {
             return new Rectangle().y(textureHeight * 3).width(textureWidth).height(textureHeight);
         }
         if (peakClicked()) {
@@ -56,6 +83,15 @@ public class UNOButton extends Button {
             return new Rectangle().y(textureHeight).width(textureWidth).height(textureHeight);
         } else {
             return new Rectangle().y(0).width(textureWidth).height(textureHeight);
+        }
+    }
+
+    public void update() {
+        if (isEnabled) {
+            Vector2 mousePos = GetMousePosition();
+            isHovered = CheckCollisionPointRec(mousePos, getRectangle());
+            // isClicked should not be unset until it is popped
+            isClicked = isClicked || (isHovered && IsMouseButtonPressed(MOUSE_BUTTON_LEFT));
         }
     }
 
@@ -80,3 +116,4 @@ public class UNOButton extends Button {
     }
 
 }
+

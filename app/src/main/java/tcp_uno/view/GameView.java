@@ -1,23 +1,24 @@
 package tcp_uno.view;
 
+import com.raylib.Raylib;
 import tcp_uno.AppState;
+import tcp_uno.components.Background;
+import tcp_uno.components.BrokenConsoleFont;
+import tcp_uno.components.TextButton;
+import tcp_uno.components.UNOButton;
 import tcp_uno.game.Card;
 import tcp_uno.presenter.GamePresenter;
 
 import static com.raylib.Jaylib.*;
-import static com.raylib.Raylib.*;
-import static java.awt.Color.white;
 
 public class GameView implements View {
 
     Background background;
     GamePresenter presenter;
     MyHandView myHandView;
-
     TextButton drawCardButton;
     UNOButton screamUNOButton;
-
-    tcp_uno.view.Card deck_card;
+    tcp_uno.components.Card deck_card;
 
     public GameView() {
         background = new Background();
@@ -48,11 +49,15 @@ public class GameView implements View {
         //DrawText("Current Player: " + presenter.getGame().getGameBoard().getCurrentPlayerIdx(), 510, 600, 20, WHITE);
         //DrawText("Direction: " + presenter.getGame().getGameBoard().getDirection(), 510, 650, 20, WHITE);
 
+        BrokenConsoleFont brokenConsoleFont = new BrokenConsoleFont();
+
         for (int i = 0; i < 4; i++) {
             if (i == presenter.getGame().getGameBoard().getCurrentPlayerIdx())
-                DrawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(), 810, 100 + i * 50, 20, RED);
+                brokenConsoleFont.drawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(),
+                        810, 100 + i * 50, 24, 1, RED
+                        );
             else
-                DrawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(), 810, 100 + i * 50, 20, WHITE);
+                brokenConsoleFont.drawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(), 810, 100 + i * 50, 24, 1, WHITE);
         }
 
         EndDrawing();
@@ -61,7 +66,7 @@ public class GameView implements View {
     public void displayDeck() {
 
         Card topCard = presenter.getGame().getGameBoard().getTopCard();
-        deck_card = new tcp_uno.view.Card(topCard, 100, false);
+        deck_card = new tcp_uno.components.Card(topCard, 120, false);
         deck_card.setX(500);
         deck_card.setY(300);
 //        DrawText("Top Card: " + topCard.toString(), 10, 10, 20, WHITE);

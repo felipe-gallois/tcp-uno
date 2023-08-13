@@ -1,4 +1,4 @@
-package tcp_uno.view;
+package tcp_uno.components;
 
 import tcp_uno.game.Card;
 
@@ -10,13 +10,13 @@ import static com.raylib.Jaylib.WHITE;
 
 public class CardButton extends Button {
     private final Card card;
-    private final tcp_uno.view.Card cardView;
+    private final tcp_uno.components.Card cardView;
     private int size;
     private int x, y;
 
     public CardButton(Card card, int size, int x, int y) {
         this.card = card;
-        this.cardView = new tcp_uno.view.Card(card, size, false);
+        this.cardView = new tcp_uno.components.Card(card, size, false);
         this.cardView.setX(x);
         this.cardView.setY(y);
 
@@ -38,7 +38,7 @@ public class CardButton extends Button {
             cardView.display();
         }
         if (getHovered()) {
-            Raylib.DrawRectangleLinesEx(getRectangle(), 2, WHITE);
+            Raylib.DrawRectangleLinesEx(getRectangle(), 2, RED);
         }
     }
 }

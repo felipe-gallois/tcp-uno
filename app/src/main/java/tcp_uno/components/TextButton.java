@@ -1,4 +1,4 @@
-package tcp_uno.view;
+package tcp_uno.components;
 
 import com.raylib.Raylib;
 

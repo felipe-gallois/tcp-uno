@@ -4,6 +4,8 @@ import static com.raylib.Jaylib.RAYWHITE;
 import static com.raylib.Raylib.*;
 
 import tcp_uno.AppState;
+import tcp_uno.components.Background;
+import tcp_uno.components.ImageButton;
 
 public class CreditsView implements View {
     ImageButton returnButton;

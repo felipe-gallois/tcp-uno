@@ -1,19 +1,20 @@
-package tcp_uno.view;
+package tcp_uno.components;
 
 import static com.raylib.Jaylib.RAYWHITE;
 import static com.raylib.Raylib.*;
 
-public class ImageButton extends Button {
-    int textureHeight, textureWidth;
-    int x, y;
-    Texture texture;
+import com.raylib.Raylib.Rectangle;
+import com.raylib.Raylib.Texture;
+import com.raylib.Raylib.Vector2;
 
-    public ImageButton() {
-        textureHeight = 0;
-        textureWidth = 0;
+public class UNOButton extends Button {
+    private final int textureHeight = 80, textureWidth = 169;
+    private int x, y;
+    private final Texture texture = LoadTexture("resources/UNO.png");
+
+    public UNOButton() {
         x = 0;
         y = 0;
-        texture = null;
     }
 
     public int getX() {
@@ -36,28 +37,14 @@ public class ImageButton extends Button {
         return textureHeight;
     }
 
-    public void setTextureHeight(int textureHeight) {
-        this.textureHeight = textureHeight;
-    }
-
     public int getTextureWidth() {
         return textureWidth;
     }
-
-    public void setTextureWidth(int textureWidth) {
-        this.textureWidth = textureWidth;
-    }
-
 
 
     public Texture getTexture() {
         return texture;
     }
-
-    public void setTexture(Texture texture) {
-        this.texture = texture;
-    }
-
 
     private Rectangle getTextureSrc() {
         if (!getEnabled()) {
@@ -71,7 +58,6 @@ public class ImageButton extends Button {
             return new Rectangle().y(0).width(textureWidth).height(textureHeight);
         }
     }
-
 
     public Vector2 getPosition() {
         Vector2 position = new Vector2();
