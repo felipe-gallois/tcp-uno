@@ -15,7 +15,7 @@ public class GameView implements View {
     MyHandView myHandView;
 
     TextButton drawCardButton;
-    TextButton screamUNOButton;
+    UNOButton screamUNOButton;
 
     tcp_uno.view.Card deck_card;
 
@@ -28,8 +28,10 @@ public class GameView implements View {
 
         drawCardButton = new TextButton("Draw Card", 10, 500, 20, WHITE);
         drawCardButton.setHoverColor(RED);
-        screamUNOButton = new TextButton("Scream UNO", 10, 550, 20, WHITE);
-        screamUNOButton.setHoverColor(RED);
+
+        screamUNOButton = new UNOButton();
+        screamUNOButton.setX(10);
+        screamUNOButton.setY(550);
 
 
     }
@@ -43,11 +45,14 @@ public class GameView implements View {
         drawCardButton.display();
         screamUNOButton.display();
 
-        DrawText("Current Player: " + presenter.getGame().getGameBoard().getCurrentPlayerIdx(), 510, 600, 20, WHITE);
-        DrawText("Direction: " + presenter.getGame().getGameBoard().getDirection(), 510, 650, 20, WHITE);
+        //DrawText("Current Player: " + presenter.getGame().getGameBoard().getCurrentPlayerIdx(), 510, 600, 20, WHITE);
+        //DrawText("Direction: " + presenter.getGame().getGameBoard().getDirection(), 510, 650, 20, WHITE);
 
         for (int i = 0; i < 4; i++) {
-            DrawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(), 810, 100 + i * 50, 20, WHITE);
+            if (i == presenter.getGame().getGameBoard().getCurrentPlayerIdx())
+                DrawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(), 810, 100 + i * 50, 20, RED);
+            else
+                DrawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(), 810, 100 + i * 50, 20, WHITE);
         }
 
         EndDrawing();
@@ -59,7 +64,7 @@ public class GameView implements View {
         deck_card = new tcp_uno.view.Card(topCard, 100, false);
         deck_card.setX(500);
         deck_card.setY(300);
-        DrawText("Top Card: " + topCard.toString(), 10, 10, 20, WHITE);
+//        DrawText("Top Card: " + topCard.toString(), 10, 10, 20, WHITE);
         deck_card.display();
 
     }

@@ -6,6 +6,7 @@ import tcp_uno.game.Card;
 import com.raylib.Raylib;
 
 import static com.raylib.Jaylib.RED;
+import static com.raylib.Jaylib.WHITE;
 
 public class CardButton extends Button {
     private final Card card;
@@ -37,7 +38,7 @@ public class CardButton extends Button {
             cardView.display();
         }
         if (getHovered()) {
-            Raylib.DrawRectangleLinesEx(getRectangle(), 2, RED);
+            Raylib.DrawRectangleLinesEx(getRectangle(), 2, WHITE);
         }
     }
 }
