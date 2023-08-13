@@ -71,9 +71,10 @@ public class GameView implements View {
     @Override
     public AppState update() {
 
+        myHandView.setCards(presenter.getGame().getGameBoard().getPlayerHand(0));
+
         myHandView.update();
         presenter.update();
-        myHandView.setCards(presenter.getGame().getGameBoard().getPlayerHand(0));
         int clicked = myHandView.getCardClicked();
         if (clicked >= 0) {
             presenter.playCard(clicked);

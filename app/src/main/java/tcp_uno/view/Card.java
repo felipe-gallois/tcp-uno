@@ -16,11 +16,13 @@ public class Card {
     private CardValue value;
     private boolean isHidden;
 
+    public static final float ASPECT_RATIO = 2;
+
     public Card(tcp_uno.game.Card card, int cardSize, boolean isHidden) {
         this.color = card.getColor();
         this.value = card.getValue();
         this.cardHeight = cardSize;
-        this.cardWidth = cardSize/2;
+        this.cardWidth = (int) (cardSize/ASPECT_RATIO);
         this.isHidden = isHidden;
     }
     

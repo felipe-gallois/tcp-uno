@@ -8,36 +8,36 @@ import java.util.function.Function;
 
 import static com.raylib.Jaylib.RED;
 import static com.raylib.Jaylib.WHITE;
+import static tcp_uno.Application.WINDOW_HEIGHT;
+import static tcp_uno.Application.WINDOW_WIDTH;
 
 public class MyHandView {
-    final int HAND_SIZE = 15;
+    final int CARD_HEIGHT = 100;
+
+    final int MARGIN_BOTTOM = 50;
+    final int MARGIN_LEFT = 10;
+
+    final int POS_Y = WINDOW_HEIGHT - CARD_HEIGHT - MARGIN_BOTTOM;
 
     private List<Card> cards;
-    private List<TextButton> buttons;
-
-    private Function<Card, Boolean> cardClicked;
+    private List<CardButton> buttons;
 
     MyHandView() {
         int posY = 50;
-        buttons = new ArrayList<TextButton>();
-        for (int i = 0; i < HAND_SIZE; i++) {
-            TextButton btn = new TextButton("", 50, posY, 14, WHITE);
-            btn.setShowWhenDisabled(false);
-            btn.setEnabled(false);
-            btn.setHoverColor(RED);
-            buttons.add(btn);
-            posY += 50;
-        }
+        buttons = new ArrayList<>();
     }
 
     public void setCards(List<Card> cards) {
         this.cards = cards;
-        for (int i = 0; i < cards.size(); i++) {
-            buttons.get(i).setText(cards.get(i).toString());
-            buttons.get(i).setEnabled(true);
-        }
-        for (int i = cards.size(); i < HAND_SIZE; i++) {
-            buttons.get(i).setEnabled(false);
+        buttons.clear();
+        int count = cards.size();
+        int width = (int) (count * (CARD_HEIGHT / tcp_uno.view.Card.ASPECT_RATIO)) + (count - 1) * MARGIN_LEFT;
+        int initialX = (WINDOW_WIDTH - width) / 2;
+
+        int posX = initialX;
+        for (Card c : cards) {
+            buttons.add(new CardButton(c, 100, posX, POS_Y));
+            posX += (int) (CARD_HEIGHT / tcp_uno.view.Card.ASPECT_RATIO + MARGIN_LEFT);
         }
     }
 
@@ -51,13 +51,13 @@ public class MyHandView {
     }
 
     public void display() {
-        for (TextButton button : buttons) {
+        for (Button button : buttons) {
             button.display();
         }
     }
 
     public void update() {
-        for (TextButton button : buttons) {
+        for (Button button : buttons) {
             button.update();
         }
     }
