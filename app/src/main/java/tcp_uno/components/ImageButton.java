@@ -1,26 +1,19 @@
-package tcp_uno.view;
+package tcp_uno.components;
 
 import static com.raylib.Jaylib.RAYWHITE;
 import static com.raylib.Raylib.*;
 
-import com.raylib.Raylib.Rectangle;
-import com.raylib.Raylib.Texture;
-import com.raylib.Raylib.Vector2;
+public class ImageButton extends Button {
+    int textureHeight, textureWidth;
+    int x, y;
+    Texture texture;
 
-public class ShowMoreButton {
-    private boolean isClicked;
-    private boolean isHovered;
-    private final int textureHeight = 36, textureWidth = 36;
-    private int x, y;
-    private boolean isEnabled;
-    private final Texture texture = LoadTexture("resources/SHOWMORE.png");
-
-    public ShowMoreButton() {
-        isClicked = false;
-        isHovered = false;
+    public ImageButton() {
+        textureHeight = 0;
+        textureWidth = 0;
         x = 0;
         y = 0;
-        isEnabled = false;
+        texture = null;
     }
 
     public int getX() {
@@ -43,38 +36,30 @@ public class ShowMoreButton {
         return textureHeight;
     }
 
+    public void setTextureHeight(int textureHeight) {
+        this.textureHeight = textureHeight;
+    }
+
     public int getTextureWidth() {
         return textureWidth;
     }
 
-    public boolean isEnabled() {
-        return isEnabled;
+    public void setTextureWidth(int textureWidth) {
+        this.textureWidth = textureWidth;
     }
 
-    public void setEnabled(boolean enabled) {
-        isEnabled = enabled;
-    }
 
     public Texture getTexture() {
         return texture;
     }
 
-    public boolean popClicked() {
-        boolean temp = isClicked;
-        isClicked = false;
-        return temp;
+    public void setTexture(Texture texture) {
+        this.texture = texture;
     }
 
-    public boolean getHovered() {
-        return isHovered;
-    }
-
-    public boolean peakClicked() {
-        return isClicked;
-    }
 
     private Rectangle getTextureSrc() {
-        if (!isEnabled) {
+        if (!getEnabled()) {
             return new Rectangle().y(textureHeight * 3).width(textureWidth).height(textureHeight);
         }
         if (peakClicked()) {
@@ -86,14 +71,6 @@ public class ShowMoreButton {
         }
     }
 
-    public void update() {
-        if (isEnabled) {
-            Vector2 mousePos = GetMousePosition();
-            isHovered = CheckCollisionPointRec(mousePos, getRectangle());
-            // isClicked should not be unset until it is popped
-            isClicked = isClicked || (isHovered && IsMouseButtonPressed(MOUSE_BUTTON_LEFT));
-        }
-    }
 
     public Vector2 getPosition() {
         Vector2 position = new Vector2();
@@ -116,4 +93,3 @@ public class ShowMoreButton {
     }
 
 }
-

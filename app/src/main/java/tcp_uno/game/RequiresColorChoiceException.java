@@ -1,3 +1,4 @@
 package tcp_uno.game;
 
-public class RequiresColorChoiceException extends RuntimeException {}
+public class RequiresColorChoiceException extends RuntimeException {
+}

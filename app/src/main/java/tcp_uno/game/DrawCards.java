@@ -1,7 +1,7 @@
 package tcp_uno.game;
 
 public class DrawCards extends GameAction {
-    private int amount;
+    private final int amount;
 
     public DrawCards(Player player, GameBoard gameBoard, int amount) {
         super(player, gameBoard);
@@ -11,5 +11,9 @@ public class DrawCards extends GameAction {
     @Override
     public void execute() {
         getGameBoard().makeDraw(getPlayer(), amount);
+    }
+
+    public String toString() {
+        return "DrawCard (" + amount + " cards )";
     }
 }

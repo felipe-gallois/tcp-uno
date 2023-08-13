@@ -1,25 +1,24 @@
-package tcp_uno.view;
+package tcp_uno.components;
+
+import com.raylib.Raylib.*;
 
 import static com.raylib.Jaylib.RAYWHITE;
 import static com.raylib.Raylib.*;
 
-public class Button {
+public class ShowMoreButton {
     private boolean isClicked;
     private boolean isHovered;
-    private int textureHeight, textureWidth;
+    private final int textureHeight = 36, textureWidth = 36;
     private int x, y;
     private boolean isEnabled;
-    private Texture texture;
+    private final Texture texture = LoadTexture("resources/SHOWMORE.png");
 
-    public Button() {
+    public ShowMoreButton() {
         isClicked = false;
         isHovered = false;
-        textureHeight = 0;
-        textureWidth = 0;
         x = 0;
         y = 0;
         isEnabled = false;
-        texture = null;
     }
 
     public int getX() {
@@ -42,16 +41,8 @@ public class Button {
         return textureHeight;
     }
 
-    public void setTextureHeight(int textureHeight) {
-        this.textureHeight = textureHeight;
-    }
-
     public int getTextureWidth() {
         return textureWidth;
-    }
-
-    public void setTextureWidth(int textureWidth) {
-        this.textureWidth = textureWidth;
     }
 
     public boolean isEnabled() {
@@ -64,10 +55,6 @@ public class Button {
 
     public Texture getTexture() {
         return texture;
-    }
-
-    public void setTexture(Texture texture) {
-        this.texture = texture;
     }
 
     public boolean popClicked() {
@@ -127,3 +114,4 @@ public class Button {
     }
 
 }
+

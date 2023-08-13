@@ -11,7 +11,7 @@ public class GameBoard {
     private DiscardPile discardPile;
     private GameDirection direction;
     private int currentPlayerIdx;
-    private List<Player> players;
+    private final List<Player> players;
     private boolean currentPlayerDidDraw = false;
     private boolean challengeSuccessful = false;
 
@@ -77,7 +77,7 @@ public class GameBoard {
 
     public void dealCards() {
         for (int i = 0; i < INITIAL_CARDS_PER_PLAYER; i++) {
-            for (Player player: players) {
+            for (Player player : players) {
                 makeDrawOne(player);
             }
         }
@@ -103,7 +103,7 @@ public class GameBoard {
     public void addToDiscardPile(Card card, CardColor nextColor) {
         if (card.playerSelectColor() && (nextColor == null || nextColor == CardColor.BLACK))
             throw new RequiresColorChoiceException();
-        
+
         // If the player cannot choose the next color, we should ignore the given color and use
         // the card color instead
         if (!card.playerSelectColor())
@@ -153,5 +153,9 @@ public class GameBoard {
 
     public void setChallengeSuccessful(boolean result) {
         challengeSuccessful = result;
+    }
+
+    public List<Card> getPlayerHand(int playerIdx) {
+        return this.players.get(playerIdx).getHand();
     }
 }

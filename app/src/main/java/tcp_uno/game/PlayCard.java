@@ -82,4 +82,11 @@ public class PlayCard extends GameAction {
                 break;
         }
     }
+
+    public String toString() {
+        if (nextColor != null)
+            return "PlayCard(" + card + ", " + nextColor + ")";
+        else
+            return "PlayCard(" + card + ")";
+    }
 }

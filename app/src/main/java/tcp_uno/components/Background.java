@@ -1,6 +1,6 @@
-package tcp_uno.view;
+package tcp_uno.components;
 
-import com.raylib.Raylib.*;
+import com.raylib.Raylib.Texture;
 
 import static com.raylib.Jaylib.RAYWHITE;
 import static com.raylib.Raylib.DrawTexture;
@@ -15,6 +15,7 @@ public class Background {
     }
 
     private Texture texture;
+
     public Background() {
     }
 

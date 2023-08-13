@@ -35,7 +35,7 @@ public class Player {
         // This may propagate an exception
         return hand.remove(position);
     }
-    
+
     public boolean popCard(Card card) {
         return hand.remove(card);
     }

@@ -9,4 +9,8 @@ public class SkipTurn extends GameAction {
     public void execute() {
         getGameBoard().advancePlayer();
     }
+
+    public String toString() {
+        return "SkipTurn";
+    }
 }
