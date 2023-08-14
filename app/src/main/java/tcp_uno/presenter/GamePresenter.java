@@ -10,6 +10,7 @@ public class GamePresenter {
 
     private final static int HUMAN_PLAYER_INDEX = 0;
     private UNOGame game;
+    private GameBoard gameBoard;
     private List<Bot> bots;
 
     private int prevScore;
@@ -18,13 +19,19 @@ public class GamePresenter {
 
     public void newGame() {
         game = new UNOGame();
+        gameBoard = game.getGameBoard();
         bots = new ArrayList<>();
         for (int i = 1; i < 4; i++) {
             bots.add(new Bot());
         }
         game.newRound();
     }
-
+    
+    public void updateScores() {
+        prevScore = gameBoard.getPlayer(HUMAN_PLAYER_INDEX).getScore();
+        gameBoard.computeScores();
+    }
+    
     public void nextRound() {
         game.newRound();
     }
@@ -132,7 +139,7 @@ public class GamePresenter {
 
     public void update() {
         if (roundEnded()) {
-            this.prevScore = game.getGameBoard().getHumanPlayer().getScore();
+            this.prevScore = game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getScore();
             game.newRound();
         }
         long currentTime = System.currentTimeMillis();
@@ -153,23 +160,23 @@ public class GamePresenter {
     }
 
     public int getHandScore() {
-        return game.getGameBoard().getHumanPlayer().handScore();
+        return game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).handScore();
     }
 
     public int getPrevScore() {
-        return game.getGameBoard().getHumanPlayer().getScore();
+        return game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getScore();
     }
 
     public int getTotalScore() {
-        Player hp =  game.getGameBoard().getHumanPlayer();
+        Player hp =  game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX);
         return hp.getScore() + hp.handScore();
     }
 
     public void cheat() {
-        game.getGameBoard().getHumanPlayer().getHand().clear();
+        game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getHand().clear();
     }
 
     public boolean playerWonRound() {
-        return game.getGameBoard().getHumanPlayer().handSize() == 0;
+        return game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).handSize() == 0;
     }
 }

@@ -169,8 +169,4 @@ public class GameBoard {
     public Player getPlayer(int playerIdx) {
         return this.players.get(playerIdx);
     }
-
-    public Player getHumanPlayer() {
-        return players.get(0);
-    }
 }
