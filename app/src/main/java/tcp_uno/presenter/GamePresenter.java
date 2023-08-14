@@ -5,6 +5,7 @@ import tcp_uno.view.GameView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class GamePresenter {
 
@@ -16,7 +17,7 @@ public class GamePresenter {
 
     public void newGame() {
         game = new UNOGame();
-        bots = new ArrayList<Bot>();
+        bots = new ArrayList<>();
         for (int i = 1; i < 4; i++) {
             bots.add(new Bot());
         }
@@ -103,10 +104,10 @@ public class GamePresenter {
         if (game.getGameBoard().getCurrentPlayerIdx() == HUMAN_PLAYER_INDEX)
             return;
 
-        GameAction action = botSelectAction(game.getGameBoard().getCurrentPlayerIdx());
-        if (action == null) return;
+        Optional<GameAction> action = botSelectAction(game.getGameBoard().getCurrentPlayerIdx());
+        if (action.isEmpty()) return;
 
-        game.addAction(action);
+        game.addAction(action.get());
         System.out.println("Game available actions: " + game.getAvailableActions());
         if (!game.nextPlayerCanRespond()) {
             game.executeActions();
@@ -114,13 +115,16 @@ public class GamePresenter {
         }
 
         if (game.getGameBoard().getNextPlayerIdx() != HUMAN_PLAYER_INDEX) {
-            GameAction response = botSelectAction(game.getGameBoard().getNextPlayerIdx()-1);
-            game.addAction(response);
+            Optional<GameAction> response = botSelectAction(game.getGameBoard().getNextPlayerIdx()-1);
+            if (response.isEmpty())
+                return;
+
+            game.addAction(response.get());
             game.executeActions();
         }
     }
 
-    private GameAction botSelectAction(int playerIdx) {
+    private Optional<GameAction> botSelectAction(int playerIdx) {
         List<GameAction> availableActions = game.getAvailableActions(playerIdx);
         return bots.get(playerIdx - 1).selectAction(availableActions);
     }

@@ -148,12 +148,6 @@ public class UNOGame {
         }
     }
 
-    public void startGame() {
-        for (Player player : players) {
-            gameBoard.makeDraw(player, 7);
-        }
-    }
-
     public Card getTopCard() {
         for (GameAction action : pendingActions) {
             if (action instanceof PlayCard) {
