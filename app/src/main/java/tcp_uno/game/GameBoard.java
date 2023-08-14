@@ -1,12 +1,10 @@
 package tcp_uno.game;
 
-import tcp_uno.presenter.GamePresenter;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameBoard {
-    private final static int INITIAL_CARDS_PER_PLAYER = 7;
+    private final static int INITIAL_CARDS_PER_PLAYER = 1;
 
     private final int numPlayers;
     private Deck deck;
