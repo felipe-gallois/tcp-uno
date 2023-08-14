@@ -4,6 +4,7 @@ import static com.raylib.Raylib.*;
 
 import tcp_uno.components.ImageButton;
 import tcp_uno.components.Background;
+import tcp_uno.presenter.GamePresenter;
 
 public class RoundSummary {
     private final ImageButton exitButton;
@@ -13,22 +14,28 @@ public class RoundSummary {
     private ScoreCounter previousScore, roundScore, totalScore;
 
     private boolean wantsToExit;
+
+    private GamePresenter presenter;
     private boolean wantsToContinue;
 
-    public RoundSummary() {
+    public RoundSummary(GamePresenter presenter) {
+        this.presenter  = presenter;
         background = new Background();
 
-        previousScore = new ScoreCounter(3, false);
+        previousScore = new ScoreCounter(false);
         previousScore.setX(586);
         previousScore.setY(312);
+        previousScore.setValue(presenter.getPrevScore());
 
-        roundScore = new ScoreCounter(4, true);
+        roundScore = new ScoreCounter(true);
         roundScore.setX(550);
         roundScore.setY(368);
+        roundScore.setValue(presenter.getHandScore());
 
-        totalScore = new ScoreCounter(3, false);
+        totalScore = new ScoreCounter(false);
         totalScore.setX(586);
         totalScore.setY(424);
+        totalScore.setValue(presenter.getTotalSocre());
 
         exitButton = new ImageButton();
         exitButton.setTexture(LoadTexture("resources/EXIT.png"));
@@ -48,6 +55,8 @@ public class RoundSummary {
 
         wantsToExit = false;
         wantsToContinue = false;
+
+        setBackgroundType(presenter.playerWonRound());
     }
 
     public void setBackgroundType(boolean roundWon) {

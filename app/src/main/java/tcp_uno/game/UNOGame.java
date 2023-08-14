@@ -30,6 +30,16 @@ public class UNOGame {
         gameBoard.dealCards();
     }
 
+    public boolean isRoundOver() {
+        for (int i = 0; i < NUM_PLAYERS; i++) {
+            if (gameBoard.getPlayerHand(i).size() == 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean gameOver() {
         for (Player player : players) {
             if (player.getScore() >= TARGET_SCORE) {
@@ -38,6 +48,7 @@ public class UNOGame {
         }
         return false;
     }
+
 
     public List<GameAction> getAvailableActions(Player player) {
         List<GameAction> actions = new ArrayList<>();
@@ -142,9 +153,4 @@ public class UNOGame {
         pendingActions.clear();
     }
 
-    public void startGame() {
-        for (Player player : players) {
-            gameBoard.makeDraw(player, 7);
-        }
-    }
 }

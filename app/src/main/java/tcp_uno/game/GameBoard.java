@@ -1,5 +1,7 @@
 package tcp_uno.game;
 
+import tcp_uno.presenter.GamePresenter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -157,5 +159,9 @@ public class GameBoard {
 
     public List<Card> getPlayerHand(int playerIdx) {
         return this.players.get(playerIdx).getHand();
+    }
+
+    public Player getHumanPlayer() {
+        return players.get(0);
     }
 }
