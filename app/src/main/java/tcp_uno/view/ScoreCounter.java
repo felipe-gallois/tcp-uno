@@ -36,6 +36,6 @@ public class ScoreCounter {
 
     public void display() {
         Font font = new BrokenConsoleFont();
-        font.drawText(String.valueOf(value), x, y, 14, 0, WHITE);
+        font.drawText(String.valueOf(value), x, y, 42, 0, WHITE);
     }
 }

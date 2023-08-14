@@ -28,7 +28,7 @@ public class RoundSummary {
         previousScore.setValue(presenter.getPrevScore());
 
         roundScore = new ScoreCounter(true);
-        roundScore.setX(550);
+        roundScore.setX(586);
         roundScore.setY(368);
         roundScore.setValue(presenter.getHandScore());
 
