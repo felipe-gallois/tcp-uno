@@ -1,37 +1,34 @@
 package tcp_uno.game;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Bot {
     private static final Random randomizer = new Random();
     private static final float challengeChance = 0.05f;
 
-    public GameAction selectAction(List<GameAction> possibleActions) {
+    public Optional<GameAction> selectAction(List<GameAction> possibleActions) {
         GameAction screamUNOAction = findScreamUNO(possibleActions);
-        if (screamUNOAction != null) return screamUNOAction;
+        if (screamUNOAction != null) return Optional.of(screamUNOAction);
 
         GameAction challengeDraw4Action = findChallengeDraw4(possibleActions);
         if (challengeDraw4Action != null) {
             float randomFloat = randomizer.nextFloat();
-            if (randomFloat < challengeChance) return challengeDraw4Action;
+            if (randomFloat < challengeChance) return Optional.of(challengeDraw4Action);
         }
 
         ArrayList<GameAction> playableCards = getPlayableCards(possibleActions);
         if (!playableCards.isEmpty()) {
             Collections.shuffle(playableCards);
-            return playableCards.get(0);
+            return Optional.ofNullable(playableCards.get(0));
         }
 
         GameAction drawCardsAction = findDrawCards(possibleActions);
-        if (drawCardsAction != null) return drawCardsAction;
+        if (drawCardsAction != null) return Optional.of(drawCardsAction);
 
         GameAction skipTurnAction = findSkipTurn(possibleActions);
-        if (skipTurnAction != null) return skipTurnAction;
+        if (skipTurnAction != null) return Optional.of(skipTurnAction);
 
-        throw new NoValidActionsException();
+        return Optional.empty();
     }
 
     private GameAction findScreamUNO(List<GameAction> possibleActions) {

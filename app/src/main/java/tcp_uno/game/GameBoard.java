@@ -38,7 +38,7 @@ public class GameBoard {
         return this.currentPlayerIdx;
     }
 
-    private int getNextPlayerIdx() {
+    public int getNextPlayerIdx() {
         int currentIdx = this.currentPlayerIdx;
         if (this.direction == GameDirection.CLOCKWISE) {
             currentIdx++;
@@ -157,8 +157,8 @@ public class GameBoard {
         challengeSuccessful = result;
     }
 
-    public List<Card> getPlayerHand(int playerIdx) {
-        return this.players.get(playerIdx).getHand();
+    public Player getPlayer(int playerIdx) {
+        return this.players.get(playerIdx);
     }
 
     public Player getHumanPlayer() {

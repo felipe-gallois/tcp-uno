@@ -35,7 +35,7 @@ public class RoundSummary {
         totalScore = new ScoreCounter(false);
         totalScore.setX(586);
         totalScore.setY(424);
-        totalScore.setValue(presenter.getTotalSocre());
+        totalScore.setValue(presenter.getTotalScore());
 
         exitButton = new ImageButton();
         exitButton.setTexture(LoadTexture("resources/EXIT.png"));

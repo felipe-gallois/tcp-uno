@@ -1,14 +1,14 @@
 package tcp_uno.presenter;
 
 import tcp_uno.game.*;
-import tcp_uno.view.GameView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class GamePresenter {
 
-    private final GameView view;
+    private final static int HUMAN_PLAYER_INDEX = 0;
     private UNOGame game;
     private List<Bot> bots;
 
@@ -16,89 +16,118 @@ public class GamePresenter {
 
     private long lastTime = System.currentTimeMillis();
 
-    public GamePresenter(GameView view) {
-        this.view = view;
-    }
-
     public void newGame() {
         game = new UNOGame();
-        bots = new ArrayList<Bot>();
+        bots = new ArrayList<>();
         for (int i = 1; i < 4; i++) {
             bots.add(new Bot());
         }
         game.newRound();
-
     }
 
     public void nextRound() {
+        game.newRound();
     }
 
     public UNOGame getGame() {
         return game;
     }
 
+    private boolean canPlayCard(int card) {
+        Card c = game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getCard(card);
+        List<GameAction> actions = game.getAvailableActions(HUMAN_PLAYER_INDEX);
+        return actions.stream().anyMatch(action -> (action instanceof PlayCard) && ((PlayCard) action).getCard() == c);
+    }
+
     public void playCard(int card) {
-        boolean isCurrentPlayer = game.getGameBoard().getCurrentPlayerIdx() == 0;
-        if (!isCurrentPlayer) {
+        if (!this.canPlayCard(card))
             return;
-        }
-        Card c = game.getGameBoard().getPlayerHand(0).get(card);
-        boolean canBePlayed = game.getGameBoard().canBePlayed(c);
 
-        if (!canBePlayed) {
-            return;
-        }
-
-        if (c.getValue() == CardValue.WILD_DRAW_4 || c.getValue() == CardValue.WILD)
+        Card c = game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getCard(card);
+        if (c.playerSelectColor())
             game.addAction(new PlayCard(game.getGameBoard().getCurrentPlayer(), game.getGameBoard(), c, CardColor.RED));
         else
             game.addAction(new PlayCard(game.getGameBoard().getCurrentPlayer(), game.getGameBoard(), c));
-        game.executeActions();
+
+        if (!canChallengeDraw4()) {
+            game.executeActions();
+        }
         lastTime = System.currentTimeMillis();
     }
 
-    public void challangeDraw4() {
-        if (game.getGameBoard().getCurrentPlayerIdx() == 0) {
-            // TODO: Implement this
-        }
+    public List<Card> getHand() {
+        return game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getHand();
+    }
+
+    public boolean canChallengeDraw4() {
+        List<GameAction> actions = game.getAvailableActions(HUMAN_PLAYER_INDEX);
+        return actions.stream().anyMatch(action -> action instanceof ChallengeDraw4);
+    }
+
+    public void challengeDraw4() {
+        game.addAction(new ChallengeDraw4(game.getGameBoard().getNextPlayer(), game.getGameBoard(), game.getGameBoard().getCurrentPlayer()));
+        game.executeActions();
+    }
+
+    public void skipChallenge() {
+        game.executeActions();
+    }
+
+    public boolean canDrawACard() {
+        List<GameAction> actions = game.getAvailableActions(HUMAN_PLAYER_INDEX);
+        return actions.stream().anyMatch(action -> action instanceof DrawCards);
     }
 
     public void drawCard() {
-        boolean isCurrentPlayer = game.getGameBoard().getCurrentPlayerIdx() == 0;
-        if (!isCurrentPlayer) {
-            return;
-        }
-        if (game.getGameBoard().currentPlayerDidDraw()) {
-            game.addAction(new SkipTurn(game.getGameBoard().getCurrentPlayer(), game.getGameBoard()));
-            game.executeActions();
-            return;
-        }
         game.addAction(new DrawCards(game.getGameBoard().getCurrentPlayer(), game.getGameBoard(), 1));
         game.executeActions();
         lastTime = System.currentTimeMillis();
-
-        if (game.getAvailableActions(game.getGameBoard().getCurrentPlayer()).isEmpty()) {
-            game.addAction(new SkipTurn(game.getGameBoard().getCurrentPlayer(), game.getGameBoard()));
-            game.executeActions();
-        }
     }
 
-    public void runBot() {
-        if (game.getGameBoard().getCurrentPlayerIdx() != 0) {
-            //bots.get(game.getGameBoard().getCurrentPlayerIdx() - 1).selectAction(game.getGameBoard());
-            List<GameAction> availableActions = game.getAvailableActions(game.getGameBoard().getCurrentPlayer());
-            System.out.println("Player " + game.getGameBoard().getCurrentPlayerIdx() + " can make these actions: " + availableActions);
-            GameAction action = bots.get(game.getGameBoard().getCurrentPlayerIdx() - 1).selectAction(availableActions);
-            System.out.println("Player " + game.getGameBoard().getCurrentPlayerIdx() + " selected action: " + action);
-            game.addAction(action);
-            game.executeActions();
-        }
+    public boolean canSkipTurn() {
+        List<GameAction> actions = game.getAvailableActions(HUMAN_PLAYER_INDEX);
+        return actions.stream().anyMatch(action -> action instanceof SkipTurn);
+    }
+
+    public void skipTurn() {
+        game.addAction(new SkipTurn(game.getGameBoard().getCurrentPlayer(), game.getGameBoard()));
+        game.executeActions();
+        lastTime = System.currentTimeMillis();
+    }
+
+    public boolean canSayUno() {
+        List<GameAction> actions = game.getAvailableActions(HUMAN_PLAYER_INDEX);
+        return actions.stream().anyMatch(action -> action instanceof ScreamUNO);
     }
 
     public void callUNO() {
-        if (game.getGameBoard().getCurrentPlayerIdx() == 0) {
-            game.addAction(new ScreamUNO(game.getGameBoard().getCurrentPlayer(), game.getGameBoard()));
+        game.addAction(new ScreamUNO(game.getGameBoard().getCurrentPlayer(), game.getGameBoard()));
+        game.executeActions();
+    }
+
+    public void runBot() {
+        if (game.getGameBoard().getCurrentPlayerIdx() == HUMAN_PLAYER_INDEX)
+            return;
+
+        Optional<GameAction> action = botSelectAction(game.getGameBoard().getCurrentPlayerIdx());
+        if (action.isEmpty()) return;
+
+        game.addAction(action.get());
+        if (!game.nextPlayerCanRespond()) {
+            game.executeActions();
+            return;
         }
+
+        if (game.getGameBoard().getNextPlayerIdx() != HUMAN_PLAYER_INDEX) {
+            Optional<GameAction> response = botSelectAction(game.getGameBoard().getNextPlayerIdx()-1);
+            response.ifPresent(gameAction -> game.addAction(gameAction));
+            game.executeActions();
+        }
+    }
+
+    private Optional<GameAction> botSelectAction(int playerIdx) {
+        List<GameAction> availableActions = game.getAvailableActions(playerIdx);
+        return bots.get(playerIdx - 1).selectAction(availableActions);
     }
 
     public void update() {
@@ -109,7 +138,7 @@ public class GamePresenter {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastTime > 1500) {
             lastTime = currentTime;
-            if (game.getGameBoard().getCurrentPlayerIdx() != 0) {
+            if (game.getGameBoard().getCurrentPlayerIdx() != HUMAN_PLAYER_INDEX) {
                 runBot();
             }
         }
@@ -131,7 +160,7 @@ public class GamePresenter {
         return game.getGameBoard().getHumanPlayer().getScore();
     }
 
-    public int getTotalSocre() {
+    public int getTotalScore() {
         Player hp =  game.getGameBoard().getHumanPlayer();
         return hp.getScore() + hp.handScore();
     }
@@ -141,6 +170,6 @@ public class GamePresenter {
     }
 
     public boolean playerWonRound() {
-        return game.getGameBoard().getHumanPlayer().getHand().size() == 0;
+        return game.getGameBoard().getHumanPlayer().handSize() == 0;
     }
 }
