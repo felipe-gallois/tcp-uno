@@ -2,9 +2,10 @@ package tcp_uno.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class GameBoard {
-    private final static int INITIAL_CARDS_PER_PLAYER = 1;
+    private final static int INITIAL_CARDS_PER_PLAYER = 7;
 
     private final int numPlayers;
     private Deck deck;
@@ -30,6 +31,16 @@ public class GameBoard {
         this.players = players;
         this.numPlayers = players.size();
         this.reset();
+    }
+
+    public void computeScores() {
+        Optional<Player> optWinner = players.stream().filter(player -> player.handSize() == 0).findFirst();
+        if (optWinner.isEmpty()) return;
+
+        Player winner = optWinner.get();
+        for (Player player : players) {
+            winner.addScore(player.handScore());
+        }
     }
 
     public int getCurrentPlayerIdx() {
