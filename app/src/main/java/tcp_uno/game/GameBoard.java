@@ -81,7 +81,15 @@ public class GameBoard {
         }
         this.deck = new Deck();
         this.deck.shuffle();
+
+        // Ensures the initial card is not an action card, so we don't have to deal with
+        // effects before any card is played
         this.discardPile = new DiscardPile(this.deck.draw());
+        while (CardValue.ACTION_VALUES.contains(this.discardPile.top().getValue())) {
+            this.discardPile.putCard(this.deck.draw());
+        }
+        this.deck.restock(this.discardPile);
+
         this.currentPlayerIdx = 0;
         this.direction = GameDirection.CLOCKWISE;
     }
