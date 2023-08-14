@@ -24,20 +24,9 @@ public class RoundSummary {
         int currentScore = presenter.getCurrentScore();
         background = new Background();
 
-        previousScore = new ScoreCounter(false);
-        previousScore.setX(586);
-        previousScore.setY(312);
-        previousScore.setValue(prevScore);
-
-        roundScore = new ScoreCounter(true);
-        roundScore.setX(586);
-        roundScore.setY(368);
-        roundScore.setValue(currentScore - prevScore);
-
-        totalScore = new ScoreCounter(false);
-        totalScore.setX(586);
-        totalScore.setY(424);
-        totalScore.setValue(currentScore);
+        previousScore = new ScoreCounter(586, 312, prevScore);
+        roundScore = new ScoreCounter(586, 368, currentScore-prevScore);
+        totalScore = new ScoreCounter(586, 424, currentScore);
 
         exitButton = new ImageButton();
         exitButton.setTexture(LoadTexture("resources/EXIT.png"));
@@ -67,20 +56,6 @@ public class RoundSummary {
         } else {
             background.setTexture(LoadTexture("resources/RoundLose-bg.png"));
         }
-    }
-
-    public void setPreviousScore(int score) {
-        previousScore.setValue(score);
-        calculateTotalScore();
-    }
-
-    public void setRoundScore(int score) {
-        roundScore.setValue(score);
-        calculateTotalScore();
-    }
-
-    private void calculateTotalScore() {
-        totalScore.setValue(previousScore.getScore() + roundScore.getScore());
     }
 
     public void display() {
