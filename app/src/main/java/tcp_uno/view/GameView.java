@@ -7,6 +7,7 @@ import tcp_uno.components.TextButton;
 import tcp_uno.components.UNOButton;
 import tcp_uno.game.Card;
 import tcp_uno.presenter.GamePresenter;
+import com.raylib.Raylib.*;
 
 import static com.raylib.Jaylib.*;
 
@@ -18,6 +19,8 @@ public class GameView implements View {
     TextButton drawCardButton;
     UNOButton screamUNOButton;
     tcp_uno.components.Card deck_card;
+
+    RoundSummary rs;
 
     public GameView() {
         background = new Background();
@@ -33,30 +36,36 @@ public class GameView implements View {
         screamUNOButton.setX(10);
         screamUNOButton.setY(550);
 
+        rs = null;
+
 
     }
 
     @Override
     public void display() {
         BeginDrawing();
-        background.display();
-        displayDeck();
-        displayHand();
-        drawCardButton.display();
-        screamUNOButton.display();
+        if (rs != null) {
+            rs.display();
+        } else {
+            background.display();
+            displayDeck();
+            displayHand();
+            drawCardButton.display();
+            screamUNOButton.display();
 
-        //DrawText("Current Player: " + presenter.getGame().getGameBoard().getCurrentPlayerIdx(), 510, 600, 20, WHITE);
-        //DrawText("Direction: " + presenter.getGame().getGameBoard().getDirection(), 510, 650, 20, WHITE);
+            //DrawText("Current Player: " + presenter.getGame().getGameBoard().getCurrentPlayerIdx(), 510, 600, 20, WHITE);
+            //DrawText("Direction: " + presenter.getGame().getGameBoard().getDirection(), 510, 650, 20, WHITE);
 
-        BrokenConsoleFont brokenConsoleFont = new BrokenConsoleFont();
+            BrokenConsoleFont brokenConsoleFont = new BrokenConsoleFont();
 
-        for (int i = 0; i < 4; i++) {
-            if (i == presenter.getGame().getGameBoard().getCurrentPlayerIdx())
-                brokenConsoleFont.drawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(),
-                        810, 100 + i * 50, 24, 1, RED
-                );
-            else
-                brokenConsoleFont.drawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(), 810, 100 + i * 50, 24, 1, WHITE);
+            for (int i = 0; i < 4; i++) {
+                if (i == presenter.getGame().getGameBoard().getCurrentPlayerIdx())
+                    brokenConsoleFont.drawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(),
+                            810, 100 + i * 50, 24, 1, RED
+                    );
+                else
+                    brokenConsoleFont.drawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(), 810, 100 + i * 50, 24, 1, WHITE);
+            }
         }
 
         EndDrawing();
@@ -79,6 +88,29 @@ public class GameView implements View {
 
     @Override
     public AppState update() {
+
+        // TODO: Remove Cheat
+        if (IsKeyPressed(KEY_C)){
+            System.out.println("Player CHEATED");
+            presenter.cheat();
+        }
+
+        if (presenter.roundEnded() ) {
+            if (rs == null) {
+                rs = new RoundSummary(presenter);
+            }
+        }
+        if (rs != null) {
+            rs.update();
+            if (rs.shouldExit()) {
+                return AppState.EXIT;
+            }
+            if (rs.shouldContinue()) {
+                rs = null;
+                presenter.nextRound();
+            }
+
+        }
 
         myHandView.setCards(presenter.getGame().getGameBoard().getPlayerHand(0));
 

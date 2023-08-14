@@ -12,7 +12,9 @@ public class GamePresenter {
     private UNOGame game;
     private List<Bot> bots;
 
-    long lastTime = System.currentTimeMillis();
+    private int prevScore;
+
+    private long lastTime = System.currentTimeMillis();
 
     public GamePresenter(GameView view) {
         this.view = view;
@@ -100,6 +102,10 @@ public class GamePresenter {
     }
 
     public void update() {
+        if (roundEnded()) {
+            this.prevScore = game.getGameBoard().getHumanPlayer().getScore();
+            game.newRound();
+        }
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastTime > 1500) {
             lastTime = currentTime;
@@ -109,4 +115,32 @@ public class GamePresenter {
         }
     }
 
+    public boolean gameEnded() {
+        return game.gameOver();
+    }
+
+    public boolean roundEnded() {
+        return game.isRoundOver();
+    }
+
+    public int getHandScore() {
+        return game.getGameBoard().getHumanPlayer().handScore();
+    }
+
+    public int getPrevScore() {
+        return game.getGameBoard().getHumanPlayer().getScore();
+    }
+
+    public int getTotalSocre() {
+        Player hp =  game.getGameBoard().getHumanPlayer();
+        return hp.getScore() + hp.handScore();
+    }
+
+    public void cheat() {
+        game.getGameBoard().getHumanPlayer().getHand().clear();
+    }
+
+    public boolean playerWonRound() {
+        return game.getGameBoard().getHumanPlayer().getHand().size() == 0;
+    }
 }
