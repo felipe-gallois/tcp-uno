@@ -2,9 +2,12 @@ package tcp_uno.view;
 
 import static com.raylib.Raylib.*;
 
+import tcp_uno.components.ImageButton;
+import tcp_uno.components.Background;
+
 public class RoundSummary {
-    private final Button exitButton;
-    private final Button continueButton;
+    private final ImageButton exitButton;
+    private final ImageButton continueButton;
 
     private Background background;
     private ScoreCounter previousScore, roundScore, totalScore;
@@ -27,7 +30,7 @@ public class RoundSummary {
         totalScore.setX(586);
         totalScore.setY(424);
 
-        exitButton = new Button();
+        exitButton = new ImageButton();
         exitButton.setTexture(LoadTexture("resources/EXIT.png"));
         exitButton.setTextureHeight(80);
         exitButton.setTextureWidth(169);
@@ -35,7 +38,7 @@ public class RoundSummary {
         exitButton.setX(250);
         exitButton.setY(525);
 
-        continueButton = new Button();
+        continueButton = new ImageButton();
         continueButton.setTexture(LoadTexture("resources/CONTINUAR.png"));
         continueButton.setTextureHeight(80);
         continueButton.setTextureWidth(399);
