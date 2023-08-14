@@ -10,32 +10,34 @@ public class RoundSummary {
     private final ImageButton exitButton;
     private final ImageButton continueButton;
 
-    private Background background;
-    private ScoreCounter previousScore, roundScore, totalScore;
+    private final Background background;
+    private final ScoreCounter previousScore;
+    private final ScoreCounter roundScore;
+    private final ScoreCounter totalScore;
 
     private boolean wantsToExit;
 
-    private GamePresenter presenter;
     private boolean wantsToContinue;
 
     public RoundSummary(GamePresenter presenter) {
-        this.presenter  = presenter;
+        int prevScore = presenter.getPrevScore();
+        int currentScore = presenter.getCurrentScore();
         background = new Background();
 
         previousScore = new ScoreCounter(false);
         previousScore.setX(586);
         previousScore.setY(312);
-        previousScore.setValue(presenter.getPrevScore());
+        previousScore.setValue(prevScore);
 
         roundScore = new ScoreCounter(true);
         roundScore.setX(586);
         roundScore.setY(368);
-        roundScore.setValue(presenter.getHandScore());
+        roundScore.setValue(currentScore - prevScore);
 
         totalScore = new ScoreCounter(false);
         totalScore.setX(586);
         totalScore.setY(424);
-        totalScore.setValue(presenter.getTotalScore());
+        totalScore.setValue(currentScore);
 
         exitButton = new ImageButton();
         exitButton.setTexture(LoadTexture("resources/EXIT.png"));

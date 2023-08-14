@@ -159,21 +159,12 @@ public class GamePresenter {
         return game.isRoundOver();
     }
 
-    public int getHandScore() {
-        return game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).handScore();
+    public int getCurrentScore() {
+        return gameBoard.getPlayer(HUMAN_PLAYER_INDEX).getScore();
     }
 
     public int getPrevScore() {
-        return game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getScore();
-    }
-
-    public int getTotalScore() {
-        Player hp =  game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX);
-        return hp.getScore() + hp.handScore();
-    }
-
-    public void cheat() {
-        game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getHand().clear();
+        return prevScore;
     }
 
     public boolean playerWonRound() {

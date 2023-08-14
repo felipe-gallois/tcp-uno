@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class GameBoard {
-    private final static int INITIAL_CARDS_PER_PLAYER = 7;
+    private final static int INITIAL_CARDS_PER_PLAYER = 1;
 
     private final int numPlayers;
     private Deck deck;
