@@ -2,6 +2,7 @@ package tcp_uno.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class UNOGame {
     private static final int NUM_PLAYERS = 4;
@@ -9,7 +10,7 @@ public class UNOGame {
 
     private final GameBoard gameBoard;
     private final List<Player> players = new ArrayList<>();
-    private final List<GameAction> pendingActions = new ArrayList<>();
+    private final Stack<GameAction> pendingActions = new Stack<>();
 
     public UNOGame() {
         for (int i = 0; i < NUM_PLAYERS; i++) {
@@ -39,12 +40,18 @@ public class UNOGame {
         return false;
     }
 
+    public List<GameAction> getAvailableActions(int playerIdx) {
+        Player player = players.get(playerIdx);
+        return getAvailableActions(player);
+    }
+
     public List<GameAction> getAvailableActions(Player player) {
         List<GameAction> actions = new ArrayList<>();
 
         // Some actions cannot be responded by any player
         if (lastActionCannotBeResponded())
             return actions;
+
 
         if (player == gameBoard.getCurrentPlayer()) {
             // If the next player can challenge a Draw 4, the current player cannot do anything at this moment
@@ -136,15 +143,27 @@ public class UNOGame {
     }
 
     public void executeActions() {
-        for (GameAction action : pendingActions) {
-            action.execute();
+        while (!pendingActions.isEmpty()) {
+            pendingActions.pop().execute();
         }
-        pendingActions.clear();
     }
 
     public void startGame() {
         for (Player player : players) {
             gameBoard.makeDraw(player, 7);
         }
+    }
+
+    public Card getTopCard() {
+        for (GameAction action : pendingActions) {
+            if (action instanceof PlayCard) {
+                return ((PlayCard) action).getCard();
+            }
+        }
+        return gameBoard.getTopCard();
+    }
+
+    public boolean nextPlayerCanRespond() {
+        return !getAvailableActions(gameBoard.getNextPlayer()).isEmpty();
     }
 }

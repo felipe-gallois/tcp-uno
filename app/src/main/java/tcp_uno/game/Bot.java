@@ -31,7 +31,7 @@ public class Bot {
         GameAction skipTurnAction = findSkipTurn(possibleActions);
         if (skipTurnAction != null) return skipTurnAction;
 
-        throw new NoValidActionsException();
+        return null;
     }
 
     private GameAction findScreamUNO(List<GameAction> possibleActions) {

@@ -15,25 +15,32 @@ public class GameView implements View {
     Background background;
     GamePresenter presenter;
     MyHandView myHandView;
-    TextButton drawCardButton;
+    TextButton contextButton;
+    TextButton challengeButton;
+    TextButton skipChallengeButton;
+
     UNOButton screamUNOButton;
     tcp_uno.components.Card deck_card;
 
     public GameView() {
         background = new Background();
         background.setTexture(LoadTexture("resources/Menu.png"));
-        presenter = new GamePresenter(this);
+        presenter = new GamePresenter();
         presenter.newGame();
         myHandView = new MyHandView();
 
-        drawCardButton = new TextButton("Draw Card", 10, 500, 20, WHITE);
-        drawCardButton.setHoverColor(RED);
+        contextButton = new TextButton("", 10, 500, 20, WHITE);
+        contextButton.setHoverColor(RED);
+
+        challengeButton = new TextButton("Challenge +4", 10, 400, 20, WHITE);
+        challengeButton.setHoverColor(RED);
+
+        skipChallengeButton = new TextButton("Don't challenge", 10, 450, 20, WHITE);
+        skipChallengeButton.setHoverColor(RED);
 
         screamUNOButton = new UNOButton();
         screamUNOButton.setX(10);
         screamUNOButton.setY(550);
-
-
     }
 
     @Override
@@ -42,35 +49,43 @@ public class GameView implements View {
         background.display();
         displayDeck();
         displayHand();
-        drawCardButton.display();
-        screamUNOButton.display();
+        if (presenter.canDrawACard()) {
+            contextButton.setText("Draw Card");
+            contextButton.display();
+        } else if (presenter.canSkipTurn()) {
+            contextButton.setText("Skip Turn");
+            contextButton.display();
+        }
+        if (presenter.canChallengeDraw4()) {
+            challengeButton.display();
+            skipChallengeButton.display();
+        }
 
-        //DrawText("Current Player: " + presenter.getGame().getGameBoard().getCurrentPlayerIdx(), 510, 600, 20, WHITE);
-        //DrawText("Direction: " + presenter.getGame().getGameBoard().getDirection(), 510, 650, 20, WHITE);
+        if (presenter.canSayUno()) {
+            screamUNOButton.display();
+        }
 
         BrokenConsoleFont brokenConsoleFont = new BrokenConsoleFont();
 
         for (int i = 0; i < 4; i++) {
             if (i == presenter.getGame().getGameBoard().getCurrentPlayerIdx())
-                brokenConsoleFont.drawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(),
+                brokenConsoleFont.drawText("Player " + i + " Cards: " + presenter.getGame().getGameBoard().getPlayer(i).handSize(),
                         810, 100 + i * 50, 24, 1, RED
                 );
             else
-                brokenConsoleFont.drawText("Player " + i + " Score: " + presenter.getGame().getGameBoard().getPlayerHand(i).size(), 810, 100 + i * 50, 24, 1, WHITE);
+                brokenConsoleFont.drawText("Player " + i + " Cards: " + presenter.getGame().getGameBoard().getPlayer(i).handSize(), 810, 100 + i * 50, 24, 1, WHITE);
         }
 
         EndDrawing();
     }
 
     public void displayDeck() {
-
-        Card topCard = presenter.getGame().getGameBoard().getTopCard();
+        Card topCard = presenter.getGame().getTopCard();
         deck_card = new tcp_uno.components.Card(topCard, 120, false);
         deck_card.setX(500);
         deck_card.setY(300);
 //        DrawText("Top Card: " + topCard.toString(), 10, 10, 20, WHITE);
         deck_card.display();
-
     }
 
     public void displayHand() {
@@ -79,8 +94,7 @@ public class GameView implements View {
 
     @Override
     public AppState update() {
-
-        myHandView.setCards(presenter.getGame().getGameBoard().getPlayerHand(0));
+        myHandView.setCards(presenter.getGame().getGameBoard().getPlayer(0).getHand());
 
         myHandView.update();
         presenter.update();
@@ -88,13 +102,27 @@ public class GameView implements View {
         if (clicked >= 0) {
             presenter.playCard(clicked);
         }
-        if (drawCardButton.popClicked()) {
-            presenter.drawCard();
+
+        if (contextButton.popClicked()) {
+            if (presenter.canDrawACard()) {
+                presenter.drawCard();
+            } else if (presenter.canSkipTurn()) {
+                presenter.skipTurn();
+            }
         }
         if (screamUNOButton.popClicked()) {
             presenter.callUNO();
         }
-        drawCardButton.update();
+
+        if (challengeButton.popClicked() && presenter.canChallengeDraw4()) {
+            presenter.challengeDraw4();
+        }
+        if (skipChallengeButton.popClicked() && presenter.canChallengeDraw4()) {
+            presenter.skipChallenge();
+        }
+        contextButton.update();
+        challengeButton.update();
+        skipChallengeButton.update();
         screamUNOButton.update();
         return null;
     }

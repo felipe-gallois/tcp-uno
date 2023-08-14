@@ -1,8 +1,5 @@
 package tcp_uno;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 
 import org.junit.BeforeClass;
@@ -16,6 +13,8 @@ import tcp_uno.game.PlayCard;
 import tcp_uno.game.ScreamUNO;
 import tcp_uno.game.SkipTurn;
 import tcp_uno.game.Bot;
+
+import static org.junit.Assert.*;
 
 public class BotTest {
     private static Bot bot;
@@ -57,9 +56,10 @@ public class BotTest {
         assertTrue(bot.selectAction(actionsList) instanceof SkipTurn);
     }
 
-    @Test(expected = NoValidActionsException.class)
-    public void testEmptyActionsListReturnsException() {
+    @Test
+    public void testEmptyActionsListReturnsNull() {
         actionsList.clear();
-        bot.selectAction(actionsList);
+        GameAction action = bot.selectAction(actionsList);
+        assertNull(action);
     }
 }
