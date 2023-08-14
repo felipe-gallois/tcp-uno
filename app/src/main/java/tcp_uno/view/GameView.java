@@ -22,6 +22,8 @@ public class GameView implements View {
     UNOButton screamUNOButton;
     tcp_uno.components.Card deck_card;
 
+    RoundSummary rs;
+
     public GameView() {
         background = new Background();
         background.setTexture(LoadTexture("resources/Menu.png"));
@@ -41,41 +43,49 @@ public class GameView implements View {
         screamUNOButton = new UNOButton();
         screamUNOButton.setX(10);
         screamUNOButton.setY(550);
+
+        rs = null;
     }
 
     @Override
     public void display() {
         BeginDrawing();
-        background.display();
-        displayDeck();
-        displayHand();
-        if (presenter.canDrawACard()) {
-            contextButton.setText("Draw Card");
-            contextButton.display();
-        } else if (presenter.canSkipTurn()) {
-            contextButton.setText("Skip Turn");
-            contextButton.display();
-        }
-        if (presenter.canChallengeDraw4()) {
-            challengeButton.display();
-            skipChallengeButton.display();
-        }
 
-        if (presenter.canSayUno()) {
-            screamUNOButton.display();
+        if (rs != null) {
+            rs.display();
+        } else {
+            background.display();
+            background.display();
+            displayDeck();
+            displayHand();
+            if (presenter.canDrawACard()) {
+                contextButton.setText("Draw Card");
+                contextButton.display();
+            } else if (presenter.canSkipTurn()) {
+                contextButton.setText("Skip Turn");
+                contextButton.display();
+            }
+            if (presenter.canChallengeDraw4()) {
+                challengeButton.display();
+                skipChallengeButton.display();
+            }
+
+            if (presenter.canSayUno()) {
+                screamUNOButton.display();
+            }
+
+            BrokenConsoleFont brokenConsoleFont = new BrokenConsoleFont();
+
+            for (int i = 0; i < 4; i++) {
+                if (i == presenter.getGame().getGameBoard().getCurrentPlayerIdx())
+                    brokenConsoleFont.drawText("Player " + i + " Cards: " + presenter.getGame().getGameBoard().getPlayer(i).handSize(),
+                            810, 100 + i * 50, 24, 1, RED
+                    );
+                else
+                    brokenConsoleFont.drawText("Player " + i + " Cards: " + presenter.getGame().getGameBoard().getPlayer(i).handSize(), 810, 100 + i * 50, 24, 1, WHITE);
+
+            }
         }
-
-        BrokenConsoleFont brokenConsoleFont = new BrokenConsoleFont();
-
-        for (int i = 0; i < 4; i++) {
-            if (i == presenter.getGame().getGameBoard().getCurrentPlayerIdx())
-                brokenConsoleFont.drawText("Player " + i + " Cards: " + presenter.getGame().getGameBoard().getPlayer(i).handSize(),
-                        810, 100 + i * 50, 24, 1, RED
-                );
-            else
-                brokenConsoleFont.drawText("Player " + i + " Cards: " + presenter.getGame().getGameBoard().getPlayer(i).handSize(), 810, 100 + i * 50, 24, 1, WHITE);
-        }
-
         EndDrawing();
     }
 
@@ -94,8 +104,24 @@ public class GameView implements View {
 
     @Override
     public AppState update() {
-        myHandView.setCards(presenter.getGame().getGameBoard().getPlayer(0).getHand());
 
+        if (presenter.roundEnded() ) {
+            if (rs == null) {
+                rs = new RoundSummary(presenter);
+            }
+        }
+        if (rs != null) {
+            rs.update();
+            if (rs.shouldExit()) {
+                return AppState.EXIT;
+            }
+            if (rs.shouldContinue()) {
+                rs = null;
+                presenter.nextRound();
+            }
+        }
+
+        myHandView.setCards(presenter.getHand());
         myHandView.update();
         presenter.update();
         int clicked = myHandView.getCardClicked();

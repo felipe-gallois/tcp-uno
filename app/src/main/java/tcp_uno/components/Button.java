@@ -9,7 +9,7 @@ public abstract class Button {
     private boolean isHovered;
     private boolean isEnabled;
 
-    Button() {
+    public Button() {
         isClicked = false;
         isHovered = false;
         isEnabled = true;

@@ -31,6 +31,16 @@ public class UNOGame {
         gameBoard.dealCards();
     }
 
+    public boolean isRoundOver() {
+        for (int i = 0; i < NUM_PLAYERS; i++) {
+            if (gameBoard.getPlayer(i).handSize() == 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean gameOver() {
         for (Player player : players) {
             if (player.getScore() >= TARGET_SCORE) {

@@ -1,7 +1,6 @@
 package tcp_uno.presenter;
 
 import tcp_uno.game.*;
-import tcp_uno.view.GameView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,9 @@ public class GamePresenter {
     private UNOGame game;
     private List<Bot> bots;
 
-    long lastTime = System.currentTimeMillis();
+    private int prevScore;
+
+    private long lastTime = System.currentTimeMillis();
 
     public void newGame() {
         game = new UNOGame();
@@ -52,6 +53,10 @@ public class GamePresenter {
             game.executeActions();
         }
         lastTime = System.currentTimeMillis();
+    }
+
+    public List<Card> getHand() {
+        return game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getHand();
     }
 
     public boolean canChallengeDraw4() {
@@ -108,7 +113,6 @@ public class GamePresenter {
         if (action.isEmpty()) return;
 
         game.addAction(action.get());
-        System.out.println("Game available actions: " + game.getAvailableActions());
         if (!game.nextPlayerCanRespond()) {
             game.executeActions();
             return;
@@ -116,10 +120,7 @@ public class GamePresenter {
 
         if (game.getGameBoard().getNextPlayerIdx() != HUMAN_PLAYER_INDEX) {
             Optional<GameAction> response = botSelectAction(game.getGameBoard().getNextPlayerIdx()-1);
-            if (response.isEmpty())
-                return;
-
-            game.addAction(response.get());
+            response.ifPresent(gameAction -> game.addAction(gameAction));
             game.executeActions();
         }
     }
@@ -130,6 +131,10 @@ public class GamePresenter {
     }
 
     public void update() {
+        if (roundEnded()) {
+            this.prevScore = game.getGameBoard().getHumanPlayer().getScore();
+            game.newRound();
+        }
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastTime > 1500) {
             lastTime = currentTime;
@@ -137,5 +142,34 @@ public class GamePresenter {
                 runBot();
             }
         }
+    }
+
+    public boolean gameEnded() {
+        return game.gameOver();
+    }
+
+    public boolean roundEnded() {
+        return game.isRoundOver();
+    }
+
+    public int getHandScore() {
+        return game.getGameBoard().getHumanPlayer().handScore();
+    }
+
+    public int getPrevScore() {
+        return game.getGameBoard().getHumanPlayer().getScore();
+    }
+
+    public int getTotalScore() {
+        Player hp =  game.getGameBoard().getHumanPlayer();
+        return hp.getScore() + hp.handScore();
+    }
+
+    public void cheat() {
+        game.getGameBoard().getHumanPlayer().getHand().clear();
+    }
+
+    public boolean playerWonRound() {
+        return game.getGameBoard().getHumanPlayer().handSize() == 0;
     }
 }
