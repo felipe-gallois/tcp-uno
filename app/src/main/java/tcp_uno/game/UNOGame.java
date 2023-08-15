@@ -50,10 +50,6 @@ public class UNOGame {
 
     public List<GameAction> getAvailableActions(int playerIdx) {
         Player player = players.get(playerIdx);
-        return getAvailableActions(player);
-    }
-
-    public List<GameAction> getAvailableActions(Player player) {
         List<GameAction> actions = new ArrayList<>();
 
         // Some actions cannot be responded by any player
@@ -84,15 +80,6 @@ public class UNOGame {
             return actions;
         }
 
-        return actions;
-    }
-
-    public List<GameAction> getAvailableActions() {
-        List<GameAction> actions = new ArrayList<>();
-
-        for (Player player : players) {
-            actions.addAll(getAvailableActions(player));
-        }
         return actions;
     }
 
@@ -166,6 +153,6 @@ public class UNOGame {
     }
 
     public boolean nextPlayerCanRespond() {
-        return !getAvailableActions(gameBoard.getNextPlayer()).isEmpty();
+        return !getAvailableActions(gameBoard.getNextPlayerIdx()).isEmpty();
     }
 }
