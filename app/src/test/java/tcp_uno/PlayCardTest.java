@@ -53,7 +53,7 @@ public class PlayCardTest {
         assertEquals(0, player3.handSize());
         assertEquals(0, player4.handSize());
         assertEquals(player2, gameboard.getCurrentPlayer());
-        assertEquals(blue9, gameboard.getTopCard());
+        assertEquals(blue9, gameboard.getDiscardPile().top());
     }
 
     @Test
@@ -68,7 +68,7 @@ public class PlayCardTest {
         assertEquals(0, player3.handSize());
         assertEquals(0, player4.handSize());
         assertEquals(player3, gameboard.getCurrentPlayer());
-        assertEquals(redSkip, gameboard.getTopCard());
+        assertEquals(redSkip, gameboard.getDiscardPile().top());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class PlayCardTest {
         assertEquals(0, player3.handSize());
         assertEquals(0, player4.handSize());
         assertEquals(player4, gameboard.getCurrentPlayer());
-        assertEquals(yellowReverse, gameboard.getTopCard());
+        assertEquals(yellowReverse, gameboard.getDiscardPile().top());
     }
 
     @Test
@@ -98,7 +98,7 @@ public class PlayCardTest {
         assertEquals(0, player3.handSize());
         assertEquals(0, player4.handSize());
         assertEquals(player3, gameboard.getCurrentPlayer());
-        assertEquals(greenDraw2, gameboard.getTopCard());
+        assertEquals(greenDraw2, gameboard.getDiscardPile().top());
     }
 
     @Test
@@ -113,8 +113,8 @@ public class PlayCardTest {
         assertEquals(0, player3.handSize());
         assertEquals(0, player4.handSize());
         assertEquals(player3, gameboard.getCurrentPlayer());
-        assertEquals(wildDraw4, gameboard.getTopCard());
-        assertEquals(CardColor.YELLOW, gameboard.getCurrentColor());
+        assertEquals(wildDraw4, gameboard.getDiscardPile().top());
+        assertEquals(CardColor.YELLOW, gameboard.getDiscardPile().getCurrentColor());
     }
 
     @Test
@@ -130,8 +130,8 @@ public class PlayCardTest {
         assertEquals(0, player3.handSize());
         assertEquals(0, player4.handSize());
         assertEquals(player2, gameboard.getCurrentPlayer());
-        assertEquals(wildDraw4, gameboard.getTopCard());
-        assertEquals(CardColor.YELLOW, gameboard.getCurrentColor());
+        assertEquals(wildDraw4, gameboard.getDiscardPile().top());
+        assertEquals(CardColor.YELLOW, gameboard.getDiscardPile().getCurrentColor());
         assertFalse(gameboard.wasChallengeSuccessful());
     }
 
@@ -141,6 +141,6 @@ public class PlayCardTest {
         playCard.execute();
 
         assertEquals(6, player1.handSize());
-        assertNotEquals(green0, gameboard.getTopCard());
+        assertNotEquals(green0, gameboard.getDiscardPile().top());
     }
 }

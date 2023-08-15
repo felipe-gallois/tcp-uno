@@ -116,12 +116,11 @@ public class GamePresenter {
     public void runBot() {
         if (gameBoard.getCurrentPlayerIdx() == HUMAN_PLAYER_INDEX)
             return;
-
         Optional<GameAction> action = botSelectAction(gameBoard.getCurrentPlayerIdx());
         if (action.isEmpty()) return;
 
         game.addAction(action.get());
-        if (!game.nextPlayerCanRespond()) {
+        if (game.getAvailableActions(gameBoard.getNextPlayerIdx()).isEmpty()) {
             game.executeActions();
             return;
         }
@@ -135,7 +134,10 @@ public class GamePresenter {
 
     private Optional<GameAction> botSelectAction(int playerIdx) {
         List<GameAction> availableActions = game.getAvailableActions(playerIdx);
-        return bot.selectAction(availableActions);
+        System.out.println("Available Actions for player " + playerIdx + ":" + availableActions);
+        Optional<GameAction> e = bot.selectAction(availableActions);
+        System.out.println("Ação escolhida:" + e);
+        return e;
     }
 
     public void update() {

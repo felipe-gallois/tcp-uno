@@ -10,14 +10,16 @@ import tcp_uno.game.GameAction;
 import tcp_uno.game.GameBoard;
 import tcp_uno.game.Player;
 
+import java.util.List;
+
 public class DrawCardsTest {
     private static GameBoard board;
     private static Player player;
 
     @BeforeClass
     public static void setUp() {
-        board = new GameBoard(4);
         player = new Player();
+        board = new GameBoard(List.of(player, new Player(), new Player(), new Player()));
     }
 
     @Test

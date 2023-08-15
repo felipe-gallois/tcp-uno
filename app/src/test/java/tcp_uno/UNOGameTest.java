@@ -27,7 +27,7 @@ public class UNOGameTest {
     public void setUp() {
         game = new UNOGame();
         gameBoard = game.getGameBoard();
-        gameBoard.addToDiscardPile(RED_0);
+        gameBoard.getDiscardPile().putCard(RED_0);
         player = gameBoard.getCurrentPlayer();
     }
 

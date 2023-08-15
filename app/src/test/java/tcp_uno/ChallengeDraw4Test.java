@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import tcp_uno.game.*;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class ChallengeDraw4Test {
@@ -17,9 +19,9 @@ public class ChallengeDraw4Test {
 
     @Before
     public void setUp() {
-        this.gameBoard = new GameBoard(4);
-        this.gameBoard.addToDiscardPile(YELLOW_4);
         this.player = new Player();
+        this.gameBoard = new GameBoard(List.of(player, new Player(), new Player(), new Player()));
+        this.gameBoard.getDiscardPile().putCard(YELLOW_4);
     }
 
     @Test
@@ -58,7 +60,7 @@ public class ChallengeDraw4Test {
     public void testChallengeSucceedsWithWildOnTop() {
         Player challengedPlayer = new Player();
         challengedPlayer.addToHand(YELLOW_4);
-        gameBoard.addToDiscardPile(WILD, CardColor.YELLOW);
+        gameBoard.getDiscardPile().putCard(WILD, CardColor.YELLOW);
 
         int challengerHandSizeBefore = player.handSize();
         int challengedHandSizeBefore = challengedPlayer.handSize();
