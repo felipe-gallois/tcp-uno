@@ -10,32 +10,23 @@ public class RoundSummary {
     private final ImageButton exitButton;
     private final ImageButton continueButton;
 
-    private Background background;
-    private ScoreCounter previousScore, roundScore, totalScore;
+    private final Background background;
+    private final ScoreCounter previousScore;
+    private final ScoreCounter roundScore;
+    private final ScoreCounter totalScore;
 
     private boolean wantsToExit;
 
-    private GamePresenter presenter;
     private boolean wantsToContinue;
 
     public RoundSummary(GamePresenter presenter) {
-        this.presenter  = presenter;
+        int prevScore = presenter.getPrevScore();
+        int currentScore = presenter.getCurrentScore();
         background = new Background();
 
-        previousScore = new ScoreCounter(false);
-        previousScore.setX(586);
-        previousScore.setY(312);
-        previousScore.setValue(presenter.getPrevScore());
-
-        roundScore = new ScoreCounter(true);
-        roundScore.setX(586);
-        roundScore.setY(368);
-        roundScore.setValue(presenter.getHandScore());
-
-        totalScore = new ScoreCounter(false);
-        totalScore.setX(586);
-        totalScore.setY(424);
-        totalScore.setValue(presenter.getTotalScore());
+        previousScore = new ScoreCounter(586, 312, prevScore);
+        roundScore = new ScoreCounter(586, 368, currentScore-prevScore);
+        totalScore = new ScoreCounter(586, 424, currentScore);
 
         exitButton = new ImageButton();
         exitButton.setTexture(LoadTexture("resources/EXIT.png"));
@@ -65,20 +56,6 @@ public class RoundSummary {
         } else {
             background.setTexture(LoadTexture("resources/RoundLose-bg.png"));
         }
-    }
-
-    public void setPreviousScore(int score) {
-        previousScore.setValue(score);
-        calculateTotalScore();
-    }
-
-    public void setRoundScore(int score) {
-        roundScore.setValue(score);
-        calculateTotalScore();
-    }
-
-    private void calculateTotalScore() {
-        totalScore.setValue(previousScore.getScore() + roundScore.getScore());
     }
 
     public void display() {

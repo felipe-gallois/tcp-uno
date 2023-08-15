@@ -6,32 +6,15 @@ import tcp_uno.components.Font;
 import static com.raylib.Jaylib.WHITE;
 
 public class ScoreCounter {
-    private static final int MAX_SLOTS = 8;
 
-    private final boolean hasSign;
+    private final int x;
+    private final int y;
+    private final int value;
 
-    private int x,y;
-
-    private int value;
-
-    public ScoreCounter(boolean hasSign) {
-        this.hasSign = hasSign;
-    }
-
-    public void setValue(int value) {
-            this.value = value;
-    }
-
-    public void setX(int x) {
+    public ScoreCounter(int x, int y, int value) {
         this.x = x;
-    }
-
-    public void setY(int y) {
         this.y = y;
-    }
-
-    public int getScore() {
-        return value;
+        this.value = value;
     }
 
     public void display() {

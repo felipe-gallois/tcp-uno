@@ -138,4 +138,16 @@ public class GameBoardTest {
         assertEquals(7, board.getCurrentPlayer().handSize());
         assertEquals(7, board.getNextPlayer().handSize());
     }
+
+    @Test
+    public void testComputeScore() {
+        board.getPlayer(0).addToHand(RED_SKIP);
+        board.getPlayer(1).addToHand(YELLOW_SKIP);
+        board.getPlayer(1).addToHand(WILD_DRAW_4);
+        board.getPlayer(2).addToHand(RED_0);
+        board.getPlayer(2).addToHand(GREEN_4);
+
+        board.computeScores();
+        assertEquals(94, board.getPlayer(3).getScore());
+    }
 }

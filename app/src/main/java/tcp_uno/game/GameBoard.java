@@ -1,14 +1,12 @@
 package tcp_uno.game;
 
-import tcp_uno.presenter.GamePresenter;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class GameBoard {
     private final static int INITIAL_CARDS_PER_PLAYER = 7;
 
-    private final int numPlayers;
     private Deck deck;
     private DiscardPile discardPile;
     private GameDirection direction;
@@ -19,7 +17,6 @@ public class GameBoard {
 
     public GameBoard(int numPlayers) {
         this.players = new ArrayList<>(numPlayers);
-        this.numPlayers = numPlayers;
 
         for (int i = 0; i < numPlayers; i++) {
             this.players.add(new Player());
@@ -30,8 +27,17 @@ public class GameBoard {
 
     public GameBoard(List<Player> players) {
         this.players = players;
-        this.numPlayers = players.size();
         this.reset();
+    }
+
+    public void computeScores() {
+        Optional<Player> optWinner = players.stream().filter(player -> player.handSize() == 0).findFirst();
+        if (optWinner.isEmpty()) return;
+
+        Player winner = optWinner.get();
+        for (Player player : players) {
+            winner.addScore(player.handScore());
+        }
     }
 
     public int getCurrentPlayerIdx() {
@@ -42,13 +48,13 @@ public class GameBoard {
         int currentIdx = this.currentPlayerIdx;
         if (this.direction == GameDirection.CLOCKWISE) {
             currentIdx++;
-            if (currentIdx >= numPlayers) {
+            if (currentIdx >= players.size()) {
                 currentIdx = 0;
             }
         } else {
             currentIdx--;
             if (currentIdx < 0) {
-                currentIdx = numPlayers - 1;
+                currentIdx = players.size() - 1;
             }
         }
         return currentIdx;
@@ -72,7 +78,15 @@ public class GameBoard {
         }
         this.deck = new Deck();
         this.deck.shuffle();
+
+        // Ensures the initial card is not an action card, so we don't have to deal with
+        // effects before any card is played
         this.discardPile = new DiscardPile(this.deck.draw());
+        while (CardValue.ACTION_VALUES.contains(this.discardPile.top().getValue())) {
+            this.discardPile.putCard(this.deck.draw());
+        }
+        this.deck.restock(this.discardPile);
+
         this.currentPlayerIdx = 0;
         this.direction = GameDirection.CLOCKWISE;
     }
@@ -159,9 +173,5 @@ public class GameBoard {
 
     public Player getPlayer(int playerIdx) {
         return this.players.get(playerIdx);
-    }
-
-    public Player getHumanPlayer() {
-        return players.get(0);
     }
 }
