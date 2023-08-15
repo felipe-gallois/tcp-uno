@@ -21,7 +21,7 @@ public class ScreamUNOTest {
         this.player = new Player();
         this.player.addToHand(yellow5);
         this.gameBoard = new GameBoard(List.of(player, new Player(), new Player(), new Player()));
-        this.gameBoard.addToDiscardPile(yellow4);
+        this.gameBoard.getDiscardPile().putCard(yellow4);
     }
 
     @Test

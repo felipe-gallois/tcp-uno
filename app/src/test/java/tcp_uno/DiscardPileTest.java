@@ -75,7 +75,7 @@ public class DiscardPileTest {
     @Test
     public void testCanPlayCardOnWildOnlyIfCurrentColorMatches() {
         DiscardPile discardPile = new DiscardPile(wild);
-        discardPile.setCurrentColor(CardColor.RED);
+        discardPile.putCard(wild, CardColor.RED);
 
         assertTrue(discardPile.acceptsCard(redDraw2));
         assertFalse(discardPile.acceptsCard(blue4));
@@ -85,8 +85,7 @@ public class DiscardPileTest {
     public void testRetrieveRemovesAllCardsExceptTop() {
         DiscardPile discardPile = new DiscardPile(yellow5);
         discardPile.putCard(yellow4);
-        discardPile.putCard(wild);
-        discardPile.setCurrentColor(CardColor.RED);
+        discardPile.putCard(wild, CardColor.RED);
         discardPile.putCard(redDraw2);
 
         List<Card> retrievedCards = discardPile.removeExcessCards();
@@ -98,8 +97,7 @@ public class DiscardPileTest {
     public void testFlushRemovesAllCards() {
         DiscardPile discardPile = new DiscardPile(yellow5);
         discardPile.putCard(yellow4);
-        discardPile.putCard(wild);
-        discardPile.setCurrentColor(CardColor.RED);
+        discardPile.putCard(wild, CardColor.RED);
         discardPile.putCard(redDraw2);
 
         List<Card> retrievedCards = discardPile.flush();

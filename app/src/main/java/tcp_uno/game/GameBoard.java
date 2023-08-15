@@ -102,23 +102,6 @@ public class GameBoard {
         }
     }
 
-    public void addToDiscardPile(Card card) {
-        addToDiscardPile(card, card.getColor());
-    }
-
-    public void addToDiscardPile(Card card, CardColor nextColor) {
-        if (card.playerSelectColor() && (nextColor == null || nextColor == CardColor.BLACK))
-            throw new RequiresColorChoiceException();
-
-        // If the player cannot choose the next color, we should ignore the given color and use
-        // the card color instead
-        if (!card.playerSelectColor())
-            nextColor = card.getColor();
-
-        this.discardPile.putCard(card);
-        this.discardPile.setCurrentColor(nextColor);
-    }
-
     public void makeDraw(Player player, int amount) {
         if (player == this.getCurrentPlayer()) {
             currentPlayerDidDraw = true;
@@ -137,16 +120,8 @@ public class GameBoard {
         player.addToHand(deck.draw());
     }
 
-    public Card getTopCard() {
-        return this.discardPile.top();
-    }
-
-    public CardColor getCurrentColor() {
-        return this.discardPile.getCurrentColor();
-    }
-
-    public boolean canBePlayed(Card card) {
-        return this.discardPile.acceptsCard(card);
+    public DiscardPile getDiscardPile() {
+        return this.discardPile;
     }
 
     public boolean currentPlayerDidDraw() {

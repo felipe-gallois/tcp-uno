@@ -35,7 +35,6 @@ public class UNOGame {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -117,13 +116,13 @@ public class UNOGame {
 
         if (gameBoard.currentPlayerDidDraw()) {
             Card drawnCard = currentPlayer.getCard(currentPlayer.handSize() - 1);
-            if (gameBoard.canBePlayed(drawnCard)) {
+            if (gameBoard.getDiscardPile().acceptsCard(drawnCard)) {
                 canPlayACard = true;
                 actions.addAll(PlayCard.getOptionsForCard(currentPlayer, gameBoard, drawnCard));
             }
         } else {
             for (Card card : currentPlayer.getHand()) {
-                if (gameBoard.canBePlayed(card)) {
+                if (gameBoard.getDiscardPile().acceptsCard(card)) {
                     canPlayACard = true;
                     actions.addAll(PlayCard.getOptionsForCard(currentPlayer, gameBoard, card));
                 }
@@ -149,10 +148,6 @@ public class UNOGame {
                 return ((PlayCard) action).getCard();
             }
         }
-        return gameBoard.getTopCard();
-    }
-
-    public boolean nextPlayerCanRespond() {
-        return !getAvailableActions(gameBoard.getNextPlayerIdx()).isEmpty();
+        return gameBoard.getDiscardPile().top();
     }
 }

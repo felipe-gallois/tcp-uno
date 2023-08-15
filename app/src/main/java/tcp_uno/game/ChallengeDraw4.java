@@ -12,8 +12,8 @@ public class ChallengeDraw4 extends GameAction {
     @Override
     public void execute() {
         GameBoard gameboard = getGameBoard();
-        CardColor topColor = gameboard.getCurrentColor();
-        boolean challengeResult = this.challengedPlayer.haveCardWithColor(topColor);
+        CardColor topColor = gameboard.getDiscardPile().getCurrentColor();
+        boolean challengeResult = this.challengedPlayer.getHand().stream().anyMatch(card -> card.getColor() == topColor);
         gameboard.setChallengeSuccessful(challengeResult);
 
         if (challengeResult) {

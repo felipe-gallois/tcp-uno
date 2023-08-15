@@ -44,7 +44,7 @@ public class PlayCard extends GameAction {
 
         // A player can only play a card that is in their hand
         if (player.popCard(card)) {
-            gameBoard.addToDiscardPile(card, nextColor);
+            gameBoard.getDiscardPile().putCard(card, nextColor);
         } else {
             return;
         }

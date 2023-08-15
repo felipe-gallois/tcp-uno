@@ -18,23 +18,14 @@ public class Player {
 
     public void addToHand(Card card) {
         hand.add(card);
-        // When the player draws a card, we must reset the flag
+        // When the player draws a card, we must reset the flag,
         // so they can say UNO again later
         saidUno = false;
-    }
-
-    public boolean haveCardWithColor(CardColor color) {
-        return this.hand.stream().anyMatch(card -> card.getColor() == color);
     }
 
     public Card getCard(int position) {
         // This may propagate an exception
         return hand.get(position);
-    }
-
-    public Card popCard(int position) {
-        // This may propagate an exception
-        return hand.remove(position);
     }
 
     public boolean popCard(Card card) {

@@ -17,6 +17,19 @@ public class DiscardPile {
         this.currentColor = card.getColor();
     }
 
+    public void putCard(Card card, CardColor color) {
+        if (card.playerSelectColor() && (color == null || color == CardColor.BLACK))
+            throw new RequiresColorChoiceException();
+
+        // If the player cannot choose the next color, we should ignore the given color and use
+        // the card color instead
+        if (!card.playerSelectColor())
+            color = card.getColor();
+
+        this.pile.push(card);
+        this.currentColor = color;
+    }
+
     public List<Card> flush() {
         ArrayList<Card> cards = new ArrayList<>();
         while (!this.pile.empty()) {
@@ -35,10 +48,6 @@ public class DiscardPile {
 
     public CardColor getCurrentColor() {
         return this.currentColor;
-    }
-
-    public void setCurrentColor(CardColor color) {
-        this.currentColor = color;
     }
 
     public Card top() {

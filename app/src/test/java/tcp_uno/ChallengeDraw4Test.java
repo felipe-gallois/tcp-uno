@@ -21,7 +21,7 @@ public class ChallengeDraw4Test {
     public void setUp() {
         this.player = new Player();
         this.gameBoard = new GameBoard(List.of(player, new Player(), new Player(), new Player()));
-        this.gameBoard.addToDiscardPile(YELLOW_4);
+        this.gameBoard.getDiscardPile().putCard(YELLOW_4);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class ChallengeDraw4Test {
     public void testChallengeSucceedsWithWildOnTop() {
         Player challengedPlayer = new Player();
         challengedPlayer.addToHand(YELLOW_4);
-        gameBoard.addToDiscardPile(WILD, CardColor.YELLOW);
+        gameBoard.getDiscardPile().putCard(WILD, CardColor.YELLOW);
 
         int challengerHandSizeBefore = player.handSize();
         int challengedHandSizeBefore = challengedPlayer.handSize();

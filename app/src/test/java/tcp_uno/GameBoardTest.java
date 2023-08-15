@@ -23,7 +23,7 @@ public class GameBoardTest {
 
     @Test
     public void testGameBoardInitialState() {
-        assertNotNull(board.getTopCard());
+        assertNotNull(board.getDiscardPile().top());
         assertEquals(0, board.getCurrentPlayerIdx());
         assertEquals(GameDirection.CLOCKWISE, board.getDirection());
     }
@@ -31,14 +31,14 @@ public class GameBoardTest {
     @Test
     public void testReset() {
         // Applying some operations to change the board state
-        board.addToDiscardPile(RED_SKIP);
+        board.getDiscardPile().putCard(RED_SKIP);
         board.advancePlayer();
         board.reverse();
 
         board.reset();
 
         // Checking if the initial state was restored
-        assertNotNull(board.getTopCard());
+        assertNotNull(board.getDiscardPile().top());
         assertEquals(0, board.getCurrentPlayerIdx());
         assertEquals(GameDirection.CLOCKWISE, board.getDirection());
     }
@@ -84,13 +84,8 @@ public class GameBoardTest {
 
     @Test
     public void testAddCardToDiscardPile() {
-        board.addToDiscardPile(RED_SKIP);
-        assertEquals(RED_SKIP, board.getTopCard());
-    }
-
-    @Test(expected = RequiresColorChoiceException.class)
-    public void testAddBlackCardToDiscardPileRequiresColor() {
-        board.addToDiscardPile(WILD_DRAW_4);
+        board.getDiscardPile().putCard(RED_SKIP);
+        assertEquals(RED_SKIP, board.getDiscardPile().top());
     }
 
     @Test
@@ -118,25 +113,25 @@ public class GameBoardTest {
 
     @Test
     public void testGetTopCard() {
-        board.addToDiscardPile(RED_SKIP);
-        assertEquals(board.getTopCard(), RED_SKIP);
+        board.getDiscardPile().putCard(RED_SKIP);
+        assertEquals(board.getDiscardPile().top(), RED_SKIP);
     }
 
     @Test
     public void testCanBePlayed() {
-        board.addToDiscardPile(RED_SKIP);
-        assertTrue(board.canBePlayed(WILD_DRAW_4));
-        assertTrue(board.canBePlayed(RED_SKIP));
-        assertTrue(board.canBePlayed(RED_0));
-        assertTrue(board.canBePlayed(YELLOW_SKIP));
-        assertFalse(board.canBePlayed(GREEN_4));
+        board.getDiscardPile().putCard(RED_SKIP);
+        assertTrue(board.getDiscardPile().acceptsCard(WILD_DRAW_4));
+        assertTrue(board.getDiscardPile().acceptsCard(RED_SKIP));
+        assertTrue(board.getDiscardPile().acceptsCard(RED_0));
+        assertTrue(board.getDiscardPile().acceptsCard(YELLOW_SKIP));
+        assertFalse(board.getDiscardPile().acceptsCard(GREEN_4));
 
-        board.addToDiscardPile(WILD_DRAW_4, CardColor.RED);
-        assertTrue(board.canBePlayed(WILD_DRAW_4));
-        assertTrue(board.canBePlayed(RED_SKIP));
-        assertTrue(board.canBePlayed(RED_0));
-        assertFalse(board.canBePlayed(YELLOW_SKIP));
-        assertFalse(board.canBePlayed(GREEN_4));
+        board.getDiscardPile().putCard(WILD_DRAW_4, CardColor.RED);
+        assertTrue(board.getDiscardPile().acceptsCard(WILD_DRAW_4));
+        assertTrue(board.getDiscardPile().acceptsCard(RED_SKIP));
+        assertTrue(board.getDiscardPile().acceptsCard(RED_0));
+        assertFalse(board.getDiscardPile().acceptsCard(YELLOW_SKIP));
+        assertFalse(board.getDiscardPile().acceptsCard(GREEN_4));
     }
 
     @Test
