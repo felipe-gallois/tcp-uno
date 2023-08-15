@@ -38,7 +38,8 @@ public class TextButton extends Button {
 
     @Override
     public Raylib.Rectangle getRectangle() {
-        Raylib.Vector2 size = MeasureTextEx(Raylib.GetFontDefault(), text, fontSize, 0);
+        Font font = new BrokenConsoleFont();
+        Raylib.Vector2 size = font.measureText(text, fontSize, 0);
         return new Raylib.Rectangle().x(x).y(y).width(size.x()).height(size.y());
     }
 
@@ -55,7 +56,8 @@ public class TextButton extends Button {
         if (!getEnabled() && !showWhenDisabled) {
             return;
         }
-        Raylib.DrawText(text, x, y, fontSize, color);
+        Font font = new BrokenConsoleFont();
+        font.drawText(text, x, y, fontSize, 0, color);
     }
 
 

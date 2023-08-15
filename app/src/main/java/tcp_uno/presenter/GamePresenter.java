@@ -16,6 +16,8 @@ public class GamePresenter {
     private int prevScore;
 
     private long lastTime = System.currentTimeMillis();
+    private boolean hasToChoose;
+    private Card cardWaitingForColor;
 
 
     public void newGame() {
@@ -44,9 +46,17 @@ public class GamePresenter {
         if (!this.canPlayCard(card))
             return;
 
-        Card c = gameBoard.getPlayer(HUMAN_PLAYER_INDEX).getCard(card);
-        if (c.playerSelectColor())
-            game.addAction(new PlayCard(gameBoard.getCurrentPlayer(), gameBoard, c, CardColor.RED));
+        if (hasToChoose) {
+            return;
+        }
+
+        Card c = game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getCard(card);
+        if (c.playerSelectColor()) {
+            hasToChoose = true;
+            cardWaitingForColor = c;
+            return;
+        }
+
         else
             game.addAction(new PlayCard(gameBoard.getCurrentPlayer(), gameBoard, c));
 
@@ -149,5 +159,28 @@ public class GamePresenter {
 
     public boolean playerWonRound() {
         return gameBoard.getPlayer(HUMAN_PLAYER_INDEX).handSize() == 0;
+    }
+
+    public boolean hasToChooseColor() {
+        return hasToChoose;
+    }
+
+    public void chooseColor(CardColor chosenColor) {
+        if (cardWaitingForColor == null)
+            return;
+        if (!hasToChoose)
+            return;
+        if (!cardWaitingForColor.playerSelectColor()) {
+            hasToChoose = false;
+            return;
+        }
+        game.addAction(new PlayCard(game.getGameBoard().getCurrentPlayer(), game.getGameBoard(), cardWaitingForColor, chosenColor));
+        System.out.println("Chose color " + chosenColor);
+        if (!canChallengeDraw4()) {
+            game.executeActions();
+        }
+        hasToChoose = false;
+        cardWaitingForColor = null;
+        lastTime = System.currentTimeMillis();
     }
 }
