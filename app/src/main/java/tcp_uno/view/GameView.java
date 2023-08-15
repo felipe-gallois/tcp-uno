@@ -55,7 +55,6 @@ public class GameView implements View {
             rs.display();
         } else {
             background.display();
-            background.display();
             displayDeck();
             displayHand();
             if (presenter.canDrawACard()) {
