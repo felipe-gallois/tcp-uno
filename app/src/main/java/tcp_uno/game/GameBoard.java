@@ -83,7 +83,6 @@ public class GameBoard {
         // effects before any card is played
         this.discardPile = new DiscardPile(this.deck.draw());
         while (CardValue.ACTION_VALUES.contains(this.discardPile.top().getValue())) {
-            System.out.println("Nova carta! A carta anterior era:" + this.discardPile.top());
             this.discardPile.putCard(this.deck.draw());
         }
         this.deck.restock(this.discardPile);

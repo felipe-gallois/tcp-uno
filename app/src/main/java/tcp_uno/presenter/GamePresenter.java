@@ -9,11 +9,13 @@ import java.util.Optional;
 public class GamePresenter {
 
     private final static int HUMAN_PLAYER_INDEX = 0;
+    private final static long BOT_DELAY_MS = 1500;
     private UNOGame game;
     private GameBoard gameBoard;
     private Bot bot;
-
     private int prevScore;
+
+    private long lastTime = System.currentTimeMillis();
 
 
     public void newGame() {
@@ -127,8 +129,13 @@ public class GamePresenter {
     }
 
     public void update() {
-        if (gameBoard.getCurrentPlayerIdx() != HUMAN_PLAYER_INDEX) {
-            runBot();
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastTime > BOT_DELAY_MS) {
+            lastTime = currentTime;
+
+            if (gameBoard.getCurrentPlayerIdx() != HUMAN_PLAYER_INDEX) {
+                runBot();
+            }
         }
     }
 
