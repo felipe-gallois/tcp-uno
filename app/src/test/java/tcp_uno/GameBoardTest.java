@@ -4,11 +4,12 @@ import org.junit.Before;
 import org.junit.Test;
 import tcp_uno.game.*;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class GameBoardTest {
     private GameBoard board;
-    private final static int NUM_PLAYERS = 4;
     private final static Card RED_SKIP = new Card(CardColor.RED, CardValue.SKIP);
     private final static Card WILD_DRAW_4 = new Card(CardColor.BLACK, CardValue.WILD_DRAW_4);
     private final static Card RED_0 = new Card(CardColor.RED, CardValue.NUM_0);
@@ -17,7 +18,7 @@ public class GameBoardTest {
 
     @Before
     public void setUp() {
-        board = new GameBoard(NUM_PLAYERS);
+        board = new GameBoard(List.of(new Player(), new Player(), new Player(), new Player()));
     }
 
     @Test

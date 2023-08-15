@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import tcp_uno.game.*;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class SkipTurnTest {
@@ -13,9 +15,9 @@ public class SkipTurnTest {
 
     @Before
     public void setUp() {
-        this.gameBoard = new GameBoard(4);
-        this.currentPlayer = gameBoard.getCurrentPlayer();
-        this.nextPlayer = gameBoard.getNextPlayer();
+        this.currentPlayer = new Player();
+        this.nextPlayer = new Player();
+        this.gameBoard = new GameBoard(List.of(currentPlayer, nextPlayer, new Player(), new Player()));
     }
 
     @Test

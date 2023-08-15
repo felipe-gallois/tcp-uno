@@ -15,16 +15,6 @@ public class GameBoard {
     private boolean currentPlayerDidDraw = false;
     private boolean challengeSuccessful = false;
 
-    public GameBoard(int numPlayers) {
-        this.players = new ArrayList<>(numPlayers);
-
-        for (int i = 0; i < numPlayers; i++) {
-            this.players.add(new Player());
-        }
-
-        this.reset();
-    }
-
     public GameBoard(List<Player> players) {
         this.players = players;
         this.reset();
