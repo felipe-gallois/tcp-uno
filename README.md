@@ -1,6 +1,6 @@
 # TCP Uno
 
-Este repositório abriga o trabalho final da disciplina de Técnicas de Construção de Programas do semestre 2022/2 da UFRGS. O projeto consiste em um jogo de cartas em 2D escrito em Java, o qual foi inspirado no famoso UNO. O jogador é desafiado em uma partida contra três *bots* em que quem atingir 500 pontos primeiro vence.
+Este repositório abriga o trabalho final da disciplina de Técnicas de Construção de Programas do semestre 2023/1 da UFRGS. O projeto consiste em um jogo de cartas em 2D escrito em Java, o qual foi inspirado no famoso UNO. O jogador é desafiado em uma partida contra três *bots* em que quem atingir 500 pontos primeiro vence.
 
 ### Dependências
 
