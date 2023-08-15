@@ -24,9 +24,7 @@ public class UNOGame {
     }
 
     public void newRound() {
-        for (Player player : players) {
-            player.addScore(player.handScore());
-        }
+        gameBoard.computeScores();
         gameBoard.reset();
         gameBoard.dealCards();
     }

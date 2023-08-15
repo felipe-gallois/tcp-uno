@@ -106,7 +106,7 @@ public class GameView implements View {
     public AppState update() {
 
         if (presenter.getGame().isRoundOver()) {
-            presenter.updateScores();
+            presenter.nextRound();
             if (rs == null) {
                 rs = new RoundSummary(presenter);
             }
