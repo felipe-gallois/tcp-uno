@@ -41,7 +41,7 @@ public class GamePresenter {
     }
 
     private boolean canPlayCard(int card) {
-        Card c = game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getCard(card);
+        Card c = gameBoard.getPlayer(HUMAN_PLAYER_INDEX).getCard(card);
         List<GameAction> actions = game.getAvailableActions(HUMAN_PLAYER_INDEX);
         return actions.stream().anyMatch(action -> (action instanceof PlayCard) && ((PlayCard) action).getCard() == c);
     }
@@ -50,11 +50,11 @@ public class GamePresenter {
         if (!this.canPlayCard(card))
             return;
 
-        Card c = game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getCard(card);
+        Card c = gameBoard.getPlayer(HUMAN_PLAYER_INDEX).getCard(card);
         if (c.playerSelectColor())
-            game.addAction(new PlayCard(game.getGameBoard().getCurrentPlayer(), game.getGameBoard(), c, CardColor.RED));
+            game.addAction(new PlayCard(gameBoard.getCurrentPlayer(), gameBoard, c, CardColor.RED));
         else
-            game.addAction(new PlayCard(game.getGameBoard().getCurrentPlayer(), game.getGameBoard(), c));
+            game.addAction(new PlayCard(gameBoard.getCurrentPlayer(), gameBoard, c));
 
         if (!canChallengeDraw4()) {
             game.executeActions();
@@ -63,7 +63,7 @@ public class GamePresenter {
     }
 
     public List<Card> getHand() {
-        return game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getHand();
+        return gameBoard.getPlayer(HUMAN_PLAYER_INDEX).getHand();
     }
 
     public boolean canChallengeDraw4() {
@@ -72,7 +72,7 @@ public class GamePresenter {
     }
 
     public void challengeDraw4() {
-        game.addAction(new ChallengeDraw4(game.getGameBoard().getNextPlayer(), game.getGameBoard(), game.getGameBoard().getCurrentPlayer()));
+        game.addAction(new ChallengeDraw4(gameBoard.getNextPlayer(), gameBoard, gameBoard.getCurrentPlayer()));
         game.executeActions();
     }
 
@@ -86,7 +86,7 @@ public class GamePresenter {
     }
 
     public void drawCard() {
-        game.addAction(new DrawCards(game.getGameBoard().getCurrentPlayer(), game.getGameBoard(), 1));
+        game.addAction(new DrawCards(gameBoard.getCurrentPlayer(), gameBoard, 1));
         game.executeActions();
         lastTime = System.currentTimeMillis();
     }
@@ -97,7 +97,7 @@ public class GamePresenter {
     }
 
     public void skipTurn() {
-        game.addAction(new SkipTurn(game.getGameBoard().getCurrentPlayer(), game.getGameBoard()));
+        game.addAction(new SkipTurn(gameBoard.getCurrentPlayer(), gameBoard));
         game.executeActions();
         lastTime = System.currentTimeMillis();
     }
@@ -108,7 +108,7 @@ public class GamePresenter {
     }
 
     public void callUNO() {
-        game.addAction(new ScreamUNO(game.getGameBoard().getCurrentPlayer(), game.getGameBoard()));
+        game.addAction(new ScreamUNO(gameBoard.getCurrentPlayer(), gameBoard));
         game.executeActions();
     }
 
@@ -116,7 +116,7 @@ public class GamePresenter {
         if (gameBoard.getCurrentPlayerIdx() == HUMAN_PLAYER_INDEX)
             return;
 
-        Optional<GameAction> action = botSelectAction(game.getGameBoard().getCurrentPlayerIdx());
+        Optional<GameAction> action = botSelectAction(gameBoard.getCurrentPlayerIdx());
         if (action.isEmpty()) return;
 
         game.addAction(action.get());
@@ -125,8 +125,8 @@ public class GamePresenter {
             return;
         }
 
-        if (game.getGameBoard().getNextPlayerIdx() != HUMAN_PLAYER_INDEX) {
-            Optional<GameAction> response = botSelectAction(game.getGameBoard().getNextPlayerIdx()-1);
+        if (gameBoard.getNextPlayerIdx() != HUMAN_PLAYER_INDEX) {
+            Optional<GameAction> response = botSelectAction(gameBoard.getNextPlayerIdx()-1);
             response.ifPresent(gameAction -> game.addAction(gameAction));
             game.executeActions();
         }
@@ -139,13 +139,13 @@ public class GamePresenter {
 
     public void update() {
         if (game.isRoundOver()) {
-            this.prevScore = game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getScore();
+            this.prevScore = gameBoard.getPlayer(HUMAN_PLAYER_INDEX).getScore();
             game.newRound();
         }
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastTime > 1500) {
             lastTime = currentTime;
-            if (game.getGameBoard().getCurrentPlayerIdx() != HUMAN_PLAYER_INDEX) {
+            if (gameBoard.getCurrentPlayerIdx() != HUMAN_PLAYER_INDEX) {
                 runBot();
             }
         }
