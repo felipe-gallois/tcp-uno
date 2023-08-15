@@ -113,7 +113,7 @@ public class GamePresenter {
     }
 
     public void runBot() {
-        if (game.getGameBoard().getCurrentPlayerIdx() == HUMAN_PLAYER_INDEX)
+        if (gameBoard.getCurrentPlayerIdx() == HUMAN_PLAYER_INDEX)
             return;
 
         Optional<GameAction> action = botSelectAction(game.getGameBoard().getCurrentPlayerIdx());
@@ -138,7 +138,7 @@ public class GamePresenter {
     }
 
     public void update() {
-        if (roundEnded()) {
+        if (game.isRoundOver()) {
             this.prevScore = game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).getScore();
             game.newRound();
         }
@@ -151,14 +151,6 @@ public class GamePresenter {
         }
     }
 
-    public boolean gameEnded() {
-        return game.gameOver();
-    }
-
-    public boolean roundEnded() {
-        return game.isRoundOver();
-    }
-
     public int getCurrentScore() {
         return gameBoard.getPlayer(HUMAN_PLAYER_INDEX).getScore();
     }
@@ -168,6 +160,6 @@ public class GamePresenter {
     }
 
     public boolean playerWonRound() {
-        return game.getGameBoard().getPlayer(HUMAN_PLAYER_INDEX).handSize() == 0;
+        return gameBoard.getPlayer(HUMAN_PLAYER_INDEX).handSize() == 0;
     }
 }
