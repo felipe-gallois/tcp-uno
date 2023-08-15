@@ -6,6 +6,7 @@ import tcp_uno.components.BrokenConsoleFont;
 import tcp_uno.components.TextButton;
 import tcp_uno.components.UNOButton;
 import tcp_uno.game.Card;
+import tcp_uno.game.CardColor;
 import tcp_uno.presenter.GamePresenter;
 
 import static com.raylib.Jaylib.*;
@@ -23,6 +24,8 @@ public class GameView implements View {
     tcp_uno.components.Card deck_card;
 
     RoundSummary rs;
+
+    ColorChooser cc;
 
     public GameView() {
         background = new Background();
@@ -55,7 +58,6 @@ public class GameView implements View {
             rs.display();
         } else {
             background.display();
-            background.display();
             displayDeck();
             displayHand();
             if (presenter.canDrawACard()) {
@@ -85,6 +87,11 @@ public class GameView implements View {
                     brokenConsoleFont.drawText("Player " + i + " Cards: " + presenter.getGame().getGameBoard().getPlayer(i).handSize(), 810, 100 + i * 50, 24, 1, WHITE);
 
             }
+
+            if (cc != null) {
+                cc.display();
+            }
+
         }
         EndDrawing();
     }
@@ -121,7 +128,17 @@ public class GameView implements View {
                 presenter.nextRound();
             }
         }
-
+        if (presenter.hasToChooseColor()) {
+            if (cc == null) {
+                cc = new ColorChooser(presenter);
+            }
+            cc.update();
+            if (cc.isDone()) {
+                CardColor chosenColor = cc.getChosenColor();
+                cc = null;
+                presenter.chooseColor(chosenColor);
+            }
+        }
         myHandView.setCards(presenter.getHand());
         myHandView.update();
         presenter.update();

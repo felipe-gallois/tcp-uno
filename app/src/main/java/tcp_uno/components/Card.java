@@ -70,11 +70,11 @@ public class Card {
         switch (color) {
             case RED:
                 return 0;
-            case BLUE:
+            case YELLOW:
                 return CARD_PER_ROW;
             case GREEN:
                 return 2 * CARD_PER_ROW;
-            case YELLOW:
+            case BLUE:
                 return 3 * CARD_PER_ROW;
             default:
                 return 0;
