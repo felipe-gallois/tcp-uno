@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class GameBoard {
-    private final static int INITIAL_CARDS_PER_PLAYER = 1;
+    private final static int INITIAL_CARDS_PER_PLAYER = 7;
 
-    private final int numPlayers;
     private Deck deck;
     private DiscardPile discardPile;
     private GameDirection direction;
@@ -18,7 +17,6 @@ public class GameBoard {
 
     public GameBoard(int numPlayers) {
         this.players = new ArrayList<>(numPlayers);
-        this.numPlayers = numPlayers;
 
         for (int i = 0; i < numPlayers; i++) {
             this.players.add(new Player());
@@ -29,7 +27,6 @@ public class GameBoard {
 
     public GameBoard(List<Player> players) {
         this.players = players;
-        this.numPlayers = players.size();
         this.reset();
     }
 
@@ -51,13 +48,13 @@ public class GameBoard {
         int currentIdx = this.currentPlayerIdx;
         if (this.direction == GameDirection.CLOCKWISE) {
             currentIdx++;
-            if (currentIdx >= numPlayers) {
+            if (currentIdx >= players.size()) {
                 currentIdx = 0;
             }
         } else {
             currentIdx--;
             if (currentIdx < 0) {
-                currentIdx = numPlayers - 1;
+                currentIdx = players.size() - 1;
             }
         }
         return currentIdx;
