@@ -8,20 +8,20 @@ import static com.raylib.Jaylib.RAYWHITE;
 import static com.raylib.Raylib.DrawTextureRec;
 
 public class Direction {
-    public final int textureWidth = 128;
-    public final int textureHeight = 63;
+    private final int textureWidth = 128;
+    private final int textureHeight = 63;
 
-    //Valores de teste, alterar quando for implementar no campo
-    private final int posUpArrowX = 100;
-    private final int posUpArrowY = 50;
-    private final int distDownArrow = 200;
+    private final Texture texture;
+    private GameDirection direction;
 
-    public Texture texture;
 
-    public Direction() {
-
+    public Direction(GameDirection direction) {
         texture = Raylib.LoadTexture("resources/DIRECTION.png");
+        this.direction = direction;
+    }
 
+    public void setDirection(GameDirection direction) {
+        this.direction = direction;
     }
 
     private Raylib.Vector2 getVector(int x, int y) {
@@ -40,7 +40,11 @@ public class Direction {
         return rectangle;
     }
 
-    public void display(GameDirection direction) {
+    public void display() {
+        //Valores de teste, alterar quando for implementar no campo
+        int posUpArrowX = 100;
+        int posUpArrowY = 50;
+        int distDownArrow = 200;
         if (direction == GameDirection.CLOCKWISE) {
             DrawTextureRec(texture, getRectangle(textureWidth, textureHeight * 2), getVector(posUpArrowX, posUpArrowY), RAYWHITE);
             DrawTextureRec(texture, getRectangle(textureWidth, textureHeight), getVector(posUpArrowX, posUpArrowY + distDownArrow), RAYWHITE);

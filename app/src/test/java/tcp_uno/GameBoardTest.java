@@ -54,6 +54,13 @@ public class GameBoardTest {
         assertEquals(0, board.getCurrentPlayerIdx());
     }
 
+    @Test
+    public void testNextPlayerIndex() {
+        assertEquals(1, board.getNextPlayerIdx());
+        board.reverse();
+        assertEquals(3, board.getNextPlayerIdx());
+    }
+
     @Test 
     public void testAdvancePlayerCounterClockwise() {
         board.reverse();

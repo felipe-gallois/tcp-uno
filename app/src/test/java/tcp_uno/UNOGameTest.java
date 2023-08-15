@@ -38,7 +38,7 @@ public class UNOGameTest {
         player.addToHand(YELLOW_0);
         player.addToHand(GREEN_SKIP);
 
-        List<GameAction> availableActions = game.getAvailableActions();
+        List<GameAction> availableActions = game.getAvailableActions(gameBoard.getCurrentPlayerIdx());
 
         assertEquals(availableActions.size(), 7);
         assertEquals(
@@ -77,7 +77,7 @@ public class UNOGameTest {
         player.addToHand(WILD);
         player.addToHand(RED_1);
 
-        List<GameAction> availableActions = game.getAvailableActions();
+        List<GameAction> availableActions = game.getAvailableActions(gameBoard.getCurrentPlayerIdx());
 
         assertEquals(availableActions.size(), 7);
         assertEquals(
@@ -110,7 +110,7 @@ public class UNOGameTest {
         game.addAction(drawCards);
         game.executeActions();
 
-        List<GameAction> availableActions = game.getAvailableActions();
+        List<GameAction> availableActions = game.getAvailableActions(gameBoard.getCurrentPlayerIdx());
         
         // A player cannot draw cards if it has already drawn a card in their turn
         assertEquals(
@@ -141,7 +141,7 @@ public class UNOGameTest {
         GameAction playDraw4 = new PlayCard(player, gameBoard, WILD_DRAW_4, CardColor.RED);
         game.addAction(playDraw4);
 
-        List<GameAction> availableActions = game.getAvailableActions();
+        List<GameAction> availableActions = game.getAvailableActions(gameBoard.getNextPlayerIdx());
         
         assertEquals(1, availableActions.size());
         assertTrue(availableActions.get(0) instanceof ChallengeDraw4);
